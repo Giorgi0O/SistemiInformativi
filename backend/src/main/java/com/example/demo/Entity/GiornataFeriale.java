@@ -9,8 +9,6 @@ import java.util.Date;
 @Data
 public class GiornataFeriale {
 
-    @Version
-    private int versione;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

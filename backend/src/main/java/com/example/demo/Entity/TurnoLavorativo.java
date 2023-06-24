@@ -18,8 +18,6 @@ public class TurnoLavorativo {
     @Temporal(TemporalType.DATE)
     private Date turnoLavorativoDate;
 
-    @Version
-    private int versione;
 
     @Temporal(TemporalType.TIME)
     private Time oraInizio;

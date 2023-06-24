@@ -17,7 +17,4 @@ public class ContrattoLavorativo {
 
     private String tipologia;
 
-    @Version
-    private int versione;
-
 }

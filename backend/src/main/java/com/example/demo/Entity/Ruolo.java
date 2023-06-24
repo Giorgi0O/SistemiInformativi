@@ -11,9 +11,6 @@ public class Ruolo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Version
-    private int versione;
-
     @Column(unique = true)
     private String nome;
 

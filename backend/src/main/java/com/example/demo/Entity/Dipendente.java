@@ -20,9 +20,6 @@ public class Dipendente extends Utente {
     @JoinColumn
     private Ruolo ruolo;
 
-    @Version
-    private int versione;
-
     @ManyToMany
     @JoinTable(name = "R_DF")
     private List<GiornataFeriale> giornateFeriali;
