@@ -43,8 +43,8 @@ public class TurnoLavorativoService {
     }
 
     @Transactional(readOnly = true)
-    public TurnoLavorativo turnoLavorativoFindById(TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
-        Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(t.getId());
+    public TurnoLavorativo turnoLavorativoFindById(long id) throws TurnoLavorativoNotExistsException {
+        Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(id);
         if(turno.isPresent()){
             return turno.get();
         }else{

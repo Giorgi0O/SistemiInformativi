@@ -9,10 +9,10 @@ import java.util.Date;
 public class DtoTD {
 
     private Date data;
-    private Dipendente d;
+    private Dipendente dipendente;
 
     public DtoTD(Date data,Dipendente d){
-        this.d=d;
+        this.dipendente=d;
         this.data=data;
     }
 }

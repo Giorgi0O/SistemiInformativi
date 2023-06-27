@@ -100,10 +100,16 @@ public class GiornataFerialeService {
     }
 
     @Transactional(readOnly = true)
-    public GiornataFeriale giornataFerieFindByData(Date data) throws FerieNotExistsException {
+    public List<Dipendente> giornataFerieFindByData(Date data) throws FerieNotExistsException {
         Optional<GiornataFeriale> ferie=giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         if(ferie.isPresent()){
-            return ferie.get();
+            List<Dipendente> dipendenti=new ArrayList<>();
+            for(Dipendente d:dipendenteRepository.findAll()){
+                if(d.getGiornateFeriali().contains(ferie.get())){
+                    dipendenti.add(d);
+                }
+            }
+            return dipendenti;
         }
         throw new FerieNotExistsException();
     }
