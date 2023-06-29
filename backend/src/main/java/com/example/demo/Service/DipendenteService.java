@@ -5,6 +5,7 @@ import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Repository.DipendenteRepository;
+import com.example.demo.Repository.RuoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,42 +19,48 @@ public class DipendenteService {
 
     @Autowired
     private DipendenteRepository dipendenteRepository;
+    @Autowired
+    private RuoloRepository ruoloRepository;
 
 
-    public void dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
-        if(dipendenteRepository.existsById(d.getId())){
+    public Dipendente dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
+        if(!dipendenteRepository.existsById(d.getId())){
             throw new DipendenteAlreadyExistsException();
         }
-        dipendenteRepository.save(d);
+        return dipendenteRepository.save(d);
     }
 
-    public void dipendenteUpdate(Dipendente vecchio,Dipendente nuovo) throws DipendenteNotExistsException {
-        if(dipendenteRepository.existsById(vecchio.getId())){
-            vecchio.setSede(nuovo.getSede());
-            vecchio.setCognome(nuovo.getCognome());
-            vecchio.setEmail(nuovo.getEmail());
-            vecchio.setTelefono(nuovo.getTelefono());
-            vecchio.setContrattoLavorativo(nuovo.getContrattoLavorativo());
-            vecchio.setNome(nuovo.getNome());
-            vecchio.setRtd(nuovo.getRtd());
-            vecchio.setGiornateFeriali(nuovo.getGiornateFeriali());
-            vecchio.setRuolo(nuovo.getRuolo());
-            dipendenteRepository.save(vecchio);
+    @Transactional
+    public Dipendente dipendenteUpdate(Long id,Dipendente nuovo) throws DipendenteNotExistsException {
+        Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
+        if(dipendente.isPresent()){
+            dipendente.get().setSede(nuovo.getSede());
+            dipendente.get().setCognome(nuovo.getCognome());
+            dipendente.get().setEmail(nuovo.getEmail());
+            dipendente.get().setTelefono(nuovo.getTelefono());
+            dipendente.get().setContrattoLavorativo(nuovo.getContrattoLavorativo());
+            dipendente.get().setNome(nuovo.getNome());
+            dipendente.get().setRtd(nuovo.getRtd());
+            dipendente.get().setGiornateFeriali(nuovo.getGiornateFeriali());
+            dipendente.get().setRuolo(nuovo.getRuolo());
+            return dipendenteRepository.save(dipendente.get());
         }else{
             throw new DipendenteNotExistsException();
         }
     }
     
-    //TODO
+    @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFindBySede( String sede ){
         return dipendenteRepository.findDipendenteBySede(sede);
     }
 
-    public void dipendenteDelete(Dipendente d) throws DipendenteNotExistsException {
-        if(!dipendenteRepository.existsById(d.getId())){
+    @Transactional
+    public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
+        Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
+        if(!dipendente.isPresent()){
             throw new DipendenteNotExistsException();
         }
-        dipendenteRepository.delete(d);
+        dipendenteRepository.delete(dipendente.get());
     }
 
     @Transactional(readOnly = true)
@@ -75,18 +82,18 @@ public class DipendenteService {
         return c;
     }
     @Transactional(readOnly = true)
-    public List<Dipendente> dipendenteFiltri(Ruolo ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
-        if(ruolo.equals(null)){
-           if(!tipologiaContratto.equals(null)){
+    public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
+        if(ruolo.equals(" ")){
+           if(!tipologiaContratto.equals(" ")){
                return dipendenteFindByContratto(tipologiaContratto);
            }
         }
-        if(tipologiaContratto.equals(null)){
-            if(!ruolo.equals(null)){
+        if(tipologiaContratto.equals(" ")){
+            if(!ruolo.equals(" ")){
                 return dipendenteFindByRuolo(ruolo);
             }
         }
-        if(!tipologiaContratto.equals(null) && !ruolo.equals(null)){
+        if(!tipologiaContratto.equals(" ") && !ruolo.equals(" ")){
             List<Dipendente> dipendenti=new ArrayList<>();
             for(Dipendente d:dipendenteFindByRuolo(ruolo)){
                 if(dipendenteFindByContratto(tipologiaContratto).contains(d)){
@@ -108,7 +115,8 @@ public class DipendenteService {
         return dipendenti;
     }
 
-    private List<Dipendente> dipendenteFindByRuolo(Ruolo r){
+    private List<Dipendente> dipendenteFindByRuolo(String ruolo){
+        Ruolo r=ruoloRepository.findRuoloByNome(ruolo);
         return dipendenteRepository.findDipendenteByRuolo(r);
     }
 

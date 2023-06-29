@@ -2,13 +2,14 @@ spring:
   application:
     name: sisInf
   datasource:
-    password: 
+    password: ${DB_PASSWORD}
     username: postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/mydb?currentSchema=SisInf
+    url: jdbc:postgresql://localhost:5432/mydb?currentSchema=sisinf
   jpa:
     hibernate:
-      ddl-auto: create-only
+      ddl-auto: update
+    show-sql: true
 
 server:
   port: 8180

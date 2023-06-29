@@ -8,6 +8,7 @@ import com.example.demo.Entity.Ruolo;
 @Repository
 public interface RuoloRepository extends JpaRepository<Ruolo, Long> {
 
+    Ruolo findRuoloByNome(String nome);
 }
 
 

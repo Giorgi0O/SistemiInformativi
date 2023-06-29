@@ -60,8 +60,8 @@ public class ContrattoLavorativoService {
     }
 
     @Transactional(readOnly = true)
-    public ContrattoLavorativo contrattoFindByDipendente(Dipendente d) throws DipendenteNotExistsException {
-        Optional<Dipendente> dipendente=dipendenteRepository.findById(d.getId());
+    public ContrattoLavorativo contrattoFindByDipendente(Long id) throws DipendenteNotExistsException {
+        Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(dipendente.isPresent()){
             return dipendente.get().getContrattoLavorativo();
         }
