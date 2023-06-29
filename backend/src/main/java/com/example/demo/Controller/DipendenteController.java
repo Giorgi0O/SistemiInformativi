@@ -9,6 +9,7 @@ import com.example.demo.Service.ContrattoLavorativoService;
 import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.DtoDipendente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
