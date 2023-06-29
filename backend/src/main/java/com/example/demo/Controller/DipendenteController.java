@@ -8,7 +8,6 @@ import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Service.ContrattoLavorativoService;
 import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.DtoDipendente;
-import com.example.demo.Service.RuoloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,6 @@ public class DipendenteController {
 
     @Autowired
     private DipendenteService dipendenteService;
-
-    @Autowired
-    private RuoloService ruoloService;
 
     @Autowired
     private ContrattoLavorativoService contrattoLavorativoService;
@@ -35,7 +31,6 @@ public class DipendenteController {
     public void dipendenteCreate(@RequestBody Dipendente d) throws DipendenteAlreadyExistsException {
         contrattoLavorativoService.contrattoCreate(d.getContrattoLavorativo());
         dipendenteService.dipendenteCreate(d);
-
     }
 
     @PutMapping("/putDipendente")

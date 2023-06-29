@@ -18,5 +18,6 @@ public interface DipendenteRepository extends JpaRepository<Dipendente, Long> {
     List<Dipendente> findDipendenteByContrattoLavorativo(ContrattoLavorativo contrattoLavorativo);
 
     List<Dipendente> findDipendenteByRuolo(Ruolo ruolo);
+    List<Dipendente> findDipendenteBySede(String sede);
 
 }

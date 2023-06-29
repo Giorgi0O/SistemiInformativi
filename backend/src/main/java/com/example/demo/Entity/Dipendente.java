@@ -1,13 +1,15 @@
 package com.example.demo.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("Dipendente")
-@Data
+@Getter
+@Setter
 public class Dipendente extends Utente {
 
     private String sede;

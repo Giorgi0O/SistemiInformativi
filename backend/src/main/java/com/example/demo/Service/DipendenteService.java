@@ -1,11 +1,9 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity.ContrattoLavorativo;
 import com.example.demo.Entity.Dipendente;
 import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
-import com.example.demo.Repository.ContrattoLavorativoRepository;
 import com.example.demo.Repository.DipendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +18,6 @@ public class DipendenteService {
 
     @Autowired
     private DipendenteRepository dipendenteRepository;
-
-    @Autowired
-    private ContrattoLavorativoRepository contrattoLavorativoRepository;
-
 
 
     public void dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
@@ -48,6 +42,11 @@ public class DipendenteService {
         }else{
             throw new DipendenteNotExistsException();
         }
+    }
+    
+    //TODO
+    public List<Dipendente> dipendenteFindBySede( String sede ){
+        return dipendenteRepository.findDipendenteBySede(sede);
     }
 
     public void dipendenteDelete(Dipendente d) throws DipendenteNotExistsException {
