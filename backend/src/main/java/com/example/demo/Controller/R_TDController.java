@@ -42,7 +42,7 @@ public class R_TDController {
         return rtdService.listaRtdRead();
     }
 
-    @GetMapping("filtriRTD/{data}/{idDipendente}")
+    @GetMapping("/filtriRTD/{data}/{idDipendente}")
     public List<R_TD> getAllRTD(@PathVariable Date data,@PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException {
         Dipendente dipendente=dipendenteService.dipendenteFindById(idDipendente);
         return rtdService.rtdFiltri(data,dipendente);

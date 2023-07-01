@@ -39,9 +39,9 @@ export class DipendentiService {
     return this.http.delete<Dipendente>( url, this.httpOption );
   }//delete dipendente
 
-  public getDipendente( id:number ):Observable<Dipendente[]>{
+  public getDipendente( id:number ):Observable<Dipendente>{
     const url = this.backendUrl+'/dipendente/'+id.toString();
-    return this.http.get<Dipendente[]>( url )
+    return this.http.get<Dipendente>( url )
   }//dipendente by id
 
   public getDipendentiFiltri( nomeRuolo:String , tipContratto :String ): Observable<Dipendente[]> {
@@ -53,12 +53,12 @@ export class DipendentiService {
     const url = this.backendUrl+'/dipendenti/'+nome ;
     return this.http.get<Dipendente[]>( url );
   }//Get dipendenti by nome
-  
+
   //CONTRATTO
   public getAllContratti(): Observable<ContrattoLavorativo[]> {
     const url = this.backendUrl+'/contratti' ;
     return this.http.get<ContrattoLavorativo[]>( url );
-  }//Get all contratto 
+  }//Get all contratto
 
   public getContrattoId( id:number ): Observable<ContrattoLavorativo> {
     const url = this.backendUrl+'/contratto/'+id.toString ;
@@ -69,6 +69,6 @@ export class DipendentiService {
     const url = this.backendUrl+'/contrattoDipendente/'+id.toString ;
     return this.http.get<ContrattoLavorativo>( url );
   }//Get contratto dipendente
-  
+
 
 }
