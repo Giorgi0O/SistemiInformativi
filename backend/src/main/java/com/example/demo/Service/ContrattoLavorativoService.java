@@ -35,9 +35,10 @@ public class ContrattoLavorativoService {
         contrattoLavorativoRepository.save(vecchio);
     }
 
-    public void contrattoDelete(ContrattoLavorativo c) throws ContrattoNotExistsException {
+    public ContrattoLavorativo contrattoDelete(ContrattoLavorativo c) throws ContrattoNotExistsException {
         if(contrattoLavorativoRepository.existsById(c.getId())){
             contrattoLavorativoRepository.delete(c);
+            return c;
         }
         else{
             throw new ContrattoNotExistsException();

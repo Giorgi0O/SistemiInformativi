@@ -26,9 +26,9 @@ public class TurnoLavorativoController {
     }
 
     @DeleteMapping("/deleteTurno/{id}")
-    public void deleteTurno(@PathVariable Long id) throws TurnoLavorativoNotExistsException {
+    public TurnoLavorativo deleteTurno(@PathVariable Long id) throws TurnoLavorativoNotExistsException {
         TurnoLavorativo t=turnoLavorativoService.turnoLavorativoFindById(id);
-        turnoLavorativoService.turnoLavorativoDelete(t);
+        return turnoLavorativoService.turnoLavorativoDelete(t);
     }
 
     @GetMapping("/turni")

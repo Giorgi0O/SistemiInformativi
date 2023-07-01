@@ -55,12 +55,13 @@ public class DipendenteService {
     }
 
     @Transactional
-    public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
+    public Dipendente dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(!dipendente.isPresent()){
             throw new DipendenteNotExistsException();
         }
         dipendenteRepository.delete(dipendente.get());
+        return dipendente.get();
     }
 
     @Transactional(readOnly = true)

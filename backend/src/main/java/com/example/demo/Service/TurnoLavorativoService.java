@@ -33,10 +33,11 @@ public class TurnoLavorativoService {
         }
     }
 
-    public void turnoLavorativoDelete(TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
+    public TurnoLavorativo turnoLavorativoDelete(TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(t.getId());
         if(turno.isPresent()){
             turnoLavorativoRepository.delete(t);
+            return turno.get();
         }else{
             throw new TurnoLavorativoNotExistsException();
         }

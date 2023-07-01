@@ -42,10 +42,10 @@ public class DipendenteController {
     }
 
     @DeleteMapping("/deleteDipendente/{id}")
-    public void dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
-        dipendenteService.dipendenteDelete(id);
+    public Dipendente dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente d=dipendenteService.dipendenteFindById(id);
         contrattoLavorativoService.contrattoDelete(d.getContrattoLavorativo());
+        return dipendenteService.dipendenteDelete(id);
     }
 
     @GetMapping("/dipendenti/{sede}")

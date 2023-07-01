@@ -33,8 +33,8 @@ public class R_TDController {
     }
 
     @DeleteMapping("/deleteRTD/{id}")
-    public void deleteRTD(@PathVariable Long id) throws TurnoDipendenteNotExistsException {
-        rtdService.rtdDelete(id);
+    public R_TD deleteRTD(@PathVariable Long id) throws TurnoDipendenteNotExistsException {
+        return rtdService.rtdDelete(id);
     }
 
     @GetMapping("/RTD")

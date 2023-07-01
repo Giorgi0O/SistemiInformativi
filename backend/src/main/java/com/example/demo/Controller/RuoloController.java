@@ -30,8 +30,8 @@ public class RuoloController {
     }
 
     @DeleteMapping("/deleteRuolo/{id}")
-    public void deleteRuolo(@PathVariable long id) throws RuoloNotExistsException {
-        ruoloService.ruoloDelete(id);
+    public Ruolo deleteRuolo(@PathVariable long id) throws RuoloNotExistsException {
+        return ruoloService.ruoloDelete(id);
     }
 
 }

@@ -31,12 +31,13 @@ public class RuoloService{
         }
     }
 
-    public void ruoloDelete(Long id) throws RuoloNotExistsException {
+    public Ruolo ruoloDelete(Long id) throws RuoloNotExistsException {
         Optional<Ruolo> ruolo=ruoloRepository.findById(id);
         if(!ruolo.isPresent()){
             throw new RuoloNotExistsException();
         }
         ruoloRepository.delete(ruolo.get());
+        return ruolo.get();
     }
 
     @Transactional(readOnly = true)
