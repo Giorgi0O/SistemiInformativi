@@ -15,17 +15,19 @@ public class TurnoLavorativoController {
     private TurnoLavorativoService turnoLavorativoService;
 
     @PostMapping("/postTurno")
-    public void createTurno(@RequestBody TurnoLavorativo t){
-        turnoLavorativoService.turnoLavorativoCreate(t);
+    public TurnoLavorativo createTurno(@RequestBody TurnoLavorativo t){
+        return turnoLavorativoService.turnoLavorativoCreate(t);
     }
 
-    @PutMapping("/putTurno")
-    public void updateTurno(@RequestBody TurnoLavorativo vecchio,@RequestBody TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
-        turnoLavorativoService.turnoLavorativoUpdate(vecchio, nuovo);
+    @PutMapping("/modificaTurno/{id}")
+    public TurnoLavorativo updateTurno(@PathVariable Long id,@RequestBody TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
+        TurnoLavorativo vecchio=turnoLavorativoService.turnoLavorativoFindById(id);
+        return turnoLavorativoService.turnoLavorativoUpdate(vecchio, nuovo);
     }
 
-    @DeleteMapping("/deleteTurno")
-    public void deleteTurno(@RequestBody TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
+    @DeleteMapping("/deleteTurno/{id}")
+    public void deleteTurno(@PathVariable Long id) throws TurnoLavorativoNotExistsException {
+        TurnoLavorativo t=turnoLavorativoService.turnoLavorativoFindById(id);
         turnoLavorativoService.turnoLavorativoDelete(t);
     }
 

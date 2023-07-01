@@ -3,10 +3,13 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.Dipendente;
 import com.example.demo.Entity.GiornataFeriale;
+import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
+import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.DtoFerie;
 import com.example.demo.Service.GiornataFerialeService;
+import com.example.demo.Service.RuoloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,20 +20,28 @@ import java.util.List;
 public class GiornataFerialeController {
 
     @Autowired
+    private DipendenteService dipendenteService;
+
+    @Autowired
     private GiornataFerialeService giornataFerialeService;
 
+    @Autowired
+    private RuoloService ruoloService;
+
     @PostMapping("/postFerie")
-    public void createFerie(@RequestBody GiornataFeriale giornataFeriale){
-        giornataFerialeService.giornataFerieCreate(giornataFeriale);
+    public GiornataFeriale createFerie(@RequestBody GiornataFeriale giornataFeriale){
+        return giornataFerialeService.giornataFerieCreate(giornataFeriale);
     }
 
-    @PutMapping("/putFerie")
-    public void updateFerie(@RequestBody GiornataFeriale vecchia,@RequestBody GiornataFeriale nuova) throws FerieNotExistsException {
-        giornataFerialeService.giornataFerieUpdate(vecchia, nuova);
+    @PostMapping ("/modificaFerie/{id}")
+    public GiornataFeriale updateFerie(@PathVariable Long id,@RequestBody GiornataFeriale nuova) throws FerieNotExistsException {
+        GiornataFeriale vecchia=giornataFerialeService.giornataFerieFindById(id);
+        return giornataFerialeService.giornataFerieUpdate(vecchia, nuova);
     }
 
-    @DeleteMapping("/deleteFerie")
-    public void deleteFerie(@RequestBody GiornataFeriale giornataFeriale) throws FerieNotExistsException {
+    @DeleteMapping("/deleteFerie/{id}")
+    public void deleteFerie(@PathVariable Long id) throws FerieNotExistsException {
+        GiornataFeriale giornataFeriale=giornataFerialeService.giornataFerieFindById(id);
         giornataFerialeService.giornataFerieDelete(giornataFeriale);
     }
 
@@ -49,14 +60,15 @@ public class GiornataFerialeController {
         return giornataFerialeService.giornataFerieFindByData(data);
     }
 
-    @GetMapping("/FerieDipendente")
-    public List<GiornataFeriale> getAllFerieByDipendente(@RequestBody Dipendente dipendente) throws DipendenteNotExistsException {
+    @GetMapping("/FerieDipendente/{id}")
+    public List<GiornataFeriale> getAllFerieByDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
+        Dipendente dipendente=dipendenteService.dipendenteFindById(id);
         return giornataFerialeService.giornataFerieFinByDipendente(dipendente);
     }
 
-    @GetMapping("/ferieFiltri")
-    public List<Dipendente> getAllFerieFiltri(@RequestBody DtoFerie dto) throws FerieNotExistsException {
-        return giornataFerialeService.giornataFerieFiltri(dto.getData(),dto.getRuolo());
+    @GetMapping("/ferieFiltri/{data}/{ruolo}")
+    public List<Dipendente> getAllFerieFiltri(@PathVariable Date data,@PathVariable String ruolo) throws FerieNotExistsException {
+        return giornataFerialeService.giornataFerieFiltri(data,ruolo);
     }
 
 }

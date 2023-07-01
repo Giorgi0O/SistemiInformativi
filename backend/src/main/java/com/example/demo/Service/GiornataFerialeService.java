@@ -7,6 +7,7 @@ import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Repository.DipendenteRepository;
 import com.example.demo.Repository.GiornataFerialeRepository;
+import com.example.demo.Repository.RuoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +21,23 @@ import java.util.Optional;
 public class GiornataFerialeService {
 
     @Autowired
+    private RuoloRepository ruoloRepository;
+
+    @Autowired
     private GiornataFerialeRepository giornataFerialeRepository;
 
     @Autowired
     private DipendenteRepository dipendenteRepository;
 
-    public void giornataFerieCreate(GiornataFeriale ferie){
-        giornataFerialeRepository.save(ferie);
+    public GiornataFeriale giornataFerieCreate(GiornataFeriale ferie){
+        return giornataFerialeRepository.save(ferie);
     }
 
-    public void giornataFerieUpdate(GiornataFeriale vecchia,GiornataFeriale nuova) throws FerieNotExistsException {
+    public GiornataFeriale giornataFerieUpdate(GiornataFeriale vecchia,GiornataFeriale nuova) throws FerieNotExistsException {
         Optional<GiornataFeriale> ferie=giornataFerialeRepository.findById(vecchia.getId());
         if(ferie.isPresent()){
             vecchia.setDataGiornataFeriale(nuova.getDataGiornataFeriale());
-            giornataFerialeRepository.save(vecchia);
+            return giornataFerialeRepository.save(vecchia);
         }else{
             throw new FerieNotExistsException();
         }
@@ -54,14 +58,14 @@ public class GiornataFerialeService {
     }
 
     @Transactional(readOnly = true)
-    public List<Dipendente> giornataFerieFiltri(Date data,Ruolo ruolo) throws FerieNotExistsException {
-        if(data.equals(null) && !ruolo.equals(null)){
+    public List<Dipendente> giornataFerieFiltri(Date data,String ruolo) throws FerieNotExistsException {
+        if(data.equals(null) && !ruolo.equals(" ")){
             return listaFerieRuolo(ruolo);
         }
-        if(!data.equals(null) && ruolo.equals(null)){
+        if(!data.equals(null) && ruolo.equals(" ")){
             return listaFerieData(data);
         }
-        if(!data.equals(null) && !ruolo.equals(null)){
+        if(!data.equals(null) && !ruolo.equals(" ")){
             List<Dipendente> dipendenti=new ArrayList<>();
             for(Dipendente d:listaFerieRuolo(ruolo)){
                 if(listaFerieData(data).contains(d)){
@@ -86,8 +90,9 @@ public class GiornataFerialeService {
         return dipendenti;
     }
 
-    private List<Dipendente> listaFerieRuolo(Ruolo r){
-        return dipendenteRepository.findDipendenteByRuolo(r);
+    private List<Dipendente> listaFerieRuolo(String r){
+        Ruolo ruolo=ruoloRepository.findRuoloByNome(r);
+        return dipendenteRepository.findDipendenteByRuolo(ruolo);
     }
 
     @Transactional(readOnly = true)

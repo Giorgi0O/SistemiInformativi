@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class R_TDService {
@@ -23,24 +24,26 @@ public class R_TDService {
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
-    public void rtdCreate(R_TD turnoDipendente){
-        rtdRepository.save(turnoDipendente);
+    public R_TD rtdCreate(R_TD turnoDipendente){
+        return rtdRepository.save(turnoDipendente);
     }
 
-    public void rtdUpdate(R_TD vecchio,R_TD nuovo) throws TurnoDipendenteNotExistsException {
-        if(!rtdRepository.existsById(vecchio.getId())){
+    public R_TD rtdUpdate(long id,R_TD nuovo) throws TurnoDipendenteNotExistsException {
+        Optional<R_TD> vecchio=rtdRepository.findById(id);
+        if(!vecchio.isPresent()){
            throw new TurnoDipendenteNotExistsException();
         }
-        vecchio.setDipendente(nuovo.getDipendente());
-        vecchio.setTurnoLavorativo(nuovo.getTurnoLavorativo());
-        rtdRepository.save(vecchio);
+        vecchio.get().setDipendente(nuovo.getDipendente());
+        vecchio.get().setTurnoLavorativo(nuovo.getTurnoLavorativo());
+        return rtdRepository.save(vecchio.get());
     }
 
-    public void rtdDelete(R_TD rtd) throws TurnoDipendenteNotExistsException {
-        if(!rtdRepository.existsById(rtd.getId())){
+    public void rtdDelete(Long id) throws TurnoDipendenteNotExistsException {
+        Optional<R_TD> rtd=rtdRepository.findById(id);
+        if(!rtd.isPresent()){
             throw new TurnoDipendenteNotExistsException();
         }
-        rtdRepository.delete(rtd);
+        rtdRepository.delete(rtd.get());
     }
 
     @Transactional(readOnly = true)

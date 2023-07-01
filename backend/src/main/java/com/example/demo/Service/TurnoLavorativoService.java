@@ -17,17 +17,17 @@ public class TurnoLavorativoService {
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
-    public void turnoLavorativoCreate(TurnoLavorativo t){
-        turnoLavorativoRepository.save(t);
+    public TurnoLavorativo turnoLavorativoCreate(TurnoLavorativo t){
+        return turnoLavorativoRepository.save(t);
     }
 
-    public void turnoLavorativoUpdate(TurnoLavorativo vecchio,TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
+    public TurnoLavorativo turnoLavorativoUpdate(TurnoLavorativo vecchio,TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(vecchio.getId());
         if(turno.isPresent()){
             vecchio.setTurnoLavorativoDate(nuovo.getTurnoLavorativoDate());
             vecchio.setOraFine(nuovo.getOraFine());
             vecchio.setOraInizio(nuovo.getOraInizio());
-            turnoLavorativoRepository.save(vecchio);
+            return turnoLavorativoRepository.save(vecchio);
         }else{
             throw new TurnoLavorativoNotExistsException();
         }

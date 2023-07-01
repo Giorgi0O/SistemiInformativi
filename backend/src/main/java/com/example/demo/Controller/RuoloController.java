@@ -20,18 +20,18 @@ public class RuoloController {
     }
 
     @PostMapping("/postRuolo")
-    public void createRuolo(@RequestBody Ruolo r){
-        ruoloService.ruoloCreate(r);
+    public Ruolo createRuolo(@RequestBody Ruolo r){
+        return ruoloService.ruoloCreate(r);
     }
 
-    @PutMapping("/putRuolo")
-    public void updateRuolo(@RequestBody Ruolo vecchio,@RequestBody Ruolo nuovo) throws RuoloNotExistsException {
-        ruoloService.ruoloUpdate(vecchio,nuovo);
+    @PutMapping("/modificaRuolo/{id}")
+    public Ruolo updateRuolo(@PathVariable long id,@RequestBody Ruolo nuovo) throws RuoloNotExistsException {
+        return ruoloService.ruoloUpdate(id,nuovo);
     }
 
-    @DeleteMapping("/deleteRuolo")
-    public void deleteRuolo(@RequestBody Ruolo r) throws RuoloNotExistsException {
-        ruoloService.ruoloDelete(r);
+    @DeleteMapping("/deleteRuolo/{id}")
+    public void deleteRuolo(@PathVariable long id) throws RuoloNotExistsException {
+        ruoloService.ruoloDelete(id);
     }
 
 }

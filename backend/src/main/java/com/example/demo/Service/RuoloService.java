@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RuoloService{
@@ -16,24 +17,26 @@ public class RuoloService{
     @Autowired
     private RuoloRepository ruoloRepository;
 
-    public void ruoloCreate(Ruolo r){
-        ruoloRepository.save(r);
+    public Ruolo ruoloCreate(Ruolo r){
+        return ruoloRepository.save(r);
     }
 
-    public void ruoloUpdate(Ruolo vecchio,Ruolo nuovo) throws RuoloNotExistsException {
-        if(ruoloRepository.existsById(vecchio.getId())){
-            vecchio.setNome(nuovo.getNome());
-            ruoloRepository.save(vecchio);
+    public Ruolo ruoloUpdate(Long id,Ruolo nuovo) throws RuoloNotExistsException {
+        Optional<Ruolo> vecchio=ruoloRepository.findById(id);
+        if(vecchio.isPresent()){
+            vecchio.get().setNome(nuovo.getNome());
+            return ruoloRepository.save(vecchio.get());
         }else{
             throw new RuoloNotExistsException();
         }
     }
 
-    public void ruoloDelete(Ruolo r) throws RuoloNotExistsException {
-        if(!ruoloRepository.existsById(r.getId())){
+    public void ruoloDelete(Long id) throws RuoloNotExistsException {
+        Optional<Ruolo> ruolo=ruoloRepository.findById(id);
+        if(!ruolo.isPresent()){
             throw new RuoloNotExistsException();
         }
-        ruoloRepository.delete(r);
+        ruoloRepository.delete(ruolo.get());
     }
 
     @Transactional(readOnly = true)
