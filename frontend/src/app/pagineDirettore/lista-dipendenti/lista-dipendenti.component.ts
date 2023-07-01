@@ -92,7 +92,6 @@ export class ListaDipendentiComponent implements OnInit{
   
   public cerca(){
     this.bottonActiveSearch = true;
-    console.log(this.searchForm);
     this.ser.getDipendentiNome(this.searchForm.value.nome).subscribe(
       {
         next:response=>{ 

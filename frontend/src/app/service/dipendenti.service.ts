@@ -10,37 +10,37 @@ import { ContrattoLavorativo } from '../model/ContrattoLavorativo';
 })
 export class DipendentiService {
 
-  private apiServerUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiBaseUrl;
   private backendUrl = 'http://localhost:8180';
   private httpOption = { headers: new HttpHeaders({'Content-Type': 'application/json'})  }
 
   constructor( private http:HttpClient ) { }
 
   public getDipendenti():Observable<Dipendente[]>{
-    return this.http.get<Dipendente[]>( this.apiServerUrl+'/dipendenti' );
+    return this.http.get<Dipendente[]>( this.backendUrl+'/dipendenti' );
   }//all dipedenti
 
   public getDipendentiSede( sede:String ):Observable<Dipendente[]>{
-    return this.http.get<Dipendente[]>( this.apiServerUrl+'/dipendenti/'+sede );
+    return this.http.get<Dipendente[]>( this.backendUrl+'/dipendenti/'+sede );
   }//sede
 
   public createDipendente( dipendente:Dipendente ):Observable<Dipendente>{
-    const url = this.apiServerUrl+'/postDipendente';
+    const url = this.backendUrl+'/postDipendente';
     return this.http.post<Dipendente>( url, dipendente, this.httpOption );
   }//create dipendente
 
   public updateDipendente( old:number , nuovo:Dipendente ):Observable<Dipendente>{
-    const url = this.apiServerUrl+'/modificaDipendente/'+old.toString();
+    const url = this.backendUrl+'/modificaDipendente/'+old.toString();
     return this.http.post<Dipendente>( url, nuovo, this.httpOption );
   }//post dipendente
 
   public deleteDipendente( id:number ):Observable<Dipendente>{
-    const url = this.apiServerUrl+'/deleteDipendente/'+id.toString();
+    const url = this.backendUrl+'/deleteDipendente/'+id.toString();
     return this.http.delete<Dipendente>( url, this.httpOption );
   }//delete dipendente
 
   public getDipendente( id:number ):Observable<Dipendente[]>{
-    const url = this.apiServerUrl+'/dipendente/'+id.toString();
+    const url = this.backendUrl+'/dipendente/'+id.toString();
     return this.http.get<Dipendente[]>( url )
   }//dipendente by id
 

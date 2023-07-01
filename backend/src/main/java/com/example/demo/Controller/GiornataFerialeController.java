@@ -3,13 +3,10 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.Dipendente;
 import com.example.demo.Entity.GiornataFeriale;
-import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Service.DipendenteService;
-import com.example.demo.Service.DtoFerie;
 import com.example.demo.Service.GiornataFerialeService;
-import com.example.demo.Service.RuoloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +22,7 @@ public class GiornataFerialeController {
     @Autowired
     private GiornataFerialeService giornataFerialeService;
 
-    @Autowired
-    private RuoloService ruoloService;
-
+    
     @PostMapping("/postFerie")
     public GiornataFeriale createFerie(@RequestBody GiornataFeriale giornataFeriale){
         return giornataFerialeService.giornataFerieCreate(giornataFeriale);

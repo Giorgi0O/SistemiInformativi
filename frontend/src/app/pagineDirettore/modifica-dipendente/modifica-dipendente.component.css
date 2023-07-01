@@ -6,9 +6,6 @@
     overflow-x: scroll;
     vertical-align: middle;
 }
-.filtri{
-    margin-bottom: 0;
-}
 .filtri label{
     margin: auto 0 auto 20px;
 }
@@ -46,7 +43,7 @@
 }
 .button{
     float: left;
-    margin-left: 20px;
+    margin-top: 0;
 }
 .box_operazioni_dipendente{
    height: 50%;
@@ -56,4 +53,37 @@
 }
 #marg_top{
     margin-top: 12%;
+}
+#dip{
+    display: inline-block;
+    background-color: white;
+    border: none;
+    font-size: 16px;
+    color: black; font-weight: 600;
+    margin-left: 40px;
+}
+.ricerca{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.ricerca button,label,input {
+    margin-right: 10px; 
+}
+.header p{
+    font-size: 18px;
+    margin: 20px;
+}
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}
+.modifica{
+    margin-top: 10px;
+}
+.searchArea{
+    height: 20px;
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
 }
