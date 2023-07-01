@@ -38,12 +38,13 @@ public class R_TDService {
         return rtdRepository.save(vecchio.get());
     }
 
-    public void rtdDelete(Long id) throws TurnoDipendenteNotExistsException {
+    public R_TD rtdDelete(Long id) throws TurnoDipendenteNotExistsException {
         Optional<R_TD> rtd=rtdRepository.findById(id);
         if(!rtd.isPresent()){
             throw new TurnoDipendenteNotExistsException();
         }
         rtdRepository.delete(rtd.get());
+        return rtd.get();
     }
 
     @Transactional(readOnly = true)

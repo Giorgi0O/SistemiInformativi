@@ -43,10 +43,11 @@ public class GiornataFerialeService {
         }
     }
 
-    public void giornataFerieDelete(GiornataFeriale g) throws FerieNotExistsException {
+    public GiornataFeriale giornataFerieDelete(GiornataFeriale g) throws FerieNotExistsException {
         Optional<GiornataFeriale> ferie=giornataFerialeRepository.findById(g.getId());
         if(ferie.isPresent()){
             giornataFerialeRepository.delete(g);
+            return ferie.get();
         }else{
             throw new FerieNotExistsException();
         }

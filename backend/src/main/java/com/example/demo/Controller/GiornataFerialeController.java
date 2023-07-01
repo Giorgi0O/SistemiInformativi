@@ -35,9 +35,9 @@ public class GiornataFerialeController {
     }
 
     @DeleteMapping("/deleteFerie/{id}")
-    public void deleteFerie(@PathVariable Long id) throws FerieNotExistsException {
+    public GiornataFeriale deleteFerie(@PathVariable Long id) throws FerieNotExistsException {
         GiornataFeriale giornataFeriale=giornataFerialeService.giornataFerieFindById(id);
-        giornataFerialeService.giornataFerieDelete(giornataFeriale);
+        return giornataFerialeService.giornataFerieDelete(giornataFeriale);
     }
 
     @GetMapping("/Ferie")
