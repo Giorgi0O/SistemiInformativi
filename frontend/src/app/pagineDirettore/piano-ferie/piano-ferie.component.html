@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>turni settimanali</title>
+</head>
+<body>
+
+    <div class="container-direttore">
+        <p>Piano ferie</p>
+        <div class="header filtri">
+            <label> Data: </label>
+            <input type="date" id="date" class="calendario">
+            <label> Ruolo: </label>
+            <select name="ruolo" id="" class="select">
+                <option value=""> </option>
+                <option value="addetto alla cucina">Addetto alla cucina</option>
+                <option value="cameriere">Camerire</option>
+                <option value="cassiere">Cassiere</option>
+                <option value="Magazziniere">Magazziniere</option>
+            </select>
+            <input type="submit" class="button cerca" value="filtra">
+        </div>
+        <div class="table">
+            <table>
+                <tr>
+                    <td class="colonna"> Lunedì </td >
+                    <td class="colonna"> Martedì </td >
+                    <td class="colonna"> Mercoledì </td >
+                    <td class="colonna"> Giovedì </td >
+                    <td class="colonna"> Venerdì </td >
+                    <td class="colonna"> Sabato </td >
+                    <td class="colonna ultimaColonna"> Domenica </td>
+                </tr>
+                <tr>
+                    <td class="colonna number ultimaRiga"> {{giorno}} </td>
+                    <td class="colonna number ultimaRiga"> {{giorno+1}} </td>
+                    <td class="colonna number  ultimaRiga"> {{giorno+2}} </td>
+                    <td class="colonna number ultimaRiga"> {{giorno+3}} </td>
+                    <td class="colonna number ultimaRiga"> {{giorno+4}} </td>
+                    <td class="colonna number ultimaRiga"> {{giorno+5}} </td>
+                    <td class="colonna number ultimaRiga ultimaColonna"> {{giorno+6}} </td>
+                </tr>
+                <tr>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip ultimaColonna"> nessun dipendente in ferie </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>

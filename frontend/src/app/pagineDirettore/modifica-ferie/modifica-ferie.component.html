@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+
+        <form action="">
+            <div class="container-direttore">
+                <p>Modifica ferie</p>
+                <div class="header">
+                    <span> Inserisci i nuovi dati</span>
+                    <input type="submit" class="button" value="Modifica ferie">
+                    <input type="submit" class="button remove" value="Elimina ferie">
+                </div> 
+                <div class="box_operazioni_dipendente">
+                    <div class="dati_turno">
+                        <h2>Data</h2>
+                        <label class="richieste" >Seleziona la data di inizio:</label>
+                        <input class="richieste calendario" type="date" id="date" name="date">
+                        <label class="richieste" >Seleziona la data di fine:</label>
+                        <input class="richieste calendario" type="date" id="date" name="date">
+                    </div>
+                    <div class="dati_turno">
+                        <h2>Dipendenti</h2>
+                        <label class="richieste"> Seleziona i nuovi dipendenti </label>
+                        <div class="lista_dipendenti">
+                            <input type="checkbox" id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <label for="html"> dipendente1</label><br>
+                            <input type="checkbox" id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <label for="css"> dipendente2</label><br>
+                            <input type="checkbox" id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <label for="javascript"> dipendente3</label><br>
+                            <input type="checkbox" checked id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <label for="javascript"> dipendente15</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </body>
+</html>

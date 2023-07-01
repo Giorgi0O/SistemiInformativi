@@ -1,0 +1,44 @@
+.body{
+    background-color: orange;
+    overflow: scroll;
+    width: 20%;
+    height: 100vh;
+    margin: 0;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.4);
+}
+.navBar-container{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.logo{
+    display: inline-block;
+    text-align: center;
+}
+.logo img{
+    width: 90%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.bottone a{
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 2px;
+}
+.bottone a:hover{
+    background-color: rgba(255,0,0,0.4);
+}
+.bottone{
+    margin-top: 8px;
+    margin-left: 20%;
+}
+.active-link{
+    background-color: rgba(255,0,0,0.4);
+}
+.active-link span{
+    border-radius: 200px;
+}

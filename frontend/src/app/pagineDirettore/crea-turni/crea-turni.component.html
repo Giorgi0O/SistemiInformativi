@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container-direttore">
+        <form action="">
+            <p>Creazione turno</p>
+            <div class="header">
+                <span> Inserisci i dati del turno </span>
+                <input class="button" type="submit" value="Crea turno" >
+            </div>
+
+            <div class="box_operazioni_dipendente">
+                <div class="dati_turno">
+                    <h2>Data</h2>
+                    <label class="richieste" >Seleziona la data:</label>
+                    <input class="richieste calendario" type="date" id="date" name="date">
+                </div>
+                <div class="dati_turno">
+                    <h2>Orario</h2>
+                    <label class="richieste"> Seleziona il turno </label>
+                    <select class="richieste select" required id="select">
+                        <option value="turno1"> 8:30-10:30 </option>
+                        <option value="turno1"> 10:30-16:30 </option>
+                        <option value="turno1"> 16:30-22:30 </option>
+                    </select>
+                </div>
+                <div class="dati_turno">
+                    <h2>Dipendenti</h2>
+                    <label class="richieste"> Seleziona i dipendenti </label>
+                    <div class="lista_dipendenti" >
+                        <div *ngFor="let dipendente of dipendenti" >
+                            <input type="checkbox" id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <label for="html"> {{dipendente}}</label>
+                            <label for="html"> | S</label>
+                            <input type="checkbox" id="nomed" name="nom_dipendente" value="nome_dipendente">
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

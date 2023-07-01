@@ -1,0 +1,59 @@
+.header{
+    height: 10%;
+    width: 80%;
+    display: flex;
+    overflow-y:auto;
+    overflow-x: scroll;
+    vertical-align: middle;
+}
+.filtri{
+    margin-bottom: 0;
+}
+.filtri label{
+    margin: auto 0 auto 20px;
+}
+.select{
+    width: 150px; height: 25px;
+    margin:auto 20px auto 20px;
+
+}
+#search{
+    height: 30%;
+    margin: auto 20px auto 20px;
+    border-radius: 20px;
+    border: 2px solid black;
+}
+.lista{
+    margin-top: 20px;
+}
+.cerca{
+    width: 80px;
+    margin-right: 30px;
+}
+.header hr{
+    margin: 25px 0 25px 20px;
+}
+.dati_turno{
+   width: 45%; 
+}
+.header span{
+    font-size: 15px;
+    margin-left: 20px;
+}
+.dati_turno label,input,select{
+    display: flex;
+    margin-left: 20px;
+}
+.button{
+    float: left;
+    margin-left: 20px;
+}
+.box_operazioni_dipendente{
+   height: 50%;
+}
+.contratto{
+    width: 55%;
+}
+#marg_top{
+    margin-top: 12%;
+}

@@ -1,0 +1,7 @@
+form{
+    all: unset;
+}
+.lista_dipendenti label{
+    display: inline-table;
+
+}

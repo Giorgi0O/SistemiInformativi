@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    font-family:sans-serif;
+}
+hr{
+    background-color: black;
+    border: solid black 0.5px;
+}
+.container-direttore{
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 80%;
+    float: right;
+}
+.container-direttore p{
+    text-align: center;
+    font-size: 64px;
+    margin-top: 2%;
+    font-style: bold ;
+}
+.header{
+    margin-top: 70px;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 80%;
+    height: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: bold;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+}
+.button{
+    height: 30px;
+    width: 150px;
+    display: inline;
+    float: right;
+    font-size: 20px;
+    margin-right: 10%;
+    margin-top: 20px;
+    background-color: orange;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+}
+.button:hover{
+    box-shadow: 0px 15px 20px rgba(0,0,0,0.4);
+}
+.header span{
+    display: inline;
+    margin-left: 20px;
+    margin-top: 25px;
+    float: left;
+    font-size: 22px;
+    font-style: bold;
+}
+.box_operazioni_dipendente{
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 80%;
+    height: 50%;
+}
+.dati_turno{
+    float: left;
+    height: 100%;
+    width: 30%;
+}
+.dati_turno h2{
+    margin: 20px;
+}
+.richieste{
+    margin-left: 20px;
+    display: block;
+}
+.lista_dipendenti{
+    margin: 10px 0 0 20px;
+    height: 60%;
+    overflow: scroll;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.lista_dipendenti input,label{
+    margin: 10px 0 0 10px;
+    font-size: 16px;
+}
+.box1 span{
+    display: inline-block;
+}
+.box3{
+    height: 60%;
+    width: 25%;
+    overflow: scroll;
+    margin-top: 60px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+.box3 h2{
+    margin: 20px;
+}
+.box3 p{
+    text-align: left;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 700; 
+}
+.calendario{
+    margin-top: 10px;
+    width: 80%;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align: center;
+}
+.select{
+    margin-top: 10px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 80%;
+    height: 45px;
+    text-align: center;
+}
+#search{
+    height: 30%;
+    margin: auto 20px auto 20px; padding-left: 10px;
+    border-radius: 20px;
+    border: 2px solid black;
+}
+.descrizione_contratto{
+    margin-left: 20px;
+    width: 80%; height: 50%;
+    border: 2px solid black; border-radius: 10px;
+    padding: 10px;
+}
+.icon{
+    width: 15px;
+}
+.logout{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+}
+.logout a{
+    width: 50px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+.logout img{
+    width: 20px;
+    margin-top: 4px;
+}
+.xml{
+    right: 8%;
+}

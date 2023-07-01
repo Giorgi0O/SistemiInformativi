@@ -1,0 +1,10 @@
+.bottone p{
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-style: bold;
+}
+.bottone{
+    margin-left: 30px;
+    margin-top: 15px;
+}

@@ -1,0 +1,79 @@
+.paginaDipendente{
+    height: 100vh;
+    text-align: center;
+    background-color: orange;
+}
+.paginaDipendente img{
+    width: 250px;
+}
+.header{
+    background-color: white;
+    margin-top: 10px;
+    text-align: center;
+}
+.header span {
+    float: none;
+    display: block;
+    position: relative;
+    top: auto;
+    bottom: auto;
+}
+.box_dipendente{
+    width: 80%;
+    height: 60%;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.4);
+}
+.turni_dipendente{
+    width: 70%;
+    height: 70%;
+    border-radius: 10px; border: 2px solid black;
+    display: inline-block;
+    margin-top: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: scroll;
+}
+.ferie{
+    height: 25%;
+}
+.turni_dipendente table{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    border-collapse: collapse;
+}
+td{
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-radius: 20px;
+    font-size: 100%;
+    font-weight: 500;
+}
+.work{
+    background-color: red;
+    width: 10%;
+    border-radius: 0;
+}
+.ferie p{
+    display: block;
+    float: left;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.logout img{
+    width: 20px;
+    margin-top: 4px;
+}
+.logout a{
+    background-color: white;
+}
+

@@ -1,0 +1,22 @@
+.notifiche{
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    height: 15%;
+    background-color: #E55858;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border : 1px solid black;
+    text-align: center;
+    overflow: scroll;
+}
+.notifiche ul{
+    margin-top: 10px;
+    text-align: left;
+}
+.notifiche h3{
+    margin-top: 5px;
+}
