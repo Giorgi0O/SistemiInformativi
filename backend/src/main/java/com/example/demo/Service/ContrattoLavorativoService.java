@@ -2,10 +2,12 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.ContrattoLavorativo;
 import com.example.demo.Entity.Dipendente;
+import com.example.demo.Entity.GiornataFeriale;
 import com.example.demo.Exception.ContrattoNotExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Repository.ContrattoLavorativoRepository;
 import com.example.demo.Repository.DipendenteRepository;
+import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +72,4 @@ public class ContrattoLavorativoService {
             throw new DipendenteNotExistsException();
         }
     }
-
-
-
-
-
 }

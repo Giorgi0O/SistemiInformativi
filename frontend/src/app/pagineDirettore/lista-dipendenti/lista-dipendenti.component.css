@@ -67,6 +67,7 @@
     width: 100px;height: 30px; 
     float: right;
     background-color: orange; border-radius: 10px; border: 2px solid black;
+    text-align: center;
 }
 .lista{
     align-items: center;

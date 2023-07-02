@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,5 +18,6 @@ public class GiornataFeriale {
     @Temporal(TemporalType.DATE)
     @Column(unique = true)
     private Date dataGiornataFeriale;
+
 
 }

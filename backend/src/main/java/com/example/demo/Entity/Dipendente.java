@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @DiscriminatorValue("Dipendente")
@@ -22,11 +23,10 @@ public class Dipendente extends Utente {
     @JoinColumn
     private Ruolo ruolo;
 
-    @ManyToMany
-    @JoinTable(name = "R_DF")
-    private List<GiornataFeriale> giornateFeriali;
+
 
     @OneToMany(mappedBy = "dipendente")
     private List<R_TD> rtd;
+
 
 }

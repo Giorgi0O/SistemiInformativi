@@ -9,41 +9,36 @@
     <div class="container-direttore"  >
         <p>Nuovo Dipendente</p>
         <div class="box_operazioni_dipendente">
-            <div class="dati_turno">
-                <h2>Inserisci i nuovi dati del dipendente</h2>
-                <form [formGroup]="createForm">
+            <form [formGroup]="createForm" (submit)="crea()">
+                <div class="dati_turno">
+                    <h2>Inserisci i nuovi dati del dipendente</h2>
                     <label>nome:</label>
                     <input type="text" formControlName="nome">
                     <label>cognome:</label>
                     <input type="text" formControlName="cognome" >
                     <label>ruolo:</label>
                     <select class="select" formControlName="ruolo" >
-                        <option value=""></option>
-                        <option value="">Cassiere</option>
-                        <option value="">Addetto alla cucina</option>
-                        <option value="">Magazziniere</option>
-                        <option value="">Cameriere </option>
+                        <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
                     </select>
                     <label>telefono:</label>
                     <input type="text" formControlName="telefono">
                     <label>email:</label>
                     <input type="text" formControlName="email">
-                    <input type="submit" class="button" value="Crea">
-                </form>
-            </div>
-            <div class="dati_turno contratto">
-                <form [formGroup]="createForm">
+                    <input type="submit" class="button" value="Crea" [disabled]="buttonCreaActive||!createForm.valid"
+                        [class.invalid]="buttonCreaActive||!createForm.valid" >
+                </div>
+                <div class="dati_turno contratto">
                     <label for="" id="marg_top">tipologia</label>
                     <select name="" id="" class="select" formControlName="tipologia">
                         <option value=""></option>
-                        <option value="">Determinato</option>
-                        <option value="">Indeterminato</option>
-                        <option value="">Formazione</option>
+                        <option value="determinato">Determinato</option>
+                        <option value="indeterminato">Indeterminato</option>
+                        <option value="formazione">Formazione</option>
                     </select>
                     <label for=""> Descrizione contratto: </label>
                     <textarea class="descrizione_contratto" formControlName="descrizione"> </textarea>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>

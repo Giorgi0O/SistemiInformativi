@@ -8,16 +8,12 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"oraInizio", "oraFine", "turnoLavorativoDate"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"oraInizio", "oraFine"})})
 public class TurnoLavorativo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @Temporal(TemporalType.DATE)
-    private Date turnoLavorativoDate;
-
 
     @Temporal(TemporalType.TIME)
     private Time oraInizio;

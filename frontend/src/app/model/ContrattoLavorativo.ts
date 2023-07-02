@@ -12,7 +12,7 @@ export class ContrattoLavorativo implements ContrattoLavorativo{
     descrizione!:String;
     tipologia!:String;
 
-    constructor( tipologia:String, descrizione:String ){
+    constructor(tipologia:String, descrizione:String ){
         this.tipologia = tipologia;
         this.descrizione = descrizione;
     }

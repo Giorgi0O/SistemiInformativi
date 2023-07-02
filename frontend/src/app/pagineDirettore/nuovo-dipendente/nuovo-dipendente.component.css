@@ -42,3 +42,7 @@
 #marg_top{
     margin-top: 12%;
 }
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}

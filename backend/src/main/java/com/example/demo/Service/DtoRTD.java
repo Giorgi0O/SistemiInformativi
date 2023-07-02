@@ -1,2 +1,12 @@
-package com.example.demo.Service;public class DtoRTD {
+package com.example.demo.Service;
+
+import lombok.Getter;
+
+import java.util.Date;
+
+@Getter
+public class DtoRTD {
+
+    private String straordinario;
+    private Date data;
 }

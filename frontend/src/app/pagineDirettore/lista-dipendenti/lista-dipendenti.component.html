@@ -23,15 +23,10 @@
                     <div class="ricerca">
                         <label> Ruolo: </label>
                         <select class="select" formControlName="ruolo"> 
-                            <option value=" "> </option>
-                            <option value="addettoallacucina">Addetto alla cucina</option>
-                            <option value="cameriere">Camerire</option>
-                            <option value="cassiere">Cassiere</option>
-                            <option value="magazziniere">Magazziniere</option>
+                            <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
                         </select>
                         <label> Contratto: </label>
                         <select class="select" formControlName="contratto">
-                            <option value=" "> </option>
                             <option value="determinato">Determinato</option>
                             <option value="indenterminato">Indenterminato</option>
                             <option value="formazione">Formazione</option>
@@ -47,19 +42,21 @@
                     <button (click)="CambiaIteratore(dipendente)" id="dip">{{dipendente.nome}} {{dipendente.cognome}} </button>
                 </div>
             </div>
-            <div class="box_operazioni_dipendente">
-                <div class="dati_turno">
+            <div class="box_operazioni_dipendente" *ngIf="attivo || telefono != 0 ">
+                <div class="dati_turno"  >
                     <h2>Dati Dipendente</h2>
-                    <p *ngIf="telefono === 0 && email === '' "> Clicca sul nome di un dipendente per vedere i suoi dati </p>
-                    <p *ngIf="ruolo !== '' ">Ruolo: {{ruolo}} </p>
-                    <p *ngIf="telefono !== 0 ">Telefono: {{telefono}}</p>
-                    <p *ngIf="email !== '' " >Email: {{email}} </p>
-                    <input  *ngIf="ruolo !== ''"  class="button remove" value="Elimina">
+                    <p >Ruolo: {{ruolo}} </p>
+                    <p >Telefono: {{telefono}}</p>
+                    <p >Email: {{email}} </p>
+                    <button (click)="removeDipendente()" [disabled]="bottonActiveRemove" class="button remove" >
+                     Elimina
+                    </button>
                 </div>
                 <div class="dati_turno" *ngIf="telefono !== 0 && email !== '' ">
                     <h2>Contratto</h2>
-                    <div class="lista_dipendenti">
-                        <!-- descrizione contratto-->
+                    <div class="lista_dipendenti" *ngIf="contratto !== null " >
+                        <p>tipologia: {{contratto.tipologia}} </p>
+                        <p>{{contratto.descrizione}}</p>
                     </div>
                 </div>
             </div>

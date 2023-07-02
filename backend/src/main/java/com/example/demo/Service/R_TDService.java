@@ -4,6 +4,7 @@ import com.example.demo.Entity.Dipendente;
 import com.example.demo.Entity.R_TD;
 import com.example.demo.Entity.TurnoLavorativo;
 import com.example.demo.Exception.TurnoDipendenteNotExistsException;
+import com.example.demo.Exception.TurnoLavorativoNotExistsException;
 import com.example.demo.Repository.R_TDRepository;
 import com.example.demo.Repository.TurnoLavorativoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class R_TDService {
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
-    public R_TD rtdCreate(R_TD turnoDipendente){
-        return rtdRepository.save(turnoDipendente);
+    public void rtdCreate(R_TD nuovo) throws TurnoLavorativoNotExistsException {
+        rtdRepository.save(nuovo);
     }
 
     public R_TD rtdUpdate(long id,R_TD nuovo) throws TurnoDipendenteNotExistsException {
@@ -33,6 +34,7 @@ public class R_TDService {
         if(!vecchio.isPresent()){
            throw new TurnoDipendenteNotExistsException();
         }
+        vecchio.get().setTurnoLavorativoDate( nuovo.getTurnoLavorativoDate() );
         vecchio.get().setDipendente(nuovo.getDipendente());
         vecchio.get().setTurnoLavorativo(nuovo.getTurnoLavorativo());
         return rtdRepository.save(vecchio.get());
@@ -47,7 +49,8 @@ public class R_TDService {
         return rtd.get();
     }
 
-    @Transactional(readOnly = true)
+    //todo non va
+    @Transactional
     public List<R_TD> listaRtdRead(){
         return rtdRepository.findAll();
     }
@@ -77,12 +80,6 @@ public class R_TDService {
     }
 
     private List<R_TD> rtdFindbyData(Date data){
-        List<R_TD> l=new ArrayList<>();
-        for(TurnoLavorativo t:turnoLavorativoRepository.findAll()){
-            if(t.getTurnoLavorativoDate().equals(data)){
-                l.addAll(rtdRepository.findR_TDByTurnoLavorativo(t));
-            }
-        }
-        return l;
+        return rtdRepository.findByturnoLavorativoDate(data);
     }
 }

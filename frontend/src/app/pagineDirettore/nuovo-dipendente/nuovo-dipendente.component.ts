@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContrattoLavorativo } from 'src/app/model/ContrattoLavorativo';
 import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
@@ -14,59 +14,75 @@ import { RuoloService } from 'src/app/service/ruolo.service';
 export class NuovoDipendenteComponent implements OnInit  {
 
   createForm!:FormGroup;
-  ruoli!:Ruolo[];
+  public ruoli!: Ruolo[];
   sede:String = "cs";
 
-  constructor( private ser:DipendentiService, private rol:RuoloService ){}
+  buttonCreaActive:boolean = false;
+
+  constructor( private rol:RuoloService,private ser:DipendentiService ){}
 
   ngOnInit(){
-    this.prediRuoli();
+    this.ruoli = [];
+    this.prendiRuoli();
     this.createForm = new FormGroup({
-      nome: new FormControl(),
-      congome: new FormControl(),
-      ruolo: new FormControl(),
-      telefono: new FormControl(),
-      email: new FormControl(),
-      tipContratto: new FormControl(),
-      descrizionContratto: new FormControl()
+      nome: new FormControl(null, Validators.required),
+      cognome: new FormControl(null, Validators.required),
+      ruolo: new FormControl(null, Validators.required),
+      telefono: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
+      tipologia: new FormControl(null, Validators.required),
+      descrizione: new FormControl()
     });
+
   }
 
   public crea():void{
+    this.buttonCreaActive = true;
 
     const ruolo = this.trovaRuolo();
-
-    const contratto = new ContrattoLavorativo(this.createForm.value.tipContratto, this.createForm.value.descrizionContratto );
-    const dipendente = new Dipendente(this.createForm.value.nome, this.createForm.value.cognome , ruolo, this.createForm.value.number, this.sede , this.createForm.value.email, contratto )
-    this.ser.createDipendente(dipendente).subscribe(
-      {
-        next:response=>{
-          if( response instanceof Dipendente )
+    const contratto = new ContrattoLavorativo(this.createForm.value.tipologia, this.createForm.value.descrizione );
+    
+    
+    const dipendente = new Dipendente(this.createForm.value.nome, this.createForm.value.cognome , ruolo , this.createForm.value.telefono, this.sede , this.createForm.value.email, contratto )
+    
+    
+    if( this.createForm.valid ){
+      this.ser.createDipendente(dipendente).subscribe(
+        {
+          next:()=>{
             alert("dipendente aggiunto");
-          else
-            alert("dipendente non aggiunto riprova")
+            this.buttonCreaActive = false;
+            this.createForm.reset();
+          },
+          error:error=>{
+            alert("dipendente non aggiunto, riprova");
+            this.buttonCreaActive = false;
+          }
         }
-      }
-    );
+      );
+    }
+    this.buttonCreaActive = false;
   }
-
   private trovaRuolo():Ruolo{
-    let trovato!:Ruolo;
+    let trovato:Ruolo = this.ruoli[0];
     for( const r of this.ruoli ){
-      if( r.nome === this.createForm.value.ruolo ){
+      if( r.id === this.createForm.value.ruolo ){
         trovato = r;
       }
     }
     return trovato;
   }
-
-  public prediRuoli():void{
+  
+  public prendiRuoli():void{
     this.rol.listaRuoloRead().subscribe(
       {
         next:response=>( this.ruoli = response ),
-        error:error=> ( console.log(error.message) )
+        error:error=> ( alert(error.message) )
       }
     );
   }
+
+
+
 
 }

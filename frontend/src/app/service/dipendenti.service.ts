@@ -31,7 +31,7 @@ export class DipendentiService {
 
   public updateDipendente( old:number , nuovo:Dipendente ):Observable<Dipendente>{
     const url = this.backendUrl+'/modificaDipendente/'+old.toString();
-    return this.http.post<Dipendente>( url, nuovo, this.httpOption );
+    return this.http.put<Dipendente>( url, nuovo, this.httpOption );
   }//post dipendente
 
   public deleteDipendente( id:number ):Observable<Dipendente>{

@@ -16,22 +16,22 @@ export class RuoloService {
   constructor( private http:HttpClient ) { }
 
   public createRuolo( ruolo:Ruolo ):Observable<Ruolo>{
-    const url = this.apiServerUrl+'/postRuolo';
+    const url = this.backendUrl+'/postRuolo';
     return this.http.post<Ruolo>( url, ruolo, this.httpOption );
   }
 
   public updateRuolo( old:number , nuovo:Ruolo ):Observable<Ruolo>{
-    const url = this.apiServerUrl+'/modificaRuolo/'+old.toString();
+    const url = this.backendUrl+'/modificaRuolo/'+old.toString();
     return this.http.post<Ruolo>( url, nuovo, this.httpOption );
   }
 
   public deleteRuolo( id:number ):Observable<Ruolo>{
-    const url = this.apiServerUrl+'/deleteRuolo/'+id.toString();
+    const url = this.backendUrl+'/deleteRuolo/'+id.toString();
     return  this.http.delete<Ruolo>( url, this.httpOption );
   }
 
   public listaRuoloRead():Observable<Ruolo[]>{
-    const url = this.apiServerUrl+'/ruoli'
+    const url = this.backendUrl+'/ruoli';
     return this.http.get<Ruolo[]>(url);
   }
 

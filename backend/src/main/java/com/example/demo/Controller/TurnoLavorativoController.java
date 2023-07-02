@@ -40,13 +40,4 @@ public class TurnoLavorativoController {
     public TurnoLavorativo getTurno(@PathVariable long id) throws TurnoLavorativoNotExistsException {
         return turnoLavorativoService.turnoLavorativoFindById(id);
     }
-
-    @GetMapping("/orariTurni")
-    public List<String> getAllOrariTurni(){
-        return turnoLavorativoService.turnoLavorativoGetOrari();
-    }
-
-
-
-
 }

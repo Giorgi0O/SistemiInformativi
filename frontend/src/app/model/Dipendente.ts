@@ -34,6 +34,6 @@ export class Dipendente implements Dipendente{
         this.telefono = telefono; 
         this.email = email;
         this.sede = sede;
-        this.contrattoLavorativo = this.contrattoLavorativo;
+        this.contrattoLavorativo = contrattoLavorativo;
     }
 }

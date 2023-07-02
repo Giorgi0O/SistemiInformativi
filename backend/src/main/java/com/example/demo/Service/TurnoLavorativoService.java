@@ -24,7 +24,6 @@ public class TurnoLavorativoService {
     public TurnoLavorativo turnoLavorativoUpdate(TurnoLavorativo vecchio,TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(vecchio.getId());
         if(turno.isPresent()){
-            vecchio.setTurnoLavorativoDate(nuovo.getTurnoLavorativoDate());
             vecchio.setOraFine(nuovo.getOraFine());
             vecchio.setOraInizio(nuovo.getOraInizio());
             return turnoLavorativoRepository.save(vecchio);
@@ -58,16 +57,6 @@ public class TurnoLavorativoService {
         return turnoLavorativoRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public List<String> turnoLavorativoGetOrari(){
-        String orario;
-        List<String> orari=new ArrayList<>();
-        for(TurnoLavorativo t:turnoLavorativoRepository.findAll()){
-            orario=t.getOraInizio()+"-"+t.getOraFine();
-            orari.add(orario);
-        }
-        return orari;
-    }
 
 
 

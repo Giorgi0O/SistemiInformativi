@@ -2,9 +2,11 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.ContrattoLavorativo;
 import com.example.demo.Entity.Dipendente;
+import com.example.demo.Entity.GiornataFeriale;
 import com.example.demo.Exception.ContrattoNotExistsException;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
+import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Service.ContrattoLavorativoService;
 import com.example.demo.Service.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +30,15 @@ public class DipendenteController {
 
     @PostMapping("/postDipendente")
     public Dipendente dipendenteCreate(@RequestBody Dipendente d) throws DipendenteAlreadyExistsException {
+        System.out.println(d);
         contrattoLavorativoService.contrattoCreate(d.getContrattoLavorativo());
         return dipendenteService.dipendenteCreate(d);
     }
 
-    @PostMapping("/modificaDipendente/{id}")
+    @PutMapping("/modificaDipendente/{id}")
     public Dipendente dipendenteUpdate(@PathVariable Long id,@RequestBody Dipendente nuovo) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente vecchio=dipendenteService.dipendenteFindById(id);
-        if(!vecchio.getContrattoLavorativo().equals(nuovo.getContrattoLavorativo())){
+        if(!vecchio.getContrattoLavorativo().getDescrizione().equals(nuovo.getContrattoLavorativo().getDescrizione()) || !vecchio.getContrattoLavorativo().getTipologia().equals(nuovo.getContrattoLavorativo().getTipologia()) ){
             contrattoLavorativoService.contrattoUpdate(vecchio.getContrattoLavorativo(),nuovo.getContrattoLavorativo());
         }
         return dipendenteService.dipendenteUpdate(id,nuovo);
@@ -44,8 +47,10 @@ public class DipendenteController {
     @DeleteMapping("/deleteDipendente/{id}")
     public Dipendente dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente d=dipendenteService.dipendenteFindById(id);
+        dipendenteService.dipendenteDelete(id);
         contrattoLavorativoService.contrattoDelete(d.getContrattoLavorativo());
-        return dipendenteService.dipendenteDelete(id);
+        return d;
+
     }
 
     @GetMapping("/dipendenti/{sede}")
@@ -60,6 +65,7 @@ public class DipendenteController {
 
     @GetMapping("/dipendentiFiltri/{ruolo}/{tipologiaContratto}")
     public List<Dipendente> getDipendenti(@PathVariable String ruolo,@PathVariable String tipologiaContratto) throws DipendenteNotExistsException {
+        System.out.println(ruolo+"-"+tipologiaContratto);
         return dipendenteService.dipendenteFiltri(ruolo,tipologiaContratto);
     }
 
@@ -82,6 +88,8 @@ public class DipendenteController {
     public ContrattoLavorativo getContrattoDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
         return contrattoLavorativoService.contrattoFindByDipendente(id);
     }
+
+
 
 
 
