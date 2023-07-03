@@ -45,12 +45,10 @@ public class DipendenteController {
     }
 
     @DeleteMapping("/deleteDipendente/{id}")
-    public Dipendente dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
+    public void dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente d=dipendenteService.dipendenteFindById(id);
         dipendenteService.dipendenteDelete(id);
         contrattoLavorativoService.contrattoDelete(d.getContrattoLavorativo());
-        return d;
-
     }
 
     @GetMapping("/dipendenti/{sede}")
@@ -69,8 +67,8 @@ public class DipendenteController {
         return dipendenteService.dipendenteFiltri(ruolo,tipologiaContratto);
     }
 
-    @GetMapping("/dipendenti/{nome}")
-    public List<Dipendente> getDipendenti(@PathVariable String nome){
+    @GetMapping("/dipendentiNome/{nome}")
+    public List<Dipendente> getDipendentiNome(@PathVariable String nome){
         return dipendenteService.dipendenteFindByNome(nome);
     }
 

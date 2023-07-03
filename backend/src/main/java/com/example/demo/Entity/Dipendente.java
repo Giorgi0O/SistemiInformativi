@@ -1,8 +1,10 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 
 import java.util.List;
 import java.util.Set;
@@ -24,6 +26,7 @@ public class Dipendente extends Utente {
     private Ruolo ruolo;
 
     @OneToMany(mappedBy = "dipendente")
+    @JsonIgnore
     private List<R_TD> rtd;
 
 

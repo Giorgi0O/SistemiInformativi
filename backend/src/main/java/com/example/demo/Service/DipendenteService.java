@@ -55,23 +55,21 @@ public class DipendenteService {
     }
 
     @Transactional
-    public Dipendente dipendenteDelete(Long id) throws DipendenteNotExistsException {
+    public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
-        if(!dipendente.isPresent()){
-            throw new DipendenteNotExistsException();
-        }
-        for(R_FD rfd:r_FDRepository.findAll()){
-            if(rfd.getDipendente().equals(dipendente.get())){
-                r_FDRepository.delete(rfd);
+        if(dipendente.isPresent()){
+            for(R_FD rfd:r_FDRepository.findAll()){
+                if(rfd.getDipendente().equals(dipendente.get())){
+                    r_FDRepository.delete(rfd);
+                }
             }
-        }
-        for(R_TD rtd:r_tdRepository.findAll()){
-            if(rtd.getDipendente().equals(dipendente.get())){
-                r_tdRepository.delete(rtd);
+            for(R_TD rtd:r_tdRepository.findAll()){
+                if(rtd.getDipendente().equals(dipendente.get())){
+                    r_tdRepository.delete(rtd);
+                }
             }
-        }
-        dipendenteRepository.delete(dipendente.get());
-        return dipendente.get();
+            dipendenteRepository.delete(dipendente.get());
+        }throw new DipendenteNotExistsException();
     }
 
     @Transactional(readOnly = true)
@@ -88,32 +86,32 @@ public class DipendenteService {
     @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFindByNome(String nome){
         List<Dipendente> c=new ArrayList<>();
-        c.addAll(dipendenteRepository.findDipendenteByNome(nome));
-        c.addAll(dipendenteRepository.findDipendenteByCognome(nome));
+        for( Dipendente d : dipendenteRepository.findAll() ){
+            if( d.getNome().toUpperCase().equals(nome.toUpperCase()) || d.getCognome().toUpperCase().equals(nome.toUpperCase()) ){
+                c.add(d);
+            }
+        }
         return c;
     }
     @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
         if(ruolo.equals("nessuno")){
-           if(!tipologiaContratto.equals(" ")){
+           if(!tipologiaContratto.equals("nessuno")){
                return dipendenteFindByContratto(tipologiaContratto);
+           }else{
+               return dipendenteRepository.findAll();
            }
         }
         if(tipologiaContratto.equals("nessuno")){
-            if(!ruolo.equals("nessuno")){
-                return dipendenteFindByRuolo(ruolo);
+            return dipendenteFindByRuolo(ruolo);
+        }
+        List<Dipendente> dipendenti = new ArrayList<>();
+        for(Dipendente d:dipendenteFindByRuolo(ruolo)){
+            if(dipendenteFindByContratto(tipologiaContratto).contains(d)){
+                dipendenti.add(d);
             }
         }
-        if( !tipologiaContratto.equals("nessuno") && !ruolo.equals("nessuno") ){
-            List<Dipendente> dipendenti=new ArrayList<>();
-            for(Dipendente d:dipendenteFindByRuolo(ruolo)){
-                if(dipendenteFindByContratto(tipologiaContratto).contains(d)){
-                    dipendenti.add(d);
-                }
-            }
-            return dipendenti;
-        }
-        throw new DipendenteNotExistsException();
+        return dipendenti;
     }
 
     private List<Dipendente> dipendenteFindByContratto(String tipologia){

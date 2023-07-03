@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface R_FDRepository extends JpaRepository<R_FD, Long>  {
-    List<R_FD> findByData(Date d);
 
     List<R_FD> findByDipendente(Dipendente d);
 }

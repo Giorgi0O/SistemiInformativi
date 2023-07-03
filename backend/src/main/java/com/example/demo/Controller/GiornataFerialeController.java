@@ -40,7 +40,7 @@ public class GiornataFerialeController {
 
     //todo
     @DeleteMapping("/deleteFerie")
-    public void deleteFerie(@RequestBody List<R_FD> ferie ) throws FerieNotExistsException {
+    public void deleteFerie( @RequestBody List<R_FD> ferie ) throws FerieNotExistsException {
         giornataFerialeService.deleteRfd(ferie);
     }
 
@@ -55,9 +55,14 @@ public class GiornataFerialeController {
         return giornataFerialeService.giornataFerieFindById(id);
     }
 
-    @GetMapping("/Dipendenti/{data}")
-    public List<Dipendente> getAllDipendentiByData(@PathVariable Date data) throws FerieNotExistsException {
-        return giornataFerialeService.giornataFerieFindByData(data);
+    @GetMapping("/rfd")
+    public List<R_FD> getAllRFD() throws FerieNotExistsException {
+        return giornataFerialeService.rfdFindAll();
+    }
+
+    @GetMapping("/Dipendenti/{id}")
+    public List<Dipendente> getAllDipendentiByData(@PathVariable long id) throws FerieNotExistsException {
+        return giornataFerialeService.giornataFerieFindByData(id);
     }
 
     @GetMapping("/FerieDipendente/{id}")
@@ -67,9 +72,9 @@ public class GiornataFerialeController {
     }
 
     //todo convertire stringa in data
-    @GetMapping("/ferieFiltri/{data}/{ruolo}")
-    public List<Dipendente> getAllFerieFiltri(@PathVariable Date data,@PathVariable String ruolo) throws FerieNotExistsException {
-        return giornataFerialeService.giornataFerieFiltri(data,ruolo);
+    @GetMapping("/ferieFiltri/{id}/{ruolo}")
+    public List<Dipendente> getAllFerieFiltri(@PathVariable long id,@PathVariable String ruolo) throws FerieNotExistsException {
+        return giornataFerialeService.giornataFerieFiltri(id,ruolo);
     }
 
 }

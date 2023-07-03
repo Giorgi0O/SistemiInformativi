@@ -14,6 +14,8 @@ import com.example.demo.Service.TurnoLavorativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +53,6 @@ public class R_TDController {
     public R_TD deleteRTD(@PathVariable Long id) throws TurnoDipendenteNotExistsException {
         return rtdService.rtdDelete(id);
     }
-
-    //todo non restituisce la lista
     @GetMapping("/RTD")
     public List<R_TD> getAllRTD(){
         return rtdService.listaRtdRead();
@@ -60,9 +60,10 @@ public class R_TDController {
 
     //todo da aggiustare
     @GetMapping("/filtriRTD/{data}/{idDipendente}")
-    public List<R_TD> getAllRTD(@PathVariable Date data,@PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException {
-        Dipendente dipendente=dipendenteService.dipendenteFindById(idDipendente);
-        return rtdService.rtdFiltri(data,dipendente);
+    public List<R_TD> getAllRTD(@PathVariable String data, @PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException, ParseException {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sd.parse(data);
+        return rtdService.rtdFiltri(date,idDipendente);
     }
 
 }

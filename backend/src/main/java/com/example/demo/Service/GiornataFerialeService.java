@@ -61,12 +61,11 @@ public class GiornataFerialeService {
 
     @Transactional
     public void deleteRfd(List<R_FD> ferie) throws FerieNotExistsException {
-        for(R_FD r:ferie){
-            if(!r_FDRepository.existsById(r.getId())){
-                throw new FerieNotExistsException();
+        for(R_FD r:ferie) {
+            if(r_FDRepository.existsById(r.getId())) {
+                r_FDRepository.delete(r);
             }
         }
-        r_FDRepository.deleteAll(ferie);
     }
 
     @Transactional(readOnly = true)
@@ -75,17 +74,17 @@ public class GiornataFerialeService {
     }
 
     @Transactional(readOnly = true)
-    public List<Dipendente> giornataFerieFiltri(Date data,String ruolo) throws FerieNotExistsException {
-        if(data.toString().equals("nessuno") && !ruolo.equals("nessuno")){
+    public List<Dipendente> giornataFerieFiltri(long id,String ruolo) throws FerieNotExistsException {
+        if( id==-1 && !ruolo.equals("nessuno")){
             return listaFerieRuolo(ruolo);
         }
-        if(!data.toString().equals("nessuno") && ruolo.equals("nessuno")){
-            return listaFerieData(data);
+        if( id!=-1 && ruolo.equals("nessuno")){
+            return listaFerieData(id);
         }
-        if(!data.toString().equals("nessuno") && !ruolo.equals("nessuno")){
+        if(id != -1){
             List<Dipendente> dipendenti=new ArrayList<>();
             for(Dipendente d:listaFerieRuolo(ruolo)){
-                if(listaFerieData(data).contains(d)){
+                if(listaFerieData(id).contains(d)){
                     dipendenti.add(d);
                 }
             }
@@ -93,13 +92,17 @@ public class GiornataFerialeService {
         }
         throw new FerieNotExistsException();
     }
-    private List<Dipendente> listaFerieData(Date data){
-        List<R_FD> rfds = r_FDRepository.findByData(data);
+    private List<Dipendente> listaFerieData(long id) throws FerieNotExistsException {
+        Optional<GiornataFeriale> ferie = giornataFerialeRepository.findById(id);
         List<Dipendente> res = new ArrayList<>();
-        for( R_FD r : rfds ){
-            res.add( r.getDipendente() );
+        if(ferie.isPresent()){
+            for( R_FD r : rfdFindAll() ){
+                if(r.getGiornataFeriale().equals(ferie.get() ) )
+                    res.add( r.getDipendente() );
+            }
+            return res;
         }
-        return res;
+        throw new FerieNotExistsException();
     }
     private List<Dipendente> listaFerieRuolo(String r){
         Ruolo ruolo=ruoloRepository.findRuoloByNome(r);
@@ -114,8 +117,8 @@ public class GiornataFerialeService {
         throw new FerieNotExistsException();
     }
     @Transactional(readOnly = true)
-    public List<Dipendente> giornataFerieFindByData(Date data) throws FerieNotExistsException {
-       return listaFerieData(data);
+    public List<Dipendente> giornataFerieFindByData(long id) throws FerieNotExistsException {
+       return listaFerieData(id);
     }
     @Transactional(readOnly = true)
     public List<R_FD> giornataFerieFinByDipendente(Dipendente d) throws DipendenteNotExistsException {
