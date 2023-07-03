@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.Entity.R_TD;
 import com.example.demo.Entity.TurnoLavorativo;
 import com.example.demo.Exception.TurnoLavorativoNotExistsException;
+import com.example.demo.Repository.R_TDRepository;
 import com.example.demo.Repository.TurnoLavorativoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class TurnoLavorativoService {
 
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
+
+    @Autowired
+    private R_TDRepository rtdRepository;
 
     public TurnoLavorativo turnoLavorativoCreate(TurnoLavorativo t){
         return turnoLavorativoRepository.save(t);
@@ -32,9 +37,15 @@ public class TurnoLavorativoService {
         }
     }
 
+    @Transactional
     public TurnoLavorativo turnoLavorativoDelete(TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(t.getId());
         if(turno.isPresent()){
+            for(R_TD rtd:rtdRepository.findAll()){
+                if(rtd.getTurnoLavorativo().equals(t)){
+                    rtdRepository.delete(rtd);
+                }
+            }
             turnoLavorativoRepository.delete(t);
             return turno.get();
         }else{

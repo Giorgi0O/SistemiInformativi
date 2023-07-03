@@ -40,8 +40,8 @@ public class GiornataFerialeController {
 
     //todo
     @DeleteMapping("/deleteFerie")
-    public void deleteFerie(@RequestBody Dipendente d ) throws FerieNotExistsException, DipendenteNotExistsException {
-        giornataFerialeService.deleteRfd(d);
+    public void deleteFerie(@RequestBody List<R_FD> ferie ) throws FerieNotExistsException {
+        giornataFerialeService.deleteRfd(ferie);
     }
 
     @GetMapping("/Ferie")

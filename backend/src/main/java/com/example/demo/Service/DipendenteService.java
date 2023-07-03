@@ -1,16 +1,10 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity.Dipendente;
-import com.example.demo.Entity.GiornataFeriale;
-import com.example.demo.Entity.R_FD;
-import com.example.demo.Entity.Ruolo;
+import com.example.demo.Entity.*;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
-import com.example.demo.Repository.DipendenteRepository;
-import com.example.demo.Repository.GiornataFerialeRepository;
-import com.example.demo.Repository.R_FDRepository;
-import com.example.demo.Repository.RuoloRepository;
+import com.example.demo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +22,8 @@ public class DipendenteService {
     private RuoloRepository ruoloRepository;
     @Autowired
     private R_FDRepository r_FDRepository;
+    @Autowired
+    private R_TDRepository r_tdRepository;
 
 
     public Dipendente dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
@@ -63,6 +59,16 @@ public class DipendenteService {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(!dipendente.isPresent()){
             throw new DipendenteNotExistsException();
+        }
+        for(R_FD rfd:r_FDRepository.findAll()){
+            if(rfd.getDipendente().equals(dipendente.get())){
+                r_FDRepository.delete(rfd);
+            }
+        }
+        for(R_TD rtd:r_tdRepository.findAll()){
+            if(rtd.getDipendente().equals(dipendente.get())){
+                r_tdRepository.delete(rtd);
+            }
         }
         dipendenteRepository.delete(dipendente.get());
         return dipendente.get();
