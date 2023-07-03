@@ -42,6 +42,7 @@ public class GiornataFerialeService {
         rfd.setGiornataFeriale(gf);
         r_FDRepository.save(rfd);
     }//dipendenteAdd
+
     @Transactional
     public GiornataFeriale giornataFerieUpdate(GiornataFeriale vecchia,GiornataFeriale nuova) throws FerieNotExistsException {
         Optional<GiornataFeriale> ferie=giornataFerialeRepository.findById(vecchia.getId());
@@ -52,15 +53,25 @@ public class GiornataFerialeService {
             throw new FerieNotExistsException();
         }
     }
+
     @Transactional(readOnly = true)
     public List<GiornataFeriale> listaFerieRead(){
         return giornataFerialeRepository.findAll();
     }
 
     @Transactional
-    public void deleteRfd(List<R_FD>rfdList){
-        r_FDRepository.deleteAll(rfdList);
+    public void deleteRfd(Dipendente dipendente) throws DipendenteNotExistsException {
+        Optional<Dipendente> dip=dipendenteRepository.findById(dipendente.getId());
+        if(dip.isPresent()){
+            for(R_FD rfd:r_FDRepository.findAll()){
+                if(rfd.getDipendente().equals(dip)){
+                    r_FDRepository.delete(rfd);
+                }
+            }
+        }
+        throw new DipendenteNotExistsException();
     }
+
     @Transactional(readOnly = true)
     public List<R_FD> rfdFindAll(){
         return r_FDRepository.findAll();

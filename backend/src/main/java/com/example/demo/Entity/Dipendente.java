@@ -23,8 +23,6 @@ public class Dipendente extends Utente {
     @JoinColumn
     private Ruolo ruolo;
 
-
-
     @OneToMany(mappedBy = "dipendente")
     private List<R_TD> rtd;
 

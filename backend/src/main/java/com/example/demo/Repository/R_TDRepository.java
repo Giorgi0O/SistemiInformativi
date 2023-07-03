@@ -17,7 +17,7 @@ public interface R_TDRepository extends JpaRepository<R_TD, Long> {
     List<R_TD> findR_TDByDipendente(Dipendente d);
 
 
-    List<R_TD> findByturnoLavorativoDate(Date d);
+    List<R_TD> findR_TDByTurnoLavorativoDate(Date d);
 
 }
 

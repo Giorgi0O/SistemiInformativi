@@ -50,7 +50,7 @@ public class R_TDService {
     }
 
     //todo non va
-    @Transactional
+    @Transactional(readOnly = true)
     public List<R_TD> listaRtdRead(){
         return rtdRepository.findAll();
     }
@@ -80,6 +80,6 @@ public class R_TDService {
     }
 
     private List<R_TD> rtdFindbyData(Date data){
-        return rtdRepository.findByturnoLavorativoDate(data);
+        return rtdRepository.findR_TDByTurnoLavorativoDate(data);
     }
 }
