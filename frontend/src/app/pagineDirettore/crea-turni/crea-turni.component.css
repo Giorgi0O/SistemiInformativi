@@ -3,5 +3,13 @@ form{
 }
 .lista_dipendenti label{
     display: inline-table;
-
+}
+.header{
+    align-items: center;
+}
+.header span{
+    margin-top: 15px
+}
+.header input{
+    margin-top: 15px;
 }

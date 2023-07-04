@@ -3,4 +3,11 @@
 }
 .remove{
     margin-right: 10px;
+    background-color: red;
+}
+.header span{
+    margin-top: 15px;
+}
+.header input{
+    margin-top: 15px;
 }

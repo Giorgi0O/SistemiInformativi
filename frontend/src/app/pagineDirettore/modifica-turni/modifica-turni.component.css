@@ -5,7 +5,7 @@
     border: 2px solid black;
     border-radius: 20px;
     width: 80%;
-    height: 50%;
+    height: 60%;
 }
 .dati_turno{
     float: left;
@@ -57,5 +57,12 @@ form{
     text-align: left;
 }
 .elimina{
+    background-color: red;
     margin-right: 10px;
+}
+.header span{
+    margin-top: 15px
+}
+.header input{
+    margin-top: 15px;
 }

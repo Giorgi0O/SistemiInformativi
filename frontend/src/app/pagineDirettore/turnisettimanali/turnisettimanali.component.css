@@ -2,8 +2,7 @@
     height: 10%;
     width: 80%;
     display: flex;
-    overflow-y:auto;
-    overflow-x: scroll;
+    overflow: scroll;
     vertical-align: middle;
 }
 .filtri{
@@ -28,7 +27,6 @@
     margin: 20px 10% 10% 10%;
     height: 60%;
     border-radius: 20px;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
     border: 2px solid black;
 }
 .giorno{

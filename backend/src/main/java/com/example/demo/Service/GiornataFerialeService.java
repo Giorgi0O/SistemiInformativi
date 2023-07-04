@@ -121,7 +121,7 @@ public class GiornataFerialeService {
        return listaFerieData(id);
     }
     @Transactional(readOnly = true)
-    public List<R_FD> giornataFerieFinByDipendente(Dipendente d) throws DipendenteNotExistsException {
+    public List<R_FD> giornataFerieFinByDipendente(Dipendente d){
         return r_FDRepository.findByDipendente(d);
     }
 }

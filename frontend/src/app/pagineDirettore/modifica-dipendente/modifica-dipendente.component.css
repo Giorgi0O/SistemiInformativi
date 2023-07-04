@@ -43,13 +43,10 @@
     margin-top: 0;
 }
 .box_operazioni_dipendente{
-   height: 50%;
+   height: 55%;
 }
 .contratto{
     width: 55%;
-}
-#marg_top{
-    margin-top: 12%;
 }
 #dip{
     display: inline-block;

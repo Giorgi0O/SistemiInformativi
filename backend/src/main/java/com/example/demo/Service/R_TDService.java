@@ -87,16 +87,12 @@ public class R_TDService {
                 return rtdFindbyData(data);
             }
     }
-
-
-
     private List<R_TD> rtdFindByDipendente(long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente = dipendenteRepository.findById(id);
         if(dipendente.isPresent()) {
             return rtdRepository.findR_TDByDipendente(dipendente.get());
         }else  throw new DipendenteNotExistsException();
     }
-
     private List<R_TD> rtdFindbyData(Date data){
         return rtdRepository.findR_TDByTurnoLavorativoDate(data);
     }
