@@ -29,8 +29,22 @@ public class R_TDService {
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
-    public void rtdCreate(R_TD nuovo) throws TurnoLavorativoNotExistsException {
-        rtdRepository.save(nuovo);
+    public void rtdCreate(Long id,Long id_t,DtoRTD dto) throws TurnoLavorativoNotExistsException, DipendenteNotExistsException {
+        boolean s = dto.getStraordinario().equals("s");
+        Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
+        if(!dipendente.isPresent()){
+            throw new DipendenteNotExistsException();
+        }
+        Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(id_t);
+        if(!turno.isPresent()){
+            throw new TurnoLavorativoNotExistsException();
+        }
+        R_TD ne = new R_TD();
+        ne.setDipendente(dipendente.get());
+        ne.setTurnoLavorativo(turno.get());
+        ne.setStraordinario(s);
+        ne.setTurnoLavorativoDate(dto.getData());
+        rtdRepository.save(ne);
     }
 
     public R_TD rtdUpdate(long id,R_TD nuovo) throws TurnoDipendenteNotExistsException {

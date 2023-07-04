@@ -32,15 +32,7 @@ public class R_TDController {
 
     @PostMapping("/postRTD/{id}/{id_t}")
     public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException {
-        boolean s = dati.getStraordinario().equals("s");
-        Dipendente d = dipendenteService.dipendenteFindById(id);
-        TurnoLavorativo t = turnoLavorativoService.turnoLavorativoFindById(id_t);
-        R_TD ne = new R_TD();
-        ne.setDipendente(d);
-        ne.setTurnoLavorativo(t);
-        ne.setStraordinario(s);
-        ne.setTurnoLavorativoDate(dati.getData());
-        rtdService.rtdCreate(ne);
+        rtdService.rtdCreate(id,id_t,dati);
     }
 
     @PostMapping("/modificaRTD/{id}")
