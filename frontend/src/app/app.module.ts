@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { AppPagineDirettore } from './pagineDirettore/pagine-direttore/pagine-direttore.module';
 import { HomeComponent } from './pagineDipendente/home/home.component';
 import { DipendentiService } from './service/dipendenti.service';
+import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DipendentiService } from './service/dipendenti.service';
     PagineDirettoreComponent,
     LoginComponent,
     HomeComponent,
+    RuoliComponent,
   ],
   imports: [
     RouterModule.forRoot([

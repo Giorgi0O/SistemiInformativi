@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="container-direttore">
-            <p>Modifca dipendenti</p>
+            <p>Modifica dipendenti</p>
 
             <div class="header filtri">
                 <form [formGroup]="searchForm" (ngSubmit)="cerca()">
@@ -44,7 +44,6 @@
             <div class="box_operazioni_dipendente">
                 <form [formGroup]="modifyForm" (ngSubmit)="modifica()" >
                     <div class="dati_turno">
-                        <h2>Inserisci i nuovi dati del dipendente</h2>
                         <label>nome:</label>
                         <input type="text" formControlName="nome" placeholder="{{nome}}">
                         <label>cognome:</label>
@@ -60,7 +59,7 @@
                         <input type="submit" class="button modifica" value="Modifca" [disabled]="bottonActiveModify" [class.invalid]="bottonActiveModify">
                     </div>
                     <div class="dati_turno contratto">
-                        <label for="" id="marg_top">tipologia</label>
+                        <label for="" >tipologia</label>
                         <select name="" id="" class="select" formControlName="tipologia">
                             <option value="determinato">Determinato</option>
                             <option value="indenterminato">Indeterminato</option>
