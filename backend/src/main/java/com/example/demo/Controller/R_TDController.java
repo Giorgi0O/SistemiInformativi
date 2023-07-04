@@ -43,7 +43,6 @@ public class R_TDController {
         rtdService.rtdCreate(ne);
     }
 
-    //todo da riprovare
     @PostMapping("/modificaRTD/{id}")
     public R_TD updateRTD(@PathVariable Long id,@RequestBody R_TD nuovo) throws TurnoDipendenteNotExistsException {
         return rtdService.rtdUpdate(id,nuovo);
@@ -58,7 +57,6 @@ public class R_TDController {
         return rtdService.listaRtdRead();
     }
 
-    //todo da aggiustare
     @GetMapping("/filtriRTD/{data}/{idDipendente}")
     public List<R_TD> getAllRTD(@PathVariable String data, @PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException, ParseException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");

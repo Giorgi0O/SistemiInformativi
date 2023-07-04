@@ -53,7 +53,7 @@ public class R_TDService {
         return rtd.get();
     }
 
-    //todo non va
+
     @Transactional(readOnly = true)
     public List<R_TD> listaRtdRead(){
         return rtdRepository.findAll();
@@ -61,23 +61,17 @@ public class R_TDService {
 
     @Transactional(readOnly = true)
     public List<R_TD> rtdFiltri(Date data, long d) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException {
-        if(data == null){
             if( d != -1 ) {
-                return rtdFindByDipendente(d);
-            }else{
-                return rtdRepository.findAll();
+                List<R_TD> l=new ArrayList<>();
+                for(R_TD rtd:rtdFindByDipendente(d)){
+                    if(rtdFindbyData(data).contains(rtd)){
+                        l.add(rtd);
+                    }
+                }
+                return l;
+            }else {
+                return rtdFindbyData(data);
             }
-        }
-        if(d == -1){
-            return rtdFindbyData(data);
-        }
-        List<R_TD> l=new ArrayList<>();
-        for(R_TD rtd:rtdFindByDipendente(d)){
-            if(rtdFindbyData(data).contains(rtd)){
-                l.add(rtd);
-            }
-        }
-        return l;
     }
 
 
