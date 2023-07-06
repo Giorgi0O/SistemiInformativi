@@ -1,6 +1,5 @@
 .body{
     background-color: orange;
-    overflow: scroll;
     width: 20%;
     height: 100vh;
     margin: 0;
@@ -42,6 +41,6 @@
 .active-link span{
     border-radius: 200px;
 }
-.link{
-    overflow:scroll;
+.scroll{
+    overflow-y: scroll;
 }

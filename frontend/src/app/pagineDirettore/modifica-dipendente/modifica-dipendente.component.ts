@@ -53,8 +53,8 @@ export class ModificaDipendenteComponent {
       nome: new FormControl(),
       cognome: new FormControl(),
       ruolo: new FormControl(),
-      telefono: new FormControl(null),
-      email: new FormControl(),
+      telefono: new FormControl(null, [ Validators.required,Validators.pattern(/^\d+$/)] ),
+      email: new FormControl(null, [Validators.required,Validators.email]),
       tipologia: new FormControl(),
       descrizione: new FormControl()
     });
@@ -72,8 +72,10 @@ export class ModificaDipendenteComponent {
 
   public filtri(){
     this.bottonActiveFilter = true;
+    const ruolo = this.trovaRuolo();
+    console.log(this.filterForm.value.contratto);
     if( this.filterForm.value.ruolo !== null && this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri(this.filterForm.value.ruolo , this.filterForm.value.contratto).subscribe(
+      this.ser.getDipendentiFiltri( ruolo.nome , this.filterForm.value.contratto ).subscribe(
         {
           next:response=>{ 
             this.dipendenti = response; 
@@ -86,8 +88,7 @@ export class ModificaDipendenteComponent {
         }
       );
     }else if( this.filterForm.value.ruolo !== null ){
-      const contratto = " ";
-      this.ser.getDipendentiFiltri(this.filterForm.value.ruolo , contratto ).subscribe(
+      this.ser.getDipendentiFiltri( ruolo.nome , "nessuno" ).subscribe(
         {
           next:response=>{ 
             this.dipendenti = response; 
@@ -100,8 +101,20 @@ export class ModificaDipendenteComponent {
         }
       );
     }else if( this.filterForm.value.contratto !== null ){
-      const ruolo = " ";
-      this.ser.getDipendentiFiltri(ruolo , this.filterForm.value.contratto ).subscribe(
+      this.ser.getDipendentiFiltri( "nessuno" , this.filterForm.value.contratto ).subscribe(
+        {
+          next:response=>{ 
+            this.dipendenti = response; 
+            this.bottonActiveFilter = false;
+          },
+          error:error=>{
+            console.log(error.message);
+            this.bottonActiveFilter = false;
+          }
+        }
+      );
+    }else {
+      this.ser.getDipendentiFiltri( "nessuno" , "nessuno" ).subscribe(
         {
           next:response=>{ 
             this.dipendenti = response; 
@@ -114,6 +127,7 @@ export class ModificaDipendenteComponent {
         }
       );
     }
+    this.filterForm.reset();
   }
   
   public cerca(){

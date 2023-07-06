@@ -5,6 +5,7 @@ import { R_TD } from '../model/R_TD';
 import { environment } from 'src/environments/environment';
 import {GiornataFeriale} from "../model/GiornateFerie";
 import {Ruolo} from "../model/Ruolo";
+import { DtoRTD } from '../model/DtoRTd';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class RtdService {
 
   constructor(private http: HttpClient) {}
 
-  public createRTD( rtd:R_TD ):Observable<R_TD>{
-    const url = this.apiServerUrl+'/postRTD';
-    return this.http.post<R_TD>( url, rtd, this.httpOption );
+  public createRTD( id_D:number, id_t:number, dto:DtoRTD ):Observable<R_TD>{
+    const url = this.apiServerUrl+'/postRTD/'+id_D.toString()+'/'+id_t.toString();
+    return this.http.post<R_TD>( url, dto, this.httpOption );
   }
 
   public updateRTD( old:number , nuovo:R_TD ):Observable<R_TD>{
@@ -37,8 +38,8 @@ export class RtdService {
     return this.http.get<R_TD[]>(url);
   }
 
-  public filtriRTD(data:Date,idDipendente:number):Observable<R_TD[]>{
-    const url = this.apiServerUrl+'/filtriRTD/'+data.toString()+'/'+idDipendente.toString();
+  public filtriRTD(data:String|null,idDipendente:number):Observable<R_TD[]>{
+    const url = this.apiServerUrl+'/filtriRTD/'+data+'/'+idDipendente.toString();
     return this.http.get<R_TD[]>(url);
   }
 

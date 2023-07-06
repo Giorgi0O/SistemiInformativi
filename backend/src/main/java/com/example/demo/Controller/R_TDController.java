@@ -1,16 +1,12 @@
 package com.example.demo.Controller;
 
 
-import com.example.demo.Entity.Dipendente;
 import com.example.demo.Entity.R_TD;
-import com.example.demo.Entity.TurnoLavorativo;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.TurnoDipendenteNotExistsException;
 import com.example.demo.Exception.TurnoLavorativoNotExistsException;
-import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.DtoRTD;
 import com.example.demo.Service.R_TDService;
-import com.example.demo.Service.TurnoLavorativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +20,6 @@ public class R_TDController {
 
     @Autowired
     private R_TDService rtdService;
-
-    @Autowired
-    private DipendenteService dipendenteService;
-    @Autowired
-    private TurnoLavorativoService turnoLavorativoService;
 
     @PostMapping("/postRTD/{id}/{id_t}")
     public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException {

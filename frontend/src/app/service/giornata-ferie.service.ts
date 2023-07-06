@@ -5,6 +5,7 @@ import { GiornataFeriale } from '../model/GiornateFerie';
 import { environment } from 'src/environments/environment';
 import {Dipendente} from "../model/Dipendente";
 import {Data} from "@angular/router";
+import { rfd } from '../model/rfd';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class GiornataFerieService {
 
   constructor( private http:HttpClient) { }
 
-  public createGiornataFerie( giorntaFerie:GiornataFeriale ):Observable<GiornataFeriale>{
-    const url = this.apiServerUrl+'/postFerie';
+  public createGiornataFerie( id:number ,giorntaFerie:GiornataFeriale ):Observable<GiornataFeriale>{
+    const url = this.apiServerUrl+'/aggiungiNuovaFerie/'+id.toString();
     return this.http.post<GiornataFeriale>( url, giorntaFerie, this.httpOption );
   }
 
@@ -27,33 +28,33 @@ export class GiornataFerieService {
     return this.http.post<GiornataFeriale>( url, nuovo, this.httpOption );
   }
 
-  public deleteGiornataFerie( id:number ):Observable<GiornataFeriale>{
-    const url = this.apiServerUrl+'/deleteFerie/'+id.toString();
+  public deleteGiornataFerie( rfds:rfd[] ):Observable<GiornataFeriale>{
+    const url = this.apiServerUrl+'/deleteFerie';
     return this.http.delete<GiornataFeriale>( url, this.httpOption );
-  }
+  }//delete
 
   public listaFerieRead():Observable<GiornataFeriale[]>{
     const url = this.apiServerUrl+'Ferie';
     return this.http.get<GiornataFeriale[]>(url);
-  }
+  }//all ferie
 
   public getGiornataFerie( id:number ):Observable<GiornataFeriale>{
     const url = this.apiServerUrl+'/Ferie/'+id.toString();
     return this.http.get<GiornataFeriale>(url);
-  }
+  }//find by id
 
   public getDipendentiData(data:Date):Observable<Dipendente[]>{
     const url = this.apiServerUrl+'/Dipendenti/'+data.toString();
     return this.http.get<Dipendente[]>(url);
-  }
+  }// dipendenti in ferie per quella data
 
   public getFerieDipendente(id:number):Observable<GiornataFeriale[]>{
     const url = this.apiServerUrl+'/FerieDipendente/'+id.toString();
     return this.http.get<GiornataFeriale[]>(url);
   }
 
-  public getFerieFiltri(data:Date,ruolo:String):Observable<Dipendente[]>{
-    const url = this.apiServerUrl+'/ferieFiltri/'+data.toString()+'/'+ruolo;
+  public getFerieFiltri(id:number,ruolo:String):Observable<Dipendente[]>{
+    const url = this.apiServerUrl+'/ferieFiltri/'+id.toString()+'/'+ruolo;
     return this.http.get<Dipendente[]>(url);
   }
 

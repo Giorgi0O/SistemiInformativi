@@ -16,7 +16,7 @@
     margin: auto 0 auto 20px;
 }
 .select{
-    width: 150px; height: 40%;
+    width: 150px; height: 30px;
     margin:auto 20px auto 20px;
 
 }
@@ -50,12 +50,25 @@
 .turni{
     margin-top: 20px;
     text-align: center;
+    overflow: scroll;
 }
 .turni table{
     margin: 0 auto 0 auto;
     width: 80%;
 }
 td{
-    padding: 15px;
-    border-radius: 20px; border: 1px solid black;
+    padding: 10px;
+    border-radius: 20px; border: 2px solid black;
+}
+form{
+    all: unset;
+}
+.dipendenti{
+    height: 150px;
+    overflow-y: scroll;
+    padding: 5px;
+    border-radius: 10px; border: 1px solid black;
+}
+.dipendenti span{
+    float: left;
 }

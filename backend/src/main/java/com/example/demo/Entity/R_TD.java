@@ -1,13 +1,11 @@
 package com.example.demo.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dipendente_id", "turno_lavorativo_id"})})
 @Setter
 @Getter
 public class R_TD {

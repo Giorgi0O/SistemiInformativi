@@ -9,29 +9,27 @@
 
     <div class="container-direttore">
         <p>Piano ferie</p>
-        <div class="header filtri">
-            <label> Data: </label>
-            <input type="date" id="date" class="calendario">
-            <label> Ruolo: </label>
-            <select name="ruolo" id="" class="select">
-                <option value=""> </option>
-                <option value="addetto alla cucina">Addetto alla cucina</option>
-                <option value="cameriere">Camerire</option>
-                <option value="cassiere">Cassiere</option>
-                <option value="Magazziniere">Magazziniere</option>
-            </select>
-            <input type="submit" class="button cerca" value="filtra">
-        </div>
+        <form [formGroup]="filtriForm" (submit)="filtriFerie()">
+            <div class="header filtri">
+                <label> Data: </label>
+                <input type="date" id="date" class="calendario">
+                <label> Ruolo: </label>
+                <select name="ruolo" id="" class="select">
+                    <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
+                </select>
+                <input type="submit" class="button cerca" value="filtra">
+            </div>
+        </form>
         <div class="table">
             <table>
                 <tr>
-                    <td class="colonna"> Lunedì </td >
-                    <td class="colonna"> Martedì </td >
-                    <td class="colonna"> Mercoledì </td >
-                    <td class="colonna"> Giovedì </td >
-                    <td class="colonna"> Venerdì </td >
-                    <td class="colonna"> Sabato </td >
-                    <td class="colonna ultimaColonna"> Domenica </td>
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay())%7] }} </td >
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay()+1)%7] }}  </td >
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay()+2)%7] }}   </td >
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay()+3)%7] }}   </td >
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay()+4)%7] }}   </td >
+                    <td class="colonna"> {{ daysOfWeek[(date.getDay()+5)%7] }}   </td >
+                    <td class="colonna ultimaColonna"> {{ daysOfWeek[(date.getDay()+6)%7] }}   </td>
                 </tr>
                 <tr>
                     <td class="colonna number ultimaRiga"> {{giorno}} </td>
@@ -43,7 +41,13 @@
                     <td class="colonna number ultimaRiga ultimaColonna"> {{giorno+6}} </td>
                 </tr>
                 <tr>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
+                    <td class="colonna ultimaRiga dip"> 
+                        <div *ngFor="let d of dipendenteXdata(date)">
+                            <span>
+
+                            </span>
+                        </div>    
+                    </td>
                     <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
                     <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
                     <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>

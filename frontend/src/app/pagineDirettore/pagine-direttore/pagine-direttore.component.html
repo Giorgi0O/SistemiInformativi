@@ -5,62 +5,65 @@
             <div class="logo">
                 <img src="../../assets/img/logo.png" alt="">
             </div>
-            <nav class="link">
-                <app-nav-bar-button testo = "Turni lavorativi"> </app-nav-bar-button>
-                <div class="bottone">
-                    <a routerLink="/direttore/turni" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
-                        Visualizza turni settimanali
-                    </a>
-                    <hr>     
-                    <a routerLink="/direttore/creaturni" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" > 
-                        <img src="../assets/img/icon/add-button.png" alt="" class="icon">
-                        Crea turno lavorativo
-                    </a>
-                    <hr> 
-                    <a routerLink="/direttore/modificaturno" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" >
-                        <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
-                        Modifica turno lavorativo 
-                    </a>
-                    <hr>
-                </div>
-                <app-nav-bar-button testo = "Dipendenti"> </app-nav-bar-button>
-                <div class="bottone" >
-                    <a routerLink="/direttore/dipendenti" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
-                        Visualizza lista dipendenti
-                    </a>
-                    <hr>
-                    <a routerLink="/direttore/dipendenti/modifica" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
-                        Modifica Dipendente
-                    </a>
-                    <hr>
-                    <a routerLink="/direttore/nuovodipendente" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/add-button.png" alt="" class="icon">
-                        Inserisci dipendente
-                    </a>
-                    <hr>
-                </div>
-                <app-nav-bar-button testo = "Ferie"> </app-nav-bar-button>
-                <div class="bottone" >
-                    <a routerLink="/direttore/ferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
-                        Visualizza piano ferie
-                    </a>
-                    <hr> 
-                    <a routerLink="/direttore/creaferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/add-button.png" alt="" class="icon"> 
-                        Crea piano ferie 
-                    </a>
-                    <hr>
-                    <a routerLink="/direttore/modificaferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                        <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
-                        Modifica piano ferie 
-                    </a>
-                    <hr>
-                </div>
-            </nav>
+            <div class="scroll">
+                <nav class="link">
+                    <app-nav-bar-button testo = "Turni lavorativi"> </app-nav-bar-button>
+                    <div class="bottone">
+                        <a routerLink="/direttore/turni" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
+                            Visualizza turni settimanali
+                        </a>
+                        <hr>     
+                        <a routerLink="/direttore/creaturni" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" > 
+                            <img src="../assets/img/icon/add-button.png" alt="" class="icon">
+                            Crea turno lavorativo
+                        </a>
+                        <hr> 
+                        <a routerLink="/direttore/modificaturno" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" >
+                            <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
+                            Modifica turno lavorativo 
+                        </a>
+                        <hr>
+                    </div>
+                    <app-nav-bar-button testo = "Dipendenti"> </app-nav-bar-button>
+                    <div class="bottone" >
+                        <a routerLink="/direttore/dipendenti" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
+                            Visualizza lista dipendenti
+                        </a>
+                        <hr>
+                        <a routerLink="/direttore/dipendenti/modifica" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
+                            Modifica Dipendente
+                        </a>
+                        <hr>
+                        <a routerLink="/direttore/nuovodipendente" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/add-button.png" alt="" class="icon">
+                            Inserisci dipendente
+                        </a>
+                        <hr>
+                    </div>
+                    <app-nav-bar-button testo = "Ferie"> </app-nav-bar-button>
+                    <div class="bottone" >
+                        <a routerLink="/direttore/ferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/list-square-rounded-interface-symbol.png" alt="" class="icon">
+                            Visualizza piano ferie
+                        </a>
+                        <hr> 
+                        <a routerLink="/direttore/creaferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/add-button.png" alt="" class="icon"> 
+                            Crea piano ferie 
+                        </a>
+                        <hr>
+                        <a routerLink="/direttore/modificaferie" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                            <img src="../assets/img/icon/two-circular-arrows.png" alt="" class="icon">
+                            Modifica piano ferie 
+                        </a>
+                        <hr>
+                    </div>
+                </nav> 
+            </div>
+            
         </div>
     </div>
     <router-outlet></router-outlet>

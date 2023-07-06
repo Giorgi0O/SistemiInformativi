@@ -23,6 +23,9 @@ import { AppPagineDirettore } from './pagineDirettore/pagine-direttore/pagine-di
 import { HomeComponent } from './pagineDipendente/home/home.component';
 import { DipendentiService } from './service/dipendenti.service';
 import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
+import { RuoloService } from './service/ruolo.service';
+import { DatePipe } from '@angular/common';
+import { RtdService } from './service/rtd.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +72,11 @@ import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
     AppRoutingModule,
     AppPagineDirettore
   ],
-  providers: [DipendentiService],
+  providers: [DipendentiService, 
+    RuoloService, 
+    DatePipe,
+    RtdService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

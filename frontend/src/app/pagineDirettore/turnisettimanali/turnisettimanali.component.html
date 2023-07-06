@@ -8,19 +8,19 @@
 <body>
 
     <div class="container-direttore">
+        <form [formGroup]="filtriForm" (submit)="filtriTurni()">
         <p>Turni settimanali</p>
-        <div class="header filtri">
-            <label> Data: </label>
-            <input type="date" id="date" class="calendario">
-            <label> Dipendente: </label>
-            <select name="ruolo" id="" class="select">
-                <option value=""> </option>
-                <option value="">Dipendente1</option>
-                <option value="">Dipendente2</option>
-                <option value="">Dipendente3</option>
-            </select>
-            <input type="submit" class="button cerca" value="filtra">
-        </div>
+            <div class="header filtri">
+                <label> Data: </label>
+                <input type="date" id="date" class="calendario" formControlName ="data">
+                <label> Dipendente: </label>
+                <select name="ruolo" id="" class="select" formControlName="id">
+                    <option value="-1"> </option>
+                    <option *ngFor="let d of dipendenti" [value]="d.id">{{d.nome}} {{d.cognome}} </option>
+                </select>
+                <input type="submit" class="button cerca" value="filtra">
+            </div>
+        </form>
         <div class="table">
             <div class="giorno">
                 <button class="button cambio_giorno" (click)="giornoMeno()"> &larr; </button>
@@ -30,46 +30,35 @@
             <div class="turni">
                 <table>
                     <tr>
-                        <td> 10:30 - 14:30 </td>
-                        <td> 14:30 - 18:30 </td>
-                        <td> 18:30 - 22:30 </td>
+                        <td *ngFor="let t of turniLavorativi"> {{t.oraInizio}} - {{t.oraFine}} </td>
                     </tr>
                     <tr>
                         <td class="dipendenti">
-                            <ul>dipendent1</ul> 
-                            <ul>dipendent2</ul> 
-                            <ul>dipendent3</ul> 
-                            <ul>dipendent4</ul> 
-                            <ul>dipendent6</ul> 
-                            <ul>dipendent7</ul> 
-                            <ul>dipendent8</ul> 
-                            <ul>dipendent9</ul> 
-                            <ul>dipendent10</ul> 
-                            <ul>dipendent11</ul> 
+                            <ul *ngFor="let r of turniQuotidiani">
+                                <span *ngIf="r.turnoLavorativo.id == 1">
+                                     {{r.dipendente.nome}} {{r.dipendente.cognome}}
+                                     <span *ngIf="r.straordinario">S - </span>    
+                                 </span>
+                                 <br>
+                            </ul>
                         </td>
                         <td class="dipendenti">
-                            <ul>dipendent1</ul> 
-                            <ul>dipendent2</ul> 
-                            <ul>dipendent3</ul> 
-                            <ul>dipendent4</ul> 
-                            <ul>dipendent6</ul> 
-                            <ul>dipendent7</ul> 
-                            <ul>dipendent8</ul> 
-                            <ul>dipendent9</ul> 
-                            <ul>dipendent10</ul> 
-                            <ul>dipendent11</ul> 
+                            <ul *ngFor="let r of turniQuotidiani">
+                                <span *ngIf="r.turnoLavorativo.id == 2">
+                                     {{r.dipendente.nome}} {{r.dipendente.cognome}}
+                                     <span *ngIf="r.straordinario">S - </span>        
+                                </span>
+                                <br>
+                            </ul>
                         </td>
                         <td class="dipendenti">
-                            <ul>dipendent1</ul> 
-                            <ul>dipendent2</ul> 
-                            <ul>dipendent3</ul> 
-                            <ul>dipendent4</ul> 
-                            <ul>dipendent6</ul> 
-                            <ul>dipendent7</ul> 
-                            <ul>dipendent8</ul> 
-                            <ul>dipendent9</ul> 
-                            <ul>dipendent10</ul> 
-                            <ul>dipendent11</ul> 
+                            <ul *ngFor="let r of turniQuotidiani">
+                                <span *ngIf="r.turnoLavorativo.id == 3"> 
+                                    {{r.dipendente.nome}} {{r.dipendente.cognome}} 
+                                    <span *ngIf="r.straordinario">S -  </span>    
+                                </span>
+                                <br>
+                            </ul>
                         </td>
                     </tr>
                     

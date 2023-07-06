@@ -62,3 +62,6 @@
 .lista{
     margin-top: 20px;
 }
+form{
+    all: unset;
+}

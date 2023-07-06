@@ -50,7 +50,7 @@ export class DipendentiService {
   }//filtri
 
   public getDipendentiNome( nome:String ): Observable<Dipendente[]> {
-    const url = this.backendUrl+'/dipendenti/'+nome ;
+    const url = this.backendUrl+'/dipendentiNome/'+nome ;
     return this.http.get<Dipendente[]>( url );
   }//Get dipendenti by nome
 

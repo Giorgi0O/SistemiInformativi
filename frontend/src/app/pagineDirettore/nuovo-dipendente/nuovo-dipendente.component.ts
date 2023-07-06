@@ -25,11 +25,11 @@ export class NuovoDipendenteComponent implements OnInit  {
     this.ruoli = [];
     this.prendiRuoli();
     this.createForm = new FormGroup({
-      nome: new FormControl(null, Validators.required),
-      cognome: new FormControl(null, Validators.required),
+      nome: new FormControl(null, [Validators.required, Validators.pattern(/^[A-Za-z]+$/)] ),
+      cognome: new FormControl(null, [Validators.required, Validators.pattern(/^[A-Za-z]+$/)] ),
       ruolo: new FormControl(null, Validators.required),
-      telefono: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
+      telefono: new FormControl(null, [ Validators.required,Validators.pattern(/^\d+$/)] ),
+      email: new FormControl(null, [Validators.required,Validators.email]),
       tipologia: new FormControl(null, Validators.required),
       descrizione: new FormControl()
     });
@@ -42,9 +42,7 @@ export class NuovoDipendenteComponent implements OnInit  {
     const ruolo = this.trovaRuolo();
     const contratto = new ContrattoLavorativo(this.createForm.value.tipologia, this.createForm.value.descrizione );
     
-    
     const dipendente = new Dipendente(this.createForm.value.nome, this.createForm.value.cognome , ruolo , this.createForm.value.telefono, this.sede , this.createForm.value.email, contratto )
-    
     
     if( this.createForm.valid ){
       this.ser.createDipendente(dipendente).subscribe(
@@ -63,6 +61,7 @@ export class NuovoDipendenteComponent implements OnInit  {
     }
     this.buttonCreaActive = false;
   }
+  
   private trovaRuolo():Ruolo{
     let trovato:Ruolo = this.ruoli[0];
     for( const r of this.ruoli ){

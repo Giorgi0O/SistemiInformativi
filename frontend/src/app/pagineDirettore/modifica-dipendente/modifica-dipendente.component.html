@@ -56,7 +56,7 @@
                         <input type="text" formControlName="telefono" placeholder="{{telefono}}" >
                         <label>email:</label>
                         <input type="text" formControlName="email"  placeholder="{{email}}">
-                        <input type="submit" class="button modifica" value="Modifca" [disabled]="bottonActiveModify" [class.invalid]="bottonActiveModify">
+                        <input type="submit" class="button modifica" value="Modifca" [disabled]="bottonActiveModify" [class.invalid]="!bottonActiveModify && ! modifyForm.valid">
                     </div>
                     <div class="dati_turno contratto">
                         <label for="" >tipologia</label>

@@ -22,7 +22,7 @@ export class RuoloService {
 
   public updateRuolo( old:number , nuovo:Ruolo ):Observable<Ruolo>{
     const url = this.backendUrl+'/modificaRuolo/'+old.toString();
-    return this.http.post<Ruolo>( url, nuovo, this.httpOption );
+    return this.http.put<Ruolo>( url, nuovo, this.httpOption );
   }
 
   public deleteRuolo( id:number ):Observable<Ruolo>{

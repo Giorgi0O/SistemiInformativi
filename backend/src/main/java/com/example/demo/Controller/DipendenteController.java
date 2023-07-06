@@ -2,11 +2,9 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.ContrattoLavorativo;
 import com.example.demo.Entity.Dipendente;
-import com.example.demo.Entity.GiornataFeriale;
 import com.example.demo.Exception.ContrattoNotExistsException;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
-import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Service.ContrattoLavorativoService;
 import com.example.demo.Service.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;

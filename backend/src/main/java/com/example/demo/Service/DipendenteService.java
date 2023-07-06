@@ -3,7 +3,6 @@ package com.example.demo.Service;
 import com.example.demo.Entity.*;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
 import com.example.demo.Exception.DipendenteNotExistsException;
-import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,7 +96,7 @@ public class DipendenteService {
     public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
         if(ruolo.equals("nessuno")){
            if(!tipologiaContratto.equals("nessuno")){
-               return dipendenteFindByContratto(tipologiaContratto);
+               return dipendenteFindByContratto(tipologiaContratto.toLowerCase());
            }else{
                return dipendenteRepository.findAll();
            }
@@ -107,7 +106,7 @@ public class DipendenteService {
         }
         List<Dipendente> dipendenti = new ArrayList<>();
         for(Dipendente d:dipendenteFindByRuolo(ruolo)){
-            if(dipendenteFindByContratto(tipologiaContratto).contains(d)){
+            if(dipendenteFindByContratto(tipologiaContratto.toLowerCase()).contains(d)){
                 dipendenti.add(d);
             }
         }

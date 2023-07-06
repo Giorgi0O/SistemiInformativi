@@ -97,7 +97,21 @@ export class ListaDipendentiComponent implements OnInit{
           }
         }
       );
+    }else {
+      this.ser.getDipendentiFiltri( "nessuno" , "nessuno" ).subscribe(
+        {
+          next:response=>{ 
+            this.dipendenti = response; 
+            this.bottonActiveFilter = false;
+          },
+          error:error=>{
+            console.log(error.message);
+            this.bottonActiveFilter = false;
+          }
+        }
+      );
     }
+    this.filterForm.reset();
   }
   
   public cerca(){
