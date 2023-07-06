@@ -34,16 +34,6 @@ export class CreaTurniComponent implements OnInit{
       dipendenti: new FormArray([], Validators.required),
       straordinario: new FormArray([], Validators.required)
     });
-
-    const dipendentiFormArray = this.createForm.get('dipendenti') as FormArray;
-
-    for (const dipendente of this.dipendenti) {
-      const dipendenteFormGroup = new FormGroup({
-        dipendente: new FormControl(false),
-        straordinario: new FormControl(false)
-      });
-      dipendentiFormArray.push(dipendenteFormGroup);
-    }
   }
 
   public getDipendenti():void{
@@ -53,16 +43,6 @@ export class CreaTurniComponent implements OnInit{
         error:error=> ( console.log(error.message) )
       }
     );
-  }
-  public dipendenteFindById(id:number):Dipendente{
-    let dip= new Dipendente("","",new Ruolo(""),-1,"","",new ContrattoLavorativo("",""));
-    this.ser.getDipendente(id).subscribe(
-      {
-        next:response=>{ dip=response; },
-        error:error=> ( console.log(error.message) )
-      }
-    );
-    return dip;
   }
   public createRtd(){
     const data:Date = this.creaData();
