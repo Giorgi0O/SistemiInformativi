@@ -32,7 +32,7 @@
                     <h2>Dipendenti</h2>
                     <label class="richieste"> Seleziona i dipendenti </label>
                     <div class="lista_dipendenti" >
-                        <div *ngFor="let dipendente of dipendenti; let i = index" >
+                        <div *ngFor="let dipendente of dipendenti" >
                             <input type="checkbox" formArrayName="dipendenti" [value]="dipendente.id"
                             (change)="onCheckboxChange($event)">
                             <label for="html"> {{dipendente.nome}} {{dipendente.cognome}}</label>

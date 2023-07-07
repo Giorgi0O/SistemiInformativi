@@ -66,3 +66,28 @@ form{
 .header input{
     margin-top: 15px;
 }
+#testoButton{
+    font-size: 16px;
+    margin-top: 30%;
+    margin-bottom: 10px;
+    color: red;
+}
+#testoButton1{
+    font-size: 16px;
+    margin-top: 10%;
+    margin-bottom: 2px;
+}
+.dip{
+    float: unset;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+.rtd{
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}

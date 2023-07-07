@@ -5,6 +5,7 @@ import { Dipendente } from 'src/app/model/Dipendente';
 import { R_TD } from 'src/app/model/R_TD';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
+import { rfd } from 'src/app/model/rfd';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { GiornataFerieService } from 'src/app/service/giornata-ferie.service';
 import { RtdService } from 'src/app/service/rtd.service';
@@ -25,7 +26,7 @@ export class PianoFerieComponent implements OnInit {
 
   daysOfWeek:String[] = ['Domenica','Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
 
-  turniQuotidiani:R_TD[] = [];
+  turniQuotidiani:rfd[][] = [[]];
   dipendenti:Dipendente[] =[];
   ruoli:Ruolo[] = [];
 
@@ -40,16 +41,11 @@ export class PianoFerieComponent implements OnInit {
     this.filtriForm = new FormGroup({
       data: new FormControl(this.datePipe.transform(this.date , "yyyy-MM-dd")),
       id: new FormControl()
-    })
-  }
-  public dipendenteXdata( data:Date ):Dipendente[]{
-    let lista:Dipendente[] = []
-    const formattedDate:String|null = this.datePipe.transform(this.date , "yyyy-MM-dd");
-    this.rtd.filtriRTD( formattedDate , -1).subscribe({
-      next:response =>{ this.turniQuotidiani = response; console.log(response) },
-      error:error =>{ alert(error); }
     });
-    return lista;
+    
+  }
+  public dipendenteXdata( data:Date ){
+
   }
   public getDipendenti():void{
     this.dip.getDipendenti().subscribe(
@@ -60,7 +56,7 @@ export class PianoFerieComponent implements OnInit {
     );
   }
   public filtriFerie():void{
-    console.log(this.date.getDate() );
+    console.log( this.date.getDate() );
   }
   private cambioData():void{
     this.mese = this.filtriForm.value.data;
