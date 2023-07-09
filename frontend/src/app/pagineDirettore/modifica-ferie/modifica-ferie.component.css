@@ -46,3 +46,7 @@
 .scroll{
     overflow: scroll;
 }
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}

@@ -25,8 +25,8 @@ export class NuovoDipendenteComponent implements OnInit  {
     this.ruoli = [];
     this.prendiRuoli();
     this.createForm = new FormGroup({
-      nome: new FormControl(null, [Validators.required, Validators.pattern(/^[A-Za-z]+$/)] ),
-      cognome: new FormControl(null, [Validators.required, Validators.pattern(/^[A-Za-z]+$/)] ),
+      nome: new FormControl(null, Validators.required ),
+      cognome: new FormControl(null, Validators.required ),
       ruolo: new FormControl(null, Validators.required),
       telefono: new FormControl(null, [ Validators.required,Validators.pattern(/^\d+$/)] ),
       email: new FormControl(null, [Validators.required,Validators.email]),

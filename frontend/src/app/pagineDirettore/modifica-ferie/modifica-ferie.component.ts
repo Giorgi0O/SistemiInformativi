@@ -13,7 +13,6 @@ import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service
 })
 export class ModificaFerieComponent {
 
-  
   rfdVecchi:rfd[] = [];
   modifyForm!:FormGroup;
   valid:boolean= false;
@@ -50,6 +49,7 @@ export class ModificaFerieComponent {
     this.modifyForm.reset();
   }
   public dipendenteFerie(){
+    
     const dataInizio = this.creaData( this.modifyForm.value.dataInizio );
     const dataFine = this.creaData( this.modifyForm.value.dataFine );
     this.gio.listaRfd().subscribe({

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { rfd } from 'src/app/model/rfd';
@@ -40,12 +40,11 @@ export class PianoFerieComponent implements OnInit {
     this.prendiRuoli();
     this.giornataFerie = [];
     this.filtriForm = new FormGroup({
-      data : new FormControl(),
+      data : new FormControl(this.datePipe.transform(this.date , "yyyy-MM-dd") , Validators.required ),
       ruolo : new FormControl()
     });
     this.ferie = new Map<String,Dipendente[]>;
     this.calcolcaFerie();
-    console.log(this.tutteDate.length)
   }
   public calcolcaFerie(){
     const dataFine: Date = new Date();
@@ -104,10 +103,67 @@ export class PianoFerieComponent implements OnInit {
     );
   }
 
-  public filtriFerie(){
-    console.log(this.filtriForm);
+  public async filtriFerie(){
+    if( this.filtriForm.value.ruolo == null  ){
+      this.gio.getFerieFiltri(this.filtriForm.value.data , "nessuno" ).subscribe({
+        next: response =>{
+          this.cambioData();
+          this.ferie.clear();
+          this.tutteDate = [];
+          this.calcolcaFerie();
+        }
+      })
+    }else{
+      this.gio.getFerieFiltri(this.filtriForm.value.data , this.trovaRuolo().nome ).subscribe({
+        next: response =>{
+          this.cambioData();
+          this.tutteDate = [];
+          this.ferie.clear();
+          this.calcolcaFerieRuolo();
+        }
+      })
+    }
   }
+  public calcolcaFerieRuolo(){
+    const dataFine: Date = new Date();
+    dataFine.setDate(this.date.getDate() + 6);
 
+    const cd = new Date();
+    cd.setDate(this.date.getDate())
+
+    for (let currentDate= cd; currentDate <= dataFine; currentDate.setDate(currentDate.getDate() + 1)) {
+      const d = new Date(currentDate);
+      const formattata = this.datePipe.transform(d , "yyyy-MM-dd");
+      const chiave = formattata ?? '';
+      this.tutteDate.push(chiave);
+      this.ferie.set( chiave , []);
+      this.dipendenteRuolo( d, this.trovaRuolo() );
+    }
+  }//calcola ferie
+
+  public dipendenteRuolo(d:Date, ruol:Ruolo ){
+    this.gio.listaRfd().subscribe({
+      next:response =>{
+        for( let r of response ){
+          const dd = this.datePipe.transform(d , "yyyy-MM-dd");
+          if( r.giornataFeriale.dataGiornataFeriale.toString() === dd?.toString() && r.dipendente.ruolo.nome === ruol.nome ){
+            this.ferie.get(dd)?.push(r.dipendente);
+          }//if
+        }//for
+      }//next
+    })//subscribe
+  }//dipendenteFerie
+  private cambioData():void{
+    const dateString = this.filtriForm.value.data;
+    const parts = dateString.split("-");
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const date = new Date(year, month, day); 
+    this.date.setDate( date.getDate() );
+    this.visData = this.date.toISOString().split('T')[0];
+    this.giorno = this.date.getDate();
+  }
   private trovaRuolo():Ruolo{
     let trovato = this.ruoli[0];
     for( const r of this.ruoli ){

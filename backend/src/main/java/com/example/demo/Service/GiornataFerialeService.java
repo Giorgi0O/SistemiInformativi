@@ -87,7 +87,7 @@ public class GiornataFerialeService {
         if( id!=-1 && ruolo.equals("nessuno")){
             return listaFerieData(id);
         }
-        if(id != -1){
+        if(id != -1 && !ruolo.equals("nessuno") ){
             List<Dipendente> dipendenti=new ArrayList<>();
             for(Dipendente d:listaFerieRuolo(ruolo)){
                 if(listaFerieData(id).contains(d)){

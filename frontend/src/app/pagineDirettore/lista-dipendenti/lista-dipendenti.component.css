@@ -95,3 +95,6 @@
     background-color: white;
     box-shadow: none;
 }
+.list:last-child{
+    margin-right: 35px;
+}
