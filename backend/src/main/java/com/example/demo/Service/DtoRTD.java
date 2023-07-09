@@ -7,6 +7,6 @@ import java.util.Date;
 @Getter
 public class DtoRTD {
 
-    private String straordinario;
+    private boolean straordinario;
     private Date data;
 }

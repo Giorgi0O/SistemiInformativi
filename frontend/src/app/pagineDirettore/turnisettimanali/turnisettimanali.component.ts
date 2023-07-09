@@ -49,7 +49,7 @@ export class TurnisettimanaliComponent implements OnInit {
   public prelevaRtd(){
     const formattedDate:String|null = this.datePipe.transform(this.date , "yyyy-MM-dd");
     this.rtd.filtriRTD( formattedDate , -1).subscribe({
-      next:response =>{ this.turniQuotidiani = response; console.log(response) },
+      next:response =>{ this.turniQuotidiani = response;},
       error:error =>{ alert(error); }
     });
   }
@@ -71,6 +71,7 @@ export class TurnisettimanaliComponent implements OnInit {
     this.cambioData(); 
     let dip = -1
     if( this.filtriForm.value.id != null ) {
+      console.log(this.filtriForm.value.id);
       dip = this.filtriForm.value.id;
     }
     console.log(dip);
@@ -85,7 +86,6 @@ export class TurnisettimanaliComponent implements OnInit {
     }else{
       this.prelevaRtd()
     }
-    this.filtriForm.reset();
   }
   private cambioData():void{
     this.mese = this.filtriForm.value.data;

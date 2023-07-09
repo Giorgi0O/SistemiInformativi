@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "r_fd")
+@Table(name = "r_fd" , uniqueConstraints = {@UniqueConstraint(columnNames = {"dipendente_id", "giornata_ferie_id"})} )
 public class R_FD {
 
     @Id

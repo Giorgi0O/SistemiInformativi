@@ -19,7 +19,7 @@ export class R_TD{
     straordinario:boolean;
     turnoLavorativoDate:Date;
 
-    constructor(dip:Dipendente, turno:TurnoLavorativo, s:boolean, d:Date){
+    constructor(dip:Dipendente|null, turno:TurnoLavorativo, s:boolean, d:Date){
         this.dipendente = this.dipendente;
         this.turnoLavorativo = turno;
         this.straordinario = this.straordinario;

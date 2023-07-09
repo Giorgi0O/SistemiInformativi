@@ -17,13 +17,13 @@ export interface Dipendente{
 export class Dipendente implements Dipendente{
 
     id!:number;
-    nome:String;
-    cognome:String;
-    email:String;
-    telefono:number;
-    sede:String;
-    contrattoLavorativo:ContrattoLavorativo;
-    ruolo:Ruolo;
+    nome!:String;
+    cognome!:String;
+    email!:String;
+    telefono!:number;
+    sede!:String;
+    contrattoLavorativo!:ContrattoLavorativo;
+    ruolo!:Ruolo;
     giornateFeriali!:GiornataFeriale[];
 
     constructor(nome:String,cognome:String,ruolo:Ruolo,telefono:number,

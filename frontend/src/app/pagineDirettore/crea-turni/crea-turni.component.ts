@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { from } from 'rxjs';
-import { ContrattoLavorativo } from 'src/app/model/ContrattoLavorativo';
 import { Dipendente } from 'src/app/model/Dipendente';
 import { DtoRTD } from 'src/app/model/DtoRTd';
-import { R_TD } from 'src/app/model/R_TD';
-import { Ruolo } from 'src/app/model/Ruolo';
 import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RtdService } from 'src/app/service/rtd.service';
@@ -35,7 +31,6 @@ export class CreaTurniComponent implements OnInit{
       straordinario: new FormArray([], Validators.required)
     });
   }
-
   public getDipendenti():void{
     this.ser.getDipendenti().subscribe(
       {
@@ -45,20 +40,21 @@ export class CreaTurniComponent implements OnInit{
     );
   }
   public createRtd(){
+    console.log(this.createForm);
     const data:Date = this.creaData();
     const turno:number = this.createForm.value.turno;
     for( let i of this.createForm.value.dipendenti ){
-      const s= this.contains(i);
+      const s = this.contains(i);
       const dto = new DtoRTD(data, s);
-      this.rtd.createRTD(i, turno, dto ).subscribe({
-        next:response =>(alert("turno lavorativo aggiunto")),
+      this.rtd.createRTD( i, turno, dto ).subscribe({
+        next:response =>(alert("Turno aggiunto")),
         error:error =>(alert("ops, turno lavorativo non aggiunto"))
       })
     }
   }
   private contains(id:number):boolean{
-    for( let i=0; i < this.createForm.value.straordinario.length ;i++ ){
-      if( this.createForm.value.straordinario == id ){
+    for( let s of this.createForm.value.straordinario ){
+      if( s == id ){
         return true;
       }
     }

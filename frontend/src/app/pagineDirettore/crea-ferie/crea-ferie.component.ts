@@ -34,7 +34,6 @@ export class CreaFerieComponent {
       dipendenti: new FormArray([], Validators.required)
     });
   }
-
   public getDipendenti():void{
     this.ser.getDipendenti().subscribe(
       {
@@ -50,8 +49,9 @@ export class CreaFerieComponent {
       for (let currentDate = dataInizio; currentDate <= dataFine; currentDate.setDate(currentDate.getDate() + 1)) {
         let giornataFeriale = new GiornataFeriale(currentDate);
         this.fer.createGiornataFerie(i,giornataFeriale).subscribe({
-          next: response => (alert("ferie aggiunte")),
-          error: error => (alert("ops,ferie non aggiunte"))
+          next: response => {  alert("giornata Ferie aggiunta");
+        },
+          error: error => (alert("ops,la giornata ferie"+currentDate+"non è stata aggiunta"))
         })
       }
     }

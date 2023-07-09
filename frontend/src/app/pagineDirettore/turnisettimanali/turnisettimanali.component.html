@@ -34,31 +34,37 @@
                     </tr>
                     <tr>
                         <td class="dipendenti">
-                            <ul *ngFor="let r of turniQuotidiani">
-                                <span *ngIf="r.turnoLavorativo.id == 1">
-                                     {{r.dipendente.nome}} {{r.dipendente.cognome}}
-                                     <span *ngIf="r.straordinario">S - </span>    
-                                 </span>
-                                 <br>
-                            </ul>
+                            <div *ngFor="let r of turniQuotidiani">
+                                <ul *ngIf="r.turnoLavorativo.id == 1"  >
+                                    <span >
+                                         {{r.dipendente.nome}} {{r.dipendente.cognome}}
+                                         <span *ngIf="r.straordinario">S - </span>        
+                                    </span>
+                                    <br>
+                                </ul>
+                            </div>
                         </td>
                         <td class="dipendenti">
-                            <ul *ngFor="let r of turniQuotidiani">
-                                <span *ngIf="r.turnoLavorativo.id == 2">
-                                     {{r.dipendente.nome}} {{r.dipendente.cognome}}
-                                     <span *ngIf="r.straordinario">S - </span>        
-                                </span>
-                                <br>
-                            </ul>
+                            <div *ngFor="let r of turniQuotidiani">
+                                <ul *ngIf="r.turnoLavorativo.id == 2"  >
+                                    <span >
+                                         {{r.dipendente.nome}} {{r.dipendente.cognome}}
+                                         <span *ngIf="r.straordinario">S - </span>        
+                                    </span>
+                                    <br>
+                                </ul>
+                            </div>
                         </td>
                         <td class="dipendenti">
-                            <ul *ngFor="let r of turniQuotidiani">
-                                <span *ngIf="r.turnoLavorativo.id == 3"> 
-                                    {{r.dipendente.nome}} {{r.dipendente.cognome}} 
-                                    <span *ngIf="r.straordinario">S -  </span>    
-                                </span>
-                                <br>
-                            </ul>
+                            <div *ngFor="let r of turniQuotidiani">
+                                <ul *ngIf="r.turnoLavorativo.id == 3"  >
+                                    <span >
+                                         {{r.dipendente.nome}} {{r.dipendente.cognome}}
+                                         <span *ngIf="r.straordinario">S - </span>        
+                                    </span>
+                                    <br>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     

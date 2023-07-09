@@ -34,13 +34,19 @@ public class GiornataFerialeService {
     @Transactional
     public void dipendenteAddFerie(Long id, GiornataFeriale gf) throws DipendenteNotExistsException {
         Dipendente dip = dipendenteService.dipendenteFindById(id);
-        if( !giornataFerialeRepository.existsById(gf.getId() ) ){
+        if( !giornataFerialeRepository.existsByDataGiornataFeriale( gf.getDataGiornataFeriale() ) ){
             giornataFerialeRepository.save(gf);
+            R_FD rfd = new R_FD();
+            rfd.setDipendente(dip);
+            rfd.setGiornataFeriale(gf);
+            r_FDRepository.save(rfd);
+        }else{
+            GiornataFeriale gfg = giornataFerialeRepository.findByDataGiornataFeriale(gf.getDataGiornataFeriale());
+            R_FD rfd = new R_FD();
+            rfd.setDipendente(dip);
+            rfd.setGiornataFeriale(gfg);
+            r_FDRepository.save(rfd);
         }
-        R_FD rfd = new R_FD();
-        rfd.setDipendente(dip);
-        rfd.setGiornataFeriale(gf);
-        r_FDRepository.save(rfd);
     }//dipendenteAdd
 
     @Transactional

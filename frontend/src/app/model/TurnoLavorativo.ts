@@ -14,7 +14,7 @@ export class TurnoLavorativo implements TurnoLavorativo{
     public oraFine:String;
 
 
-    constructor( d:Date , oi:String , of :String ){
+    constructor( oi:String , of :String ){
         var random = Math.random();
         this.id = random;
         this.oraInizio = oi;

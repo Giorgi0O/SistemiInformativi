@@ -8,12 +8,12 @@
 <body>
 
     <div class="container-direttore" >
-        <form [formGroup]="modifyForm" (submit)="updateRTD()">
+        <form [formGroup]="modifyForm" (submit)="deleteRtd()">
             <p>Modifica turno</p>
             <div class="header creazione">
                 <span> Inserisci i dati del turno </span>
-                <input class="button" type="submit" value="Modifica turno" >
-                <input class="button elimina" type="submit" value="Elimina turno" >
+
+                <input class="button elimina" type="button" (click)="deleteRtd()" value="Elimina turno" >
             </div>
 
             <div class="creazione_turno">
@@ -28,15 +28,12 @@
                     </select>
                 </div>
                 <div class="dati_turno">
-                    <h2 *ngIf="valid" >Dipendenti</h2>
-                    <span *ngIf="valid"> Scegli un solo dipendente con cui modificare il turno </span>
-                    <div class="lista_dipendenti" *ngIf="valid">
-                        <div *ngFor="let dipendente of dipendenti"  >
-                            <input type="checkbox" formArrayName="dipendenti" [value]="dipendente.id"
-                            (change)="onCheckboxChange($event)">
-                            <label for="html"> {{dipendente.nome}} {{dipendente.cognome}}</label>
-                            <label for="html"> | S</label>
-                            <input type="checkbox" value="{{dipendente.id}}" formArrayName="straordinario" (change)="onCheckboxChangeS($event)" >
+                    <h2 *ngIf="valid && modifyForm.valid" >Dipendenti</h2>
+                    <span *ngIf="valid && modifyForm.valid"> Scegli i turni lavorativi da cancellare </span>
+                    <div class="lista_dipendenti" *ngIf="valid && modifyForm.valid">
+                        <div *ngFor="let t of rtdVecchi"  >
+                            <input (change)="onCheckboxChange($event)" [value]="t.id" type="checkbox" formArrayName="rtdVecchio"> 
+                            <span> {{t.turnoLavorativo.oraInizio}} /  {{t.turnoLavorativo.oraFine}} - {{t.dipendente.nome}} {{t.dipendente.cognome}} </span>
                             <br>
                         </div>
                     </div>
@@ -45,10 +42,6 @@
                     <h2> </h2>
                     <p id="testoButton"> Clicca quì per vedere i turno lavorativi presenti per i paramtri passati </p>
                     <button (click)="dipendenteTurno()" type="button" class="button dip"> Dipendenti/turno</button>
-                    <p id="testoButton1" >seleziona il turno lavorativo da modificare</p>
-                    <select class="select rtd" formControlName="rtdVecchio">
-                        <option *ngFor="let t of rtdVecchi" value="{{t.id}}"> {{t.turnoLavorativo.oraInizio}} /  {{t.turnoLavorativo.oraFine}} - {{t.dipendente.nome}} {{t.dipendente.cognome}}  </option>
-                    </select>
                 </div>
             </div>
         </form>

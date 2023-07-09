@@ -2,7 +2,7 @@
     height: 16px;
 }
 .remove{
-    margin-right: 10px;
+    margin-right: 30px;
     background-color: red;
 }
 .header span{
@@ -10,4 +10,39 @@
 }
 .header input{
     margin-top: 15px;
+}
+#testoButton{
+    font-size: 16px;
+    margin-top: 30%;
+    margin-bottom: 10px;
+    color: red;
+}
+#testoButton1{
+    font-size: 16px;
+    margin-top: 10%;
+    margin-bottom: 2px;
+}
+.dip{
+    float: unset;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+.rtd{
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.ferie{
+    width: 120%;
+}
+.prendiRfd{
+    width: 20%;
+    float: right;
+    margin-right: 20px;
+}
+.scroll{
+    overflow: scroll;
 }

@@ -22,7 +22,7 @@
                         <label class="richieste" >Seleziona la data di inizio:</label>
                         <input class="richieste calendario" type="date" formControlName="dataInizio">
                         <label class="richieste" >Seleziona la data di fine:</label>
-                        <input class="richieste calendario" type="date" formControlName="dataFine>
+                        <input class="richieste calendario" type="date" formControlName="dataFine">
                     </div>
                     <div class="dati_turno">
                         <h2>Dipendenti</h2>
@@ -32,7 +32,6 @@
                             <input type="checkbox" formArrayName="dipendenti" [value]="dipendente.id"
                                    (change)="onCheckboxChange($event)">
                             <label> {{dipendente.nome}} {{dipendente.cognome}}</label>
-                            <input type="checkbox" value="{{dipendente.id}}" >
                             <br>
                           </div>
                         </div>

@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Setter
 @Getter
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dipendente_id", "turno_lavorativo_id"})} )
 public class R_TD {
 
     @Id

@@ -12,17 +12,22 @@
         <form [formGroup]="filtriForm" (submit)="filtriFerie()">
             <div class="header filtri">
                 <label> Data: </label>
-                <input type="date" id="date" class="calendario">
+                <input type="date" id="date" class="calendario" formControlName="data" >
                 <label> Ruolo: </label>
-                <select name="ruolo" id="" class="select">
+                <select name="ruolo" id="" class="select" formControlName="ruolo" >
                     <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
                 </select>
                 <input type="submit" class="button cerca" value="filtra">
             </div>
         </form>
+        <div class="giorno">
+            <button class="button cambio_giorno" (click)="giornoMeno()"> &larr; </button>
+            <h2>{{visData}}</h2>
+            <button class="button cambio_giorno" (click)="giornoPiu()" > &#8594; </button>
+        </div>
         <div class="table">
             <table>
-                <tr>
+                <tr >
                     <td class="colonna"> {{ daysOfWeek[(date.getDay())%7] }} </td >
                     <td class="colonna"> {{ daysOfWeek[(date.getDay()+1)%7] }}  </td >
                     <td class="colonna"> {{ daysOfWeek[(date.getDay()+2)%7] }}   </td >
@@ -31,7 +36,7 @@
                     <td class="colonna"> {{ daysOfWeek[(date.getDay()+5)%7] }}   </td >
                     <td class="colonna ultimaColonna"> {{ daysOfWeek[(date.getDay()+6)%7] }}   </td>
                 </tr>
-                <tr>
+                <tr >
                     <td class="colonna number ultimaRiga"> {{giorno}} </td>
                     <td class="colonna number ultimaRiga"> {{giorno+1}} </td>
                     <td class="colonna number  ultimaRiga"> {{giorno+2}} </td>
@@ -41,33 +46,17 @@
                     <td class="colonna number ultimaRiga ultimaColonna"> {{giorno+6}} </td>
                 </tr>
                 <tr>
-                    <td class="colonna ultimaRiga dip"> 
-                        <div>
-                            <span>
 
+                    <td class="colonna ultimaRiga dip" *ngFor="let d of tutteDate "> 
+                        <div *ngFor="let i of mapToArray(d)" class="dipU">
+                            <span>
+                                {{i.nome}} {{i.cognome}}
                             </span>
-                        </div>    
+                        </div>  
                     </td>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
-                    <td class="colonna ultimaRiga dip"> nessun dipendente in ferie </td>
-                    <td class="colonna ultimaRiga dip ultimaColonna"> nessun dipendente in ferie </td>
                 </tr>
             </table>
         </div>
     </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
 </body>
 </html>
