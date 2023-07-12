@@ -15,7 +15,7 @@
                 <input type="date" id="date" class="calendario" formControlName="data" >
                 <label> Ruolo: </label>
                 <select name="ruolo" id="" class="select" formControlName="ruolo" >
-                    <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
+                    <option *ngFor="let ruolo of ruoli" [value]="ruolo.nome">{{ ruolo.nome }}</option>
                 </select>
                 <input type="submit" class="button cerca" value="filtra">
             </div>
@@ -46,7 +46,6 @@
                     <td class="colonna number ultimaRiga ultimaColonna"> {{giorno+6}} </td>
                 </tr>
                 <tr>
-
                     <td class="colonna ultimaRiga dip" *ngFor="let d of tutteDate "> 
                         <div *ngFor="let i of mapToArray(d)" class="dipU">
                             <span>

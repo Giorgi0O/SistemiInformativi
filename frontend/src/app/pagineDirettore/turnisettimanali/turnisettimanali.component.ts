@@ -7,6 +7,7 @@ import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RtdService } from 'src/app/service/rtd.service';
 import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-turnisettimanali',
@@ -26,7 +27,7 @@ export class TurnisettimanaliComponent implements OnInit {
 
   turniLavorativi:TurnoLavorativo[] = []
 
-  constructor( private tur:TurnoLavorativoService, private datePipe:DatePipe, private rtd:RtdService, private dip:DipendentiService ){}
+  constructor( private fun:funzComuniService, private tur:TurnoLavorativoService, private datePipe:DatePipe, private rtd:RtdService, private dip:DipendentiService ){}
   giornoMeno(){
     this.date.setDate( this.date.getDate()-1 );
     this.mese = this.date.toISOString().split('T')[0];
@@ -39,8 +40,8 @@ export class TurnisettimanaliComponent implements OnInit {
   }
   ngOnInit(){
     this.prelevaRtd();
-    this.prelevaTurni();
-    this.getDipendenti();
+    this.turniLavorativi = this.fun.getTurni();
+    this.dipendenti = this.fun.getDipendenti();
     this.filtriForm = new FormGroup({
       data: new FormControl(this.datePipe.transform(this.date , "yyyy-MM-dd")),
       id: new FormControl()
@@ -52,20 +53,6 @@ export class TurnisettimanaliComponent implements OnInit {
       next:response =>{ this.turniQuotidiani = response;},
       error:error =>{ alert(error); }
     });
-  }
-  public prelevaTurni(){
-    this.tur.listaTurniRead().subscribe({
-      next:response =>{ this.turniLavorativi = response },
-      error:error =>{ alert(error); }
-    });
-  }
-  public getDipendenti():void{
-    this.dip.getDipendenti().subscribe(
-      {
-        next:response=>( this.dipendenti = response ),
-        error:error=> ( console.log(error.message) )
-      }
-    );
   }
   public filtriTurni():void{
     this.cambioData(); 

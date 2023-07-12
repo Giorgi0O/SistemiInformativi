@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { RuoloService } from 'src/app/service/ruolo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-ruoli',
@@ -19,11 +20,10 @@ export class RuoliComponent implements OnInit {
   buttonDelete:boolean = false;
 
 
-  constructor( private rol:RuoloService ){}
+  constructor( private fun:funzComuniService, private rol:RuoloService ){}
 
   ngOnInit(){
-    this.ruoli = [];
-    this.prendiRuoli();
+    this.ruoli = this.fun.getRuoli();
     this.createForm = new FormGroup({
       nuovo: new FormControl(null, [Validators.required] )
     })
@@ -55,7 +55,6 @@ export class RuoliComponent implements OnInit {
     this.buttonModify = true;
     const ruoloVecchio = this.trovaRuolo();
     const ruoloNuovo = new Ruolo(this.ruoliForm.value.ruoloNuovo);
-    console.log(this.ruoliForm.value.ruoloVecchio);
     this.rol.updateRuolo( ruoloVecchio.id , ruoloNuovo).subscribe(
       {
         next:()=>{
@@ -70,34 +69,19 @@ export class RuoliComponent implements OnInit {
       }
     );
   }
-
-  
-
   public deleteRuolo(){
     this.buttonDelete = true;
-    const ruolo = this.trovaRuolo();
-    console.log(ruolo);
-    this.rol.deleteRuolo(ruolo.id).subscribe(
+    this.rol.deleteRuolo(this.ruoliForm.value.ruolo).subscribe(
       {
         next:()=>{
           alert("ruolo eliminato");
           window.location.reload();
-
           this.buttonDelete = false;
         },
         error:error=>{
           alert("ruolo non eliminato, riprova");
           this.buttonDelete = false;
         }
-      }
-    );
-  }
-
-  public prendiRuoli():void{
-    this.rol.listaRuoloRead().subscribe(
-      {
-        next:response=>( this.ruoli = response ),
-        error:error=> ( alert(error.message) )
       }
     );
   }

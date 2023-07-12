@@ -5,6 +5,7 @@ import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RuoloService } from 'src/app/service/ruolo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-lista-dipendenti',
@@ -19,7 +20,7 @@ export class ListaDipendentiComponent implements OnInit{
   bottonActiveSearch:boolean = false;
 
 
-  dipendenti!: Dipendente[];
+  dipendenti: Dipendente[] = [];
   dipendente!:Dipendente;
   attivo:boolean= false;
   ruolo:String="";
@@ -30,89 +31,37 @@ export class ListaDipendentiComponent implements OnInit{
   bottonActiveRemove: boolean=false;
   ruoli!:Ruolo[];
 
-  constructor( private ser:DipendentiService, private rol:RuoloService ){}
+  constructor( private fun:funzComuniService, private ser:DipendentiService, private rol:RuoloService ){}
 
   ngOnInit(){
-    this.dipendenti = [];
-    this.getDipendenti();
-    this.prendiRuoli();
+    this.dipendenti = this.fun.getDipendenti();
+    this.ruoli = this.fun.getRuoli();
     this.searchForm = new FormGroup({
       nome: new FormControl(null, Validators.required )
     }); 
     this.filterForm = new FormGroup({
-      ruolo: new FormControl(),
-      contratto: new FormControl()
+      ruolo: new FormControl("nessuno"),
+      contratto: new FormControl("nessuno")
     });
   }
-  
-  public getDipendenti():void{
-    this.ser.getDipendenti().subscribe(
-      {
-        next:response=>( this.dipendenti = response ),
-        error:error=> ( console.log(error.message) )
-      }
-    );
-  }
-
   public filtri(){
     this.bottonActiveFilter = true;
-    const ruolo = this.trovaRuolo();
-    if( this.filterForm.value.ruolo !== null && this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri( ruolo.nome , this.filterForm.value.contratto ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
+    const ruolo = this.filterForm.value.ruolo;
+    const contratto = this.filterForm.value.contratto;
+    this.ser.getDipendentiFiltri( ruolo , contratto ).subscribe(
+      {
+        next:response=>{ 
+          this.dipendenti = response; 
+          this.bottonActiveFilter = false;
+        },
+        error:error=>{
+          console.log(error.message);
+          this.bottonActiveFilter = false;
         }
-      );
-    }else if( this.filterForm.value.ruolo !== null ){
-      this.ser.getDipendentiFiltri( ruolo.nome , "nessuno" ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }else if( this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri( "nessuno" , this.filterForm.value.contratto ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }else {
-      this.ser.getDipendentiFiltri( "nessuno" , "nessuno" ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }
-    this.filterForm.reset();
+      }
+    );
+    this.resetForm();
   }
-  
   public cerca(){
     this.bottonActiveSearch = true;
     this.ser.getDipendentiNome(this.searchForm.value.nome).subscribe(
@@ -128,7 +77,6 @@ export class ListaDipendentiComponent implements OnInit{
       }
     );
   }
-
   public removeDipendente(){
     this.bottonActiveRemove = true;
     this.ser.deleteDipendente(this.id).subscribe(
@@ -147,7 +95,6 @@ export class ListaDipendentiComponent implements OnInit{
     this.email = "";
     this.telefono = 0;
   }
-
   public CambiaIteratore(dip:Dipendente){
     this.dipendente = dip;
     this.ruolo = dip.ruolo.nome;
@@ -157,24 +104,11 @@ export class ListaDipendentiComponent implements OnInit{
     this.id = dip.id;
     this.attivo = true;
   }
-
-  public prendiRuoli():void{
-    this.rol.listaRuoloRead().subscribe(
-      {
-        next:response=>( this.ruoli = response ),
-        error:error=> ( alert(error.message) )
-      }
-    );
-  }
-
-  private trovaRuolo():Ruolo{
-    let trovato:Ruolo = this.ruoli[0];
-    for( const r of this.ruoli ){
-      if( r.id === this.filterForm.value.ruolo ){
-        trovato = r;
-      }
-    }
-    return trovato;
+  resetForm(){
+    this.filterForm.patchValue({
+      ruolo:"nessuno",
+      contratto:"nessuno"
+    });
   }
 
 

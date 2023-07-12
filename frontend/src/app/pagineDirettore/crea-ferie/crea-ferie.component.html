@@ -13,7 +13,7 @@
                 <p>Crea ferie</p>
                 <div class="header">
                     <span> Inserisci la data e i dipendeti</span>
-                    <input type="submit" class="button" value="crea ferie">
+                    <input type="submit" class="button" [disabled]="!createButton && !createForm.valid" [class.invalid]="!createForm.valid" value="crea ferie">
                 </div>
 
                 <div class="box_operazioni_dipendente">

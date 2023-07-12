@@ -49,7 +49,6 @@ export class ModificaFerieComponent {
     this.modifyForm.reset();
   }
   public dipendenteFerie(){
-    
     const dataInizio = this.creaData( this.modifyForm.value.dataInizio );
     const dataFine = this.creaData( this.modifyForm.value.dataFine );
     this.gio.listaRfd().subscribe({
