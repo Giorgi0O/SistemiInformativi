@@ -43,18 +43,20 @@ export class CreaFerieComponent {
     );
   }
   public createRfd(){
+    let responseMessage;
     const dataInizio:Date = this.creaData(this.createForm.value.dataInizio);
     const dataFine:Date = this.creaData(this.createForm.value.dataFine);
     for( let i of this.createForm.value.dipendenti ){
       for (let currentDate = dataInizio; currentDate <= dataFine; currentDate.setDate(currentDate.getDate() + 1)) {
         let giornataFeriale = new GiornataFeriale(currentDate);
         this.fer.createGiornataFerie(i,giornataFeriale).subscribe({
-          next: response => {  alert("giornata Ferie aggiunta");
-        },
+          next: response => {  responseMessage = response },
           error: error => (alert("ops,la giornata ferie"+currentDate+"non è stata aggiunta"))
         })
       }
     }
+    console.log(responseMessage);
+    if( responseMessage == null ){alert("Giornata Ferie aggiunta!")}
   }
   private creaData(data:String):Date{
     const dateString = data;

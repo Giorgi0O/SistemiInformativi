@@ -38,7 +38,7 @@
             </div>
             <div class="header lista">
                 <p *ngIf="dipendenti.length === 0"> Non ci sono dipendenti registrati nel sistema </p>
-                <div *ngFor="let dipendente of dipendenti">
+                <div *ngFor="let dipendente of dipendenti" class="list">
                     <button (click)="CambiaIteratore(dipendente)" id="dip">{{dipendente.nome}} {{dipendente.cognome}} </button>
                 </div>
             </div>

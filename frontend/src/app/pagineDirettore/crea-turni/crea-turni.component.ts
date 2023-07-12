@@ -14,6 +14,8 @@ import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service
 })
 export class CreaTurniComponent implements OnInit{
 
+  buttonDisable:boolean= false; 
+
   dipendenti:Dipendente[] = [];
   dipendentiTurno:Dipendente[] = [];
   turni:TurnoLavorativo[] =[];
@@ -27,8 +29,8 @@ export class CreaTurniComponent implements OnInit{
     this.createForm = new FormGroup({
       data: new FormControl(null, Validators.required),
       turno: new FormControl(null , Validators.required),
-      dipendenti: new FormArray([], Validators.required),
-      straordinario: new FormArray([], Validators.required)
+      dipendenti: new FormArray([]),
+      straordinario: new FormArray([])
     });
   }
   public getDipendenti():void{
@@ -40,10 +42,15 @@ export class CreaTurniComponent implements OnInit{
     );
   }
   public createRtd(){
-    console.log(this.createForm);
+    this.buttonDisable = true;
     const data:Date = this.creaData();
     const turno:number = this.createForm.value.turno;
-    for( let i of this.createForm.value.dipendenti ){
+    let dip= this.createForm.value.dipendenti;
+    if( this.createForm.value.dipendenti.length == 0 && this.createForm.value.straordinario.length > 0 ){
+      dip= this.createForm.value.straordinario;
+    }
+    console.log(dip, turno,data);
+    for( let i of dip ){
       const s = this.contains(i);
       const dto = new DtoRTD(data, s);
       this.rtd.createRTD( i, turno, dto ).subscribe({
@@ -51,6 +58,7 @@ export class CreaTurniComponent implements OnInit{
         error:error =>(alert("ops, turno lavorativo non aggiunto"))
       })
     }
+    this.buttonDisable = false;
   }
   private contains(id:number):boolean{
     for( let s of this.createForm.value.straordinario ){

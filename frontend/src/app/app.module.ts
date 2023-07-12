@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarButtonComponent } from './pagineDirettore/nav-bar-button-principal/nav-bar-button.component';
-import { NotificheComponent } from './pagineDirettore/notifiche/notifiche.component';
 import { TurnisettimanaliComponent } from './pagineDirettore/turnisettimanali/turnisettimanali.component';
 import { CreaTurniComponent } from './pagineDirettore/crea-turni/crea-turni.component';
 import { ModificaTurniComponent } from './pagineDirettore/modifica-turni/modifica-turni.component';
@@ -26,12 +25,13 @@ import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
 import { RuoloService } from './service/ruolo.service';
 import { DatePipe } from '@angular/common';
 import { RtdService } from './service/rtd.service';
+import { GiornataFerieService } from './service/giornata-ferie.service';
+import { TurnoLavorativoService } from './service/turno-lavorativo.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarButtonComponent,
-    NotificheComponent,
     TurnisettimanaliComponent,
     CreaTurniComponent,
     ModificaTurniComponent,
@@ -72,10 +72,14 @@ import { RtdService } from './service/rtd.service';
     AppRoutingModule,
     AppPagineDirettore
   ],
-  providers: [DipendentiService, 
+  providers: [
+    DipendentiService, 
     RuoloService, 
     DatePipe,
-    RtdService
+    RtdService,
+    GiornataFerieService,
+    RtdService,
+    TurnoLavorativoService
   ],
   bootstrap: [AppComponent]
 })

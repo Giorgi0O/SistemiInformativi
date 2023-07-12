@@ -49,26 +49,43 @@
 }
 .turni{
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.table-row{
+    display: flex;
+	flex-direction: row;
+	align-items:center;
+	justify-content:center;
+}
+.orari{
+    width: 200px;
+    padding: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+    border: 2px solid black;
+    border-radius: 20px;
     text-align: center;
-    overflow: scroll;
-}
-.turni table{
-    margin: 0 auto 0 auto;
-    width: 80%;
-}
-td{
-    padding: 10px;
-    border-radius: 20px; border: 2px solid black;
 }
 form{
     all: unset;
 }
 .dipendenti{
-    height: 150px;
-    overflow-y: scroll;
-    padding: 5px;
+    width: 200px;
+    height: 130px;
+    margin-top: 10px;
+    margin-left: 15px;
+    overflow: scroll;
+    padding: 20px;
+    background-color: white;
     border-radius: 10px; border: 1px solid black;
 }
-.dipendenti span{
-    float: left;
+.ovf{
+    margin-top: 5px;
+}
+table {
+    table-layout: fixed;
+    width: 100%;
 }

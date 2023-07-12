@@ -72,10 +72,8 @@ export class ModificaDipendenteComponent {
 
   public filtri(){
     this.bottonActiveFilter = true;
-    const ruolo = this.trovaRuolo();
-    console.log(this.filterForm.value.contratto);
     if( this.filterForm.value.ruolo !== null && this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri( ruolo.nome , this.filterForm.value.contratto ).subscribe(
+      this.ser.getDipendentiFiltri( this.filterForm.value.ruolo , this.filterForm.value.contratto ).subscribe(
         {
           next:response=>{ 
             this.dipendenti = response; 
@@ -88,7 +86,7 @@ export class ModificaDipendenteComponent {
         }
       );
     }else if( this.filterForm.value.ruolo !== null ){
-      this.ser.getDipendentiFiltri( ruolo.nome , "nessuno" ).subscribe(
+      this.ser.getDipendentiFiltri( this.filterForm.value.ruolo , "nessuno" ).subscribe(
         {
           next:response=>{ 
             this.dipendenti = response; 
@@ -157,7 +155,6 @@ export class ModificaDipendenteComponent {
     const ruolo = this.trovaRuolo();
     const nuovo = new Dipendente(this.modifyForm.value.nome,this.modifyForm.value.cognome, ruolo ,
       this.modifyForm.value.telefono, this.sede, this.modifyForm.value.email , contratto );
-    console.log(nuovo);
     this.ser.updateDipendente( this.id , nuovo ).subscribe(
       {
         next:()=>{
@@ -173,9 +170,9 @@ export class ModificaDipendenteComponent {
   }
 
   private trovaRuolo():Ruolo{
-    let trovato = this.ruolo;
+    let trovato = this.ruoli[0];
     for( const r of this.ruoli ){
-      if( r.id == this.modifyForm.value.ruolo ){
+      if( r.id.toString() === this.modifyForm.value.ruolo ){
         trovato = r;
       }
     }
@@ -190,7 +187,6 @@ export class ModificaDipendenteComponent {
     this.sede = dip.sede;
     this.email = dip.email;
     this.contratto = dip.contrattoLavorativo;
-    console.log(this.contratto);
     this.id = dip.id;
     this.modifyForm = new FormGroup({
       nome: new FormControl(this.nome ),

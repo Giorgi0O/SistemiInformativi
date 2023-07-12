@@ -13,7 +13,6 @@ import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service
 })
 export class ModificaFerieComponent {
 
-  
   rfdVecchi:rfd[] = [];
   modifyForm!:FormGroup;
   valid:boolean= false;
@@ -44,12 +43,13 @@ export class ModificaFerieComponent {
       idlist.push(Number.parseInt(r));
     }
     this.gio.deleteGiornataFerie(idlist).subscribe({
-      next:response =>{ alert("Giornata ferie eleminata!") },
-      error:error =>( alert("ops , Giornata ferie non aggiunta, riprova !")  )
+      next:response =>{ alert("Giornata ferie eleminata!"); window.location.reload },
+      error:error =>{ alert("ops , Giornata ferie non aggiunta, riprova !"); window.location.reload }
     })
     this.modifyForm.reset();
   }
   public dipendenteFerie(){
+    
     const dataInizio = this.creaData( this.modifyForm.value.dataInizio );
     const dataFine = this.creaData( this.modifyForm.value.dataFine );
     this.gio.listaRfd().subscribe({

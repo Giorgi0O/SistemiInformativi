@@ -22,7 +22,7 @@
                     <div class="ricerca">
                         <label> Ruolo: </label>
                         <select class="select" formControlName="ruolo"> 
-                            <option *ngFor="let ruolo of ruoli" [value]="ruolo.id">{{ ruolo.nome }}</option>
+                            <option *ngFor="let ruolo of ruoli" value="{{ruolo.nome}}">{{ ruolo.nome }}</option>
                         </select>
                         <label> Contratto: </label>
                         <select class="select" formControlName="contratto">
