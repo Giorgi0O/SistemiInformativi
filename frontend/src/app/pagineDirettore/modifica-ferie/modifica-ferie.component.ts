@@ -43,8 +43,8 @@ export class ModificaFerieComponent {
       idlist.push(Number.parseInt(r));
     }
     this.gio.deleteGiornataFerie(idlist).subscribe({
-      next:response =>{ alert("Giornata ferie eleminata!") },
-      error:error =>( alert("ops , Giornata ferie non aggiunta, riprova !")  )
+      next:response =>{ alert("Giornata ferie eleminata!"); window.location.reload },
+      error:error =>{ alert("ops , Giornata ferie non aggiunta, riprova !"); window.location.reload }
     })
     this.modifyForm.reset();
   }

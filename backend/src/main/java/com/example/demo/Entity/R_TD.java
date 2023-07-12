@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Setter
 @Getter
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dipendente_id", "turno_lavorativo_id"})} )
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"turno_lavorativo_date","dipendente_id","turno_lavorativo_id"})} )
 public class R_TD {
 
     @Id
@@ -26,6 +26,7 @@ public class R_TD {
     private boolean straordinario;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "turno_lavorativo_date")
     private Date turnoLavorativoDate;
 
 }

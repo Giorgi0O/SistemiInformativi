@@ -54,6 +54,7 @@ export class NuovoDipendenteComponent implements OnInit  {
           },
           error:error=>{
             alert("dipendente non aggiunto, riprova");
+            window.location.reload();
             this.buttonCreaActive = false;
           }
         }

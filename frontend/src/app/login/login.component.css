@@ -7,6 +7,15 @@
 .login img{
     width: 200px;
 }
+.button{
+    float: unset;
+    text-decoration: none;
+    color: black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
 .login form{
     height: 40%;
     width: 20%;
@@ -23,15 +32,6 @@
     display: block;
     margin-top: 10%;
     margin-bottom: 10px;
-}
-.login a{
-    float: unset;
-    text-decoration: none;
-    color: black;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10%;
 }
 .test{
     width: 150px;

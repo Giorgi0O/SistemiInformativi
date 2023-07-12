@@ -57,7 +57,6 @@ export class ListaDipendentiComponent implements OnInit{
   public filtri(){
     this.bottonActiveFilter = true;
     const ruolo = this.trovaRuolo();
-    console.log(this.filterForm.value.contratto);
     if( this.filterForm.value.ruolo !== null && this.filterForm.value.contratto !== null ){
       this.ser.getDipendentiFiltri( ruolo.nome , this.filterForm.value.contratto ).subscribe(
         {

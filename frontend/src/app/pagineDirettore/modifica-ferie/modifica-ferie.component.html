@@ -24,8 +24,8 @@
                         <input class="richieste calendario" type="date" id="date" name="date" formControlName="dataFine">
                     </div>
                     <div class="dati_turno">
-                        <h2 *ngIf="valid && !modifyForm.valid" >Dipendenti</h2>
-                        <span *ngIf="valid && !modifyForm.valid" > Scegli le ferie da cancellare </span>
+                        <h2 *ngIf="valid && modifyForm.valid" >Dipendenti</h2>
+                        <span *ngIf="valid && modifyForm.valid" > Scegli le ferie da cancellare </span>
                         <div class="lista_dipendenti ferie" *ngIf="valid && modifyForm.valid" >
                             <div *ngFor="let t of rfdVecchi" class="scroll" >
                                 <input (change)="onCheckboxChange($event)" [value]="t.id" type="checkbox" formArrayName="rfdVecchi"> 

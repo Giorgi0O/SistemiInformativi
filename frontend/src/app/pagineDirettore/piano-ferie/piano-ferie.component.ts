@@ -89,11 +89,11 @@ export class PianoFerieComponent implements OnInit {
           const dd = this.datePipe.transform(d , "yyyy-MM-dd");
           if( r.giornataFeriale.dataGiornataFeriale.toString() === dd?.toString() ){
             this.ferie.get(dd)?.push(r.dipendente);
-          }//if
-        }//for
-      }//next
-    })//subscribe
-  }//dipendenteFerie
+          }
+        }
+      }
+    })
+  }
   public prendiRuoli():void{
     this.rol.listaRuoloRead().subscribe(
       {

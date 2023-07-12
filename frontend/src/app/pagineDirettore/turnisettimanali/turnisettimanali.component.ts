@@ -74,12 +74,10 @@ export class TurnisettimanaliComponent implements OnInit {
       console.log(this.filtriForm.value.id);
       dip = this.filtriForm.value.id;
     }
-    console.log(dip);
     if( this.filtriForm.value.data != null ){
       this.rtd.filtriRTD( this.filtriForm.value.data , dip).subscribe({
         next:response =>{ 
           this.turniQuotidiani = response;
-          console.log(this.turniQuotidiani)
         },
         error:error =>{ alert("ATTENZIONE: inserisci una data corretta"); }
       });

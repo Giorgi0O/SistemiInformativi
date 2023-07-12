@@ -63,7 +63,10 @@ export class ModificaTurniComponent implements OnInit {
   public deleteRtd(){
     for( let r of this.modifyForm.value.rtdVecchio ){
       this.rtd.deleteRTD(r).subscribe({
-        next:response =>( alert("Turno eleminato!") ),
+        next:response =>{ 
+          alert("Turno eleminato!");
+          window.location.reload();
+        },
         error:error =>( console.log(error) )
       })
     }

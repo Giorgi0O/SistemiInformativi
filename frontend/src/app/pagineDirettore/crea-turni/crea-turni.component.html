@@ -13,7 +13,9 @@
         <form [formGroup]="createForm" (submit)="createRtd()">
             <div class="header">
                 <span> Inserisci i dati del turno </span>
-                <input class="button" type="submit" value="Crea turno" >
+                <input class="button" type="submit" 
+                [disabled]="buttonDisable || !createForm.valid" 
+                [class.invalid]="!createForm.valid" value="Crea turno" >
             </div>
             <div class="box_operazioni_dipendente">
                 <div class="dati_turno">
