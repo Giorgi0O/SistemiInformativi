@@ -42,6 +42,7 @@ public class DipendenteService {
             dipendente.get().setTelefono(nuovo.getTelefono());
             dipendente.get().setRuolo(nuovo.getRuolo());
             dipendente.get().setNome(nuovo.getNome());
+            dipendente.get().setRtd(nuovo.getRtd());
             return dipendenteRepository.save(dipendente.get());
         }else{
             throw new DipendenteNotExistsException();
@@ -57,16 +58,8 @@ public class DipendenteService {
     public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(dipendente.isPresent()){
-            for(R_FD rfd:r_FDRepository.findAll()){
-                if(rfd.getDipendente().equals(dipendente.get())){
-                    r_FDRepository.delete(rfd);
-                }
-            }
-            for(R_TD rtd:r_tdRepository.findAll()){
-                if(rtd.getDipendente().equals(dipendente.get())){
-                    r_tdRepository.delete(rtd);
-                }
-            }
+            r_FDRepository.deleteAll(dipendente.get().getRfd());
+            r_tdRepository.deleteAll(dipendente.get().getRtd());
             dipendenteRepository.delete(dipendente.get());
         }throw new DipendenteNotExistsException();
     }
