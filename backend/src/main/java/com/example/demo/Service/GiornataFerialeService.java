@@ -102,11 +102,9 @@ public class GiornataFerialeService {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findById(id);
         List<Dipendente> res = new ArrayList<>();
         if(ferie.isPresent()){
-            for( R_FD r : rfdFindAll() ){
-                if(r.getGiornataFeriale().equals(ferie.get() ) )
-                    res.add( r.getDipendente() );
+            for( R_FD r : ferie.get().getRfd() ){
+                res.add(r.getDipendente());
             }
-            return res;
         }
         throw new FerieNotExistsException();
     }
@@ -128,6 +126,6 @@ public class GiornataFerialeService {
     }
     @Transactional(readOnly = true)
     public List<R_FD> giornataFerieFinByDipendente(Dipendente d){
-        return r_FDRepository.findByDipendente(d);
+        return d.getRfd();
     }
 }

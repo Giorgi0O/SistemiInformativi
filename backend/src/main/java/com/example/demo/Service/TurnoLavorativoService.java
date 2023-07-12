@@ -39,12 +39,8 @@ public class TurnoLavorativoService {
     @Transactional
     public TurnoLavorativo turnoLavorativoDelete(TurnoLavorativo t) throws TurnoLavorativoNotExistsException {
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(t.getId());
-        if(turno.isPresent()){
-            for(R_TD rtd:rtdRepository.findAll()){
-                if(rtd.getTurnoLavorativo().equals(t)){
-                    rtdRepository.delete(rtd);
-                }
-            }
+        if(turno.isPresent()) {
+            rtdRepository.deleteAll(turno.get().getRtd());
             turnoLavorativoRepository.delete(t);
             return turno.get();
         }else{

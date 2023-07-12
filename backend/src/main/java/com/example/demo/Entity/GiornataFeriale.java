@@ -1,9 +1,11 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,6 +19,10 @@ public class GiornataFeriale {
     @Temporal(TemporalType.DATE)
     @Column(unique = true)
     private Date dataGiornataFeriale;
+
+    @OneToMany(mappedBy = "giornataFeriale")
+    @JsonIgnore
+    private List<R_FD> rfd;
 
 
 }

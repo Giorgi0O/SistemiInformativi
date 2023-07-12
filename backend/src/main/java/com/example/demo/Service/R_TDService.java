@@ -43,6 +43,7 @@ public class R_TDService {
         ne.setTurnoLavorativo(turno.get());
         ne.setStraordinario(dto.isStraordinario());
         ne.setTurnoLavorativoDate(dto.getData());
+        //dipendente.get().getRtd().add(ne);
         rtdRepository.save(ne);
     }
 
@@ -89,8 +90,10 @@ public class R_TDService {
     private List<R_TD> rtdFindByDipendente(long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente = dipendenteRepository.findById(id);
         if(dipendente.isPresent()) {
-            return rtdRepository.findR_TDByDipendente(dipendente.get());
-        }else  throw new DipendenteNotExistsException();
+            return dipendente.get().getRtd();
+        }else{
+            throw new DipendenteNotExistsException();
+        }
     }
     private List<R_TD> rtdFindbyData(Date data){
         return rtdRepository.findR_TDByTurnoLavorativoDate(data);

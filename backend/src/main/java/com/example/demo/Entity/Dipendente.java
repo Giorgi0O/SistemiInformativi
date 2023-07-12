@@ -28,5 +28,9 @@ public class Dipendente extends Utente {
     @JsonIgnore
     private List<R_TD> rtd;
 
+    @OneToMany(mappedBy = "dipendente")
+    @JsonIgnore
+    private List<R_FD> rfd;
+
 
 }
