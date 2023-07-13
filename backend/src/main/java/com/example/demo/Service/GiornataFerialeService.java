@@ -131,19 +131,28 @@ public class GiornataFerialeService {
         return d.getRfd();
     }
 
-    /*@Transactional
+    @Transactional
     public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         if (!ferie.isPresent()) {
             GiornataFeriale g = new GiornataFeriale();
+            g.setVersione(1);
             g.setDataGiornataFeriale(data);
             g.setQuantità(1);
             giornataFerialeRepository.save(g);
+            R_FD rfd = new R_FD();
+            rfd.setGiornataFeriale(g);
+            rfd.setDipendente(dipendente);
+            r_FDRepository.save(rfd);
         } else {
             if (ferie.get().getQuantità() >= 15) {
                 throw new QuantityLimitExceeded();
             }
+            R_FD rfd = new R_FD();
+            rfd.setGiornataFeriale(ferie.get());
+            rfd.setDipendente(dipendente);
             ferie.get().setQuantità(ferie.get().getQuantità() + 1);
+            r_FDRepository.save(rfd);
             try {
                 giornataFerialeRepository.save(ferie.get());
             } catch (OptimisticLockingFailureException ex) {
@@ -152,12 +161,9 @@ public class GiornataFerialeService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                prendiFerie(data, dipendente);
+                richiediFerie(data, dipendente);
             }
         }
-        R_FD rfd = new R_FD();
-        rfd.setGiornataFeriale(ferie.get());
-        rfd.setDipendente(dipendente);
-    }*/
+    }
     //gestione transazione
 }

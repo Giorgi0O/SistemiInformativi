@@ -6,6 +6,7 @@ import com.example.demo.Entity.GiornataFeriale;
 import com.example.demo.Entity.R_FD;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
+import com.example.demo.Exception.QuantityLimitExceeded;
 import com.example.demo.Repository.GiornataFerialeRepository;
 import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.GiornataFerialeService;
@@ -81,6 +82,13 @@ public class GiornataFerialeController {
         Date date = sd.parse(d);
         GiornataFeriale gf = giornataFerialeRepository.findByDataGiornataFeriale(date);
         return giornataFerialeService.giornataFerieFiltri(gf.getId(),ruolo);
+    }
+
+    @PostMapping("/richiediFerie/{d}")
+    public void richiediFerie(@PathVariable String d,@RequestBody Dipendente dipendente) throws ParseException,QuantityLimitExceeded {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        Date data = sd.parse(d);
+        giornataFerialeService.richiediFerie(data,dipendente);
     }
 
 }
