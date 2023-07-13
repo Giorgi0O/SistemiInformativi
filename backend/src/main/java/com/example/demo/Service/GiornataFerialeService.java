@@ -132,7 +132,7 @@ public class GiornataFerialeService {
     }
 
     /*@Transactional
-    public void prendiFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded {
+    public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         if (!ferie.isPresent()) {
             GiornataFeriale g = new GiornataFeriale();
