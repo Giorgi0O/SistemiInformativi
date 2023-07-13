@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContrattoLavorativo } from 'src/app/model/ContrattoLavorativo';
 import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RuoloService } from 'src/app/service/ruolo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-modifica-dipendente',
@@ -26,108 +27,61 @@ export class ModificaDipendenteComponent {
   dipendenti!: Dipendente[];
   ruolo!:Ruolo;
   telefono:number=0;
-  email:String=" ";
-  nome: String =" ";
+  email:String="";
+  nome: String ="";
   cognome: String = "";
-  contratto: ContrattoLavorativo = new ContrattoLavorativo(" ", " ");
+  contratto: ContrattoLavorativo = new ContrattoLavorativo("", "");
   id!: number;
   sede!: String;
 
   public ruoli!:Ruolo[];
  
-  constructor( private ser:DipendentiService, private rol:RuoloService ){}
+  constructor( private fun:funzComuniService, private ser:DipendentiService, private rol:RuoloService ){}
 
   ngOnInit(){
-    this.dipendenti = [];
-    this.getDipendenti();
-    this.ruoli = [];
-    this.prendiRuoli();
+    this.dipendenti = this.fun.getDipendenti();
+    this.ruoli = this.fun.getRuoli();
     this.searchForm = new FormGroup({
       nome: new FormControl(null, Validators.required )
     }); 
     this.filterForm = new FormGroup({
-      ruolo: new FormControl(),
-      contratto: new FormControl()
+      ruolo: new FormControl("nessuno"),
+      contratto: new FormControl("nessuno")
     });
     this.modifyForm = new FormGroup({
       nome: new FormControl(),
       cognome: new FormControl(),
       ruolo: new FormControl(),
-      telefono: new FormControl(null, [ Validators.required,Validators.pattern(/^\d+$/)] ),
+      telefono: new FormControl(null, [Validators.required,Validators.pattern(/^\d+$/)] ),
       email: new FormControl(null, [Validators.required,Validators.email]),
       tipologia: new FormControl(),
       descrizione: new FormControl()
-    });
-    
+    }); 
   }
-  
-  public getDipendenti():void{
-    this.ser.getDipendenti().subscribe(
-      {
-        next:response=>( this.dipendenti = response ),
-        error:error=> ( console.log(error.message) )
-      }
-    );
-  }
-
   public filtri(){
     this.bottonActiveFilter = true;
-    if( this.filterForm.value.ruolo !== null && this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri( this.filterForm.value.ruolo , this.filterForm.value.contratto ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
+    const ruolo = this.filterForm.value.ruolo;
+    const contratto = this.filterForm.value.contratto;
+    this.ser.getDipendentiFiltri( ruolo , contratto ).subscribe(
+      {
+        next:response=>{ 
+          this.dipendenti = response; 
+          this.bottonActiveFilter = false;
+        },
+        error:error=>{
+          console.log(error.message);
+          this.bottonActiveFilter = false;
         }
-      );
-    }else if( this.filterForm.value.ruolo !== null ){
-      this.ser.getDipendentiFiltri( this.filterForm.value.ruolo , "nessuno" ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }else if( this.filterForm.value.contratto !== null ){
-      this.ser.getDipendentiFiltri( "nessuno" , this.filterForm.value.contratto ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }else {
-      this.ser.getDipendentiFiltri( "nessuno" , "nessuno" ).subscribe(
-        {
-          next:response=>{ 
-            this.dipendenti = response; 
-            this.bottonActiveFilter = false;
-          },
-          error:error=>{
-            console.log(error.message);
-            this.bottonActiveFilter = false;
-          }
-        }
-      );
-    }
-    this.filterForm.reset();
+      }
+    );
+    this.resetForm();
   }
-  
+  resetForm(){
+    this.filterForm.patchValue({
+      ruolo:"nessuno",
+      contratto:"nessuno"
+    });
+  }
   public cerca(){
     this.bottonActiveSearch = true;
     this.ser.getDipendentiNome(this.searchForm.value.nome).subscribe(
@@ -143,9 +97,7 @@ export class ModificaDipendenteComponent {
       }
     );
   }
-
   public modifica(){
-
     this.bottonActiveModify = true;
     let tipologia = this.contratto.tipologia;
     if( this.modifyForm.value.tipologia !== this.contratto.tipologia && this.modifyForm.value.tipologia !== null){ tipologia = this.modifyForm.value.tipologia  }
@@ -160,6 +112,7 @@ export class ModificaDipendenteComponent {
         next:()=>{
           alert("Dipendente modificato correttemente");
           this.bottonActiveModify = false;
+          window.location.reload();
         },
         error:()=>{
           alert("Dipendente non modificato riprova");
@@ -168,9 +121,8 @@ export class ModificaDipendenteComponent {
       }
     );
   }
-
   private trovaRuolo():Ruolo{
-    let trovato = this.ruoli[0];
+    let trovato = this.ruolo;
     for( const r of this.ruoli ){
       if( r.id.toString() === this.modifyForm.value.ruolo ){
         trovato = r;
@@ -178,7 +130,6 @@ export class ModificaDipendenteComponent {
     }
     return trovato;
   }
-
   public CambiaIteratore(dip:Dipendente){
     this.nome = dip.nome;
     this.cognome = dip.cognome;
@@ -197,15 +148,6 @@ export class ModificaDipendenteComponent {
       tipologia: new FormControl(),
       descrizione: new FormControl(this.contratto.descrizione)
     })
-  }
-
-  public prendiRuoli():void{
-    this.rol.listaRuoloRead().subscribe(
-      {
-        next:response=>( this.ruoli = response ),
-        error:error=> ( alert(error.message) )
-      }
-    );
   }
 
 }

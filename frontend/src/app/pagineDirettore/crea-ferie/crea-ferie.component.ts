@@ -1,15 +1,10 @@
 import { Component } from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Dipendente } from 'src/app/model/Dipendente';
-import { Ruolo } from 'src/app/model/Ruolo';
-import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
-import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service';
-import {RtdService} from "../../service/rtd.service";
-import {ContrattoLavorativo} from "../../model/ContrattoLavorativo";
-import {DtoRTD} from "../../model/DtoRTd";
 import {GiornataFerieService} from "../../service/giornata-ferie.service";
 import {GiornataFeriale} from "../../model/GiornateFerie";
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-crea-ferie',
@@ -18,31 +13,24 @@ import {GiornataFeriale} from "../../model/GiornateFerie";
 })
 export class CreaFerieComponent {
 
+  createButton:boolean = false;
+  
   dipendenti:Dipendente[] = [];
   dipendentiFerie:Dipendente[] = [];
-  ferie:GiornataFeriale[] =[];
   createForm!:FormGroup;
 
-  constructor(private ser:DipendentiService , private fer:GiornataFerieService){}
+  constructor( private fun:funzComuniService, private ser:DipendentiService , private fer:GiornataFerieService){}
 
   ngOnInit(){
-    this.getDipendenti();
-    this.prelevaFerie();
+    this.dipendenti = this.fun.getDipendenti();
     this.createForm = new FormGroup({
       dataInizio: new FormControl(null, Validators.required),
       dataFine: new FormControl(null, Validators.required),
       dipendenti: new FormArray([], Validators.required)
     });
   }
-  public getDipendenti():void{
-    this.ser.getDipendenti().subscribe(
-      {
-        next:response=>( this.dipendenti = response ),
-        error:error=> ( console.log(error.message) )
-      }
-    );
-  }
   public createRfd(){
+    this.createButton = true;
     let responseMessage;
     const dataInizio:Date = this.creaData(this.createForm.value.dataInizio);
     const dataFine:Date = this.creaData(this.createForm.value.dataFine);
@@ -50,12 +38,14 @@ export class CreaFerieComponent {
       for (let currentDate = dataInizio; currentDate <= dataFine; currentDate.setDate(currentDate.getDate() + 1)) {
         let giornataFeriale = new GiornataFeriale(currentDate);
         this.fer.createGiornataFerie(i,giornataFeriale).subscribe({
-          next: response => {  responseMessage = response },
-          error: error => (alert("ops,la giornata ferie"+currentDate+"non è stata aggiunta"))
+          next: response => {  responseMessage = response; this.createButton = false; },
+          error: error => {
+            alert("ops,la giornata ferie: "+currentDate.getDate()+" non è stata aggiunta");
+            this.createButton = false
+          }
         })
       }
     }
-    console.log(responseMessage);
     if( responseMessage == null ){alert("Giornata Ferie aggiunta!")}
   }
   private creaData(data:String):Date{
@@ -67,15 +57,8 @@ export class CreaFerieComponent {
     const date = new Date(year, month, day);
     return date;
   }
-  public prelevaFerie(){
-    this.fer.listaFerieRead().subscribe({
-      next:response =>{ this.ferie = response },
-      error:error =>{ alert(error); }
-    });
-  }
   onCheckboxChange(event:any){
     const selectedDipendente = (this.createForm.controls['dipendenti'] as FormArray);
-
     if (event.target.checked){
       selectedDipendente.push( new FormControl(event.target.value) );
     }else {

@@ -4,3 +4,7 @@
 .header input{
     margin-top: 15px;
 }
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}

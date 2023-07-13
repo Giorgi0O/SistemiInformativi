@@ -7,6 +7,7 @@ import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RtdService } from 'src/app/service/rtd.service';
 import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-modifica-turni',
@@ -20,21 +21,14 @@ export class ModificaTurniComponent implements OnInit {
   modifyForm!:FormGroup;
   valid:boolean= false;
 
-  constructor(private ser:DipendentiService , private tur:TurnoLavorativoService, private rtd:RtdService){}
+  constructor( private fun:funzComuniService, private ser:DipendentiService , private tur:TurnoLavorativoService, private rtd:RtdService){}
 
   ngOnInit(): void {
-    this.prelevaTurni();
+    this.turni = this.fun.getTurni();
     this.modifyForm = new FormGroup({
       data: new FormControl(null, Validators.required),
       turno: new FormControl(null, Validators.required),
       rtdVecchio: new FormArray([]),
-    });
-  }
-
-  public prelevaTurni(){
-    this.tur.listaTurniRead().subscribe({
-      next:response =>{ this.turni = response },
-      error:error =>{ alert(error); }
     });
   }
   onCheckboxChange(event:any){

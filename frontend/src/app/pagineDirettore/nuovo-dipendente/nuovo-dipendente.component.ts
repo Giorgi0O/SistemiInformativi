@@ -5,6 +5,7 @@ import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RuoloService } from 'src/app/service/ruolo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-nuovo-dipendente',
@@ -14,16 +15,15 @@ import { RuoloService } from 'src/app/service/ruolo.service';
 export class NuovoDipendenteComponent implements OnInit  {
 
   createForm!:FormGroup;
-  public ruoli!: Ruolo[];
+  ruoli!: Ruolo[];
   sede:String = "cs";
 
   buttonCreaActive:boolean = false;
 
-  constructor( private rol:RuoloService,private ser:DipendentiService ){}
+  constructor(private fun:funzComuniService, private rol:RuoloService,private ser:DipendentiService ){}
 
   ngOnInit(){
-    this.ruoli = [];
-    this.prendiRuoli();
+    this.ruoli = this.fun.getRuoli();
     this.createForm = new FormGroup({
       nome: new FormControl(null, Validators.required ),
       cognome: new FormControl(null, Validators.required ),
@@ -33,9 +33,7 @@ export class NuovoDipendenteComponent implements OnInit  {
       tipologia: new FormControl(null, Validators.required),
       descrizione: new FormControl()
     });
-
   }
-
   public crea():void{
     this.buttonCreaActive = true;
 
@@ -44,8 +42,7 @@ export class NuovoDipendenteComponent implements OnInit  {
     
     const dipendente = new Dipendente(this.createForm.value.nome, this.createForm.value.cognome , ruolo , this.createForm.value.telefono, this.sede , this.createForm.value.email, contratto )
     
-    if( this.createForm.valid ){
-      this.ser.createDipendente(dipendente).subscribe(
+    this.ser.createDipendente(dipendente).subscribe(
         {
           next:()=>{
             alert("dipendente aggiunto");
@@ -58,11 +55,8 @@ export class NuovoDipendenteComponent implements OnInit  {
             this.buttonCreaActive = false;
           }
         }
-      );
-    }
-    this.buttonCreaActive = false;
+    );
   }
-  
   private trovaRuolo():Ruolo{
     let trovato:Ruolo = this.ruoli[0];
     for( const r of this.ruoli ){
@@ -73,16 +67,4 @@ export class NuovoDipendenteComponent implements OnInit  {
     return trovato;
   }
   
-  public prendiRuoli():void{
-    this.rol.listaRuoloRead().subscribe(
-      {
-        next:response=>( this.ruoli = response ),
-        error:error=> ( alert(error.message) )
-      }
-    );
-  }
-
-
-
-
 }

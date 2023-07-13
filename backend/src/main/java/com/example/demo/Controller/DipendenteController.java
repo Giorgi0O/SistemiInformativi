@@ -61,7 +61,6 @@ public class DipendenteController {
 
     @GetMapping("/dipendentiFiltri/{ruolo}/{tipologiaContratto}")
     public List<Dipendente> getDipendenti(@PathVariable String ruolo,@PathVariable String tipologiaContratto) throws DipendenteNotExistsException {
-        System.out.println(ruolo+"-"+tipologiaContratto);
         return dipendenteService.dipendenteFiltri(ruolo,tipologiaContratto);
     }
 

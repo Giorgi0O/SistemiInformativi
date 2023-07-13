@@ -6,6 +6,7 @@ import { TurnoLavorativo } from 'src/app/model/TurnoLavorativo';
 import { DipendentiService } from 'src/app/service/dipendenti.service';
 import { RtdService } from 'src/app/service/rtd.service';
 import { TurnoLavorativoService } from 'src/app/service/turno-lavorativo.service';
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
 
 @Component({
   selector: 'app-crea-turni',
@@ -21,25 +22,17 @@ export class CreaTurniComponent implements OnInit{
   turni:TurnoLavorativo[] =[];
   createForm!:FormGroup;
 
-  constructor(private ser:DipendentiService , private tur:TurnoLavorativoService, private rtd:RtdService){}
+  constructor(private fun:funzComuniService, private ser:DipendentiService , private tur:TurnoLavorativoService, private rtd:RtdService){}
 
   ngOnInit(){
-    this.getDipendenti();
-    this.prelevaTurni();
+    this.dipendenti = this.fun.getDipendenti();;
+    this.turni = this.fun.getTurni();
     this.createForm = new FormGroup({
       data: new FormControl(null, Validators.required),
       turno: new FormControl(null , Validators.required),
       dipendenti: new FormArray([]),
       straordinario: new FormArray([])
     });
-  }
-  public getDipendenti():void{
-    this.ser.getDipendenti().subscribe(
-      {
-        next:response=>( this.dipendenti = response ),
-        error:error=> ( console.log(error.message) )
-      }
-    );
   }
   public createRtd(){
     this.buttonDisable = true;
@@ -54,11 +47,16 @@ export class CreaTurniComponent implements OnInit{
       const s = this.contains(i);
       const dto = new DtoRTD(data, s);
       this.rtd.createRTD( i, turno, dto ).subscribe({
-        next:response =>(alert("Turno aggiunto")),
-        error:error =>(alert("ops, turno lavorativo non aggiunto"))
+        next:response =>{
+          alert("Turno aggiunto");
+          this.buttonDisable = false;
+      },
+        error:error =>{
+          alert("ops, turno lavorativo non aggiunto");
+          this.buttonDisable = false;
+      }
       })
     }
-    this.buttonDisable = false;
   }
   private contains(id:number):boolean{
     for( let s of this.createForm.value.straordinario ){
@@ -77,15 +75,8 @@ export class CreaTurniComponent implements OnInit{
     const date = new Date(year, month, day); 
     return date;
   }
-  public prelevaTurni(){
-    this.tur.listaTurniRead().subscribe({
-      next:response =>{ this.turni = response },
-      error:error =>{ alert(error); }
-    });
-  }
   onCheckboxChange(event:any){
     const selectedDipendente = (this.createForm.controls['dipendenti'] as FormArray);
-
     if (event.target.checked){
       selectedDipendente.push( new FormControl(event.target.value) );
     }else {
@@ -96,7 +87,6 @@ export class CreaTurniComponent implements OnInit{
   }
   onCheckboxChangeS(event:any){
     const selectedStraordinario = (this.createForm.controls['straordinario'] as FormArray);
-
     if (event.target.checked){
       selectedStraordinario.push( new FormControl(event.target.value) );
     }else {
