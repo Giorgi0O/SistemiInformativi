@@ -9,10 +9,21 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("Dipendente")
 @Getter
 @Setter
-public class Dipendente extends Utente {
+public class Dipendente{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(unique = true)
+    private String email;
+
+    private long telefono;
+
+    private String cognome;
+
+    private String nome;
 
     private String sede;
 

@@ -24,5 +24,10 @@ public class GiornataFeriale {
     @JsonIgnore
     private List<R_FD> rfd;
 
+    private long quantità;
+
+    @Version
+    private long versione;
+
 
 }
