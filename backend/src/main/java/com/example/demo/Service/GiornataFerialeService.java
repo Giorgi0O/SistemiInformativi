@@ -6,11 +6,13 @@ import com.example.demo.Entity.R_FD;
 import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
+import com.example.demo.Exception.QuantityLimitExceeded;
 import com.example.demo.Repository.DipendenteRepository;
 import com.example.demo.Repository.GiornataFerialeRepository;
 import com.example.demo.Repository.R_FDRepository;
 import com.example.demo.Repository.RuoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,4 +130,34 @@ public class GiornataFerialeService {
     public List<R_FD> giornataFerieFinByDipendente(Dipendente d){
         return d.getRfd();
     }
+
+    /*@Transactional
+    public void prendiFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded {
+        Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
+        if (!ferie.isPresent()) {
+            GiornataFeriale g = new GiornataFeriale();
+            g.setDataGiornataFeriale(data);
+            g.setQuantità(1);
+            giornataFerialeRepository.save(g);
+        } else {
+            if (ferie.get().getQuantità() >= 15) {
+                throw new QuantityLimitExceeded();
+            }
+            ferie.get().setQuantità(ferie.get().getQuantità() + 1);
+            try {
+                giornataFerialeRepository.save(ferie.get());
+            } catch (OptimisticLockingFailureException ex) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                prendiFerie(data, dipendente);
+            }
+        }
+        R_FD rfd = new R_FD();
+        rfd.setGiornataFeriale(ferie.get());
+        rfd.setDipendente(dipendente);
+    }*/
+    //gestione transazione
 }
