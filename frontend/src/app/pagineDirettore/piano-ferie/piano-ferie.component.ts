@@ -95,17 +95,9 @@ export class PianoFerieComponent implements OnInit {
       }
     })
   }
-  public prendiRuoli():void{
-    this.rol.listaRuoloRead().subscribe(
-      {
-        next:response=>( this.ruoli = response ),
-        error:error=> ( alert(error.message) )
-      }
-    );
-  }
   public async filtriFerie(){
     this.gio.getFerieFiltri(this.filtriForm.value.data , this.filtriForm.value.ruolo ).subscribe({
-      next: response =>{
+      next: () =>{
         this.cambioData();
         this.tutteDate = [];
         this.ferie.clear();
