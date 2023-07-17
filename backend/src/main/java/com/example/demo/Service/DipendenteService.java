@@ -29,8 +29,36 @@ public class DipendenteService {
         if(dipendenteRepository.existsById(d.getId())){
             throw new DipendenteAlreadyExistsException();
         }
+        /*HttpClient httpClient = HttpClientBuilder.create().build();
+        String url = KEYCLOAK_BASE_URL + "/realms/" + REALM_NAME + "/users";
+        List<NameValuePair> parameters = new ArrayList<>();
+        parameters.add(new BasicNameValuePair("email", d.getEmail()));
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Authorization", "Bearer " + getClientToken());
+        httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+        HttpResponse response = httpClient.execute(httpPost);
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode == 201) {
+            System.out.println("Dipendente creato in keyvloack");
+        } else {
+            System.out.println("Dipendente non creato in keyvloack: " + statusCode);
+        }*/
         return dipendenteRepository.save(d);
     }
+
+  /*  private static String getClientToken() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        String url = KEYCLOAK_BASE_URL + "/realms/" + REALM_NAME + "/protocol/openid-connect/token";
+        List<NameValuePair> parameters = new ArrayList<>();
+        parameters.add(new BasicNameValuePair("grant_type", "client_credentials"));
+        parameters.add(new BasicNameValuePair("client_id", CLIENT_ID));
+        parameters.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+        HttpResponse response = httpClient.execute(httpPost);
+        return "your-access-token";
+        }
+   */
 
     @Transactional
     public Dipendente dipendenteUpdate(Long id,Dipendente nuovo) throws DipendenteNotExistsException {
