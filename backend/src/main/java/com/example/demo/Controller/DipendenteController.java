@@ -78,6 +78,11 @@ public class DipendenteController {
         return dipendenteService.dipendenteFindByNome(nome);
     }
 
+    @GetMapping("/dipendenteEmail/{email}")
+    public Dipendente getDipendenteEmail(@PathVariable String email) throws DipendenteNotExistsException {
+        return dipendenteService.dipendenteFindByEmail(email);
+    }
+
     @GetMapping("/contratti")
     @PreAuthorize("hasRole('ADMIN')")
     public List<ContrattoLavorativo> getAllContratti(){

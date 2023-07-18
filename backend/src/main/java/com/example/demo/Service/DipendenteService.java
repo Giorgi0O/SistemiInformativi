@@ -127,6 +127,15 @@ public class DipendenteService {
         return c;
     }
     @Transactional(readOnly = true)
+    public Dipendente dipendenteFindByEmail(String email) throws DipendenteNotExistsException {
+        Optional<Dipendente> dipendente=dipendenteRepository.findDipendenteByEmail(email);
+        if(dipendente.isPresent()){
+            return dipendente.get();
+        }
+        throw new DipendenteNotExistsException();
+    }
+
+    @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
         if(ruolo.equals("nessuno")){
            if(!tipologiaContratto.equals("nessuno")){
