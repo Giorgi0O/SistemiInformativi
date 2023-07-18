@@ -167,10 +167,10 @@ public class GiornataFerialeService {
     }
     //gestione transazione
 
-    public long disponibilitaData(Date data) throws FerieNotExistsException {
+    public boolean disponibilitaData(Date data) throws FerieNotExistsException {
         Optional<GiornataFeriale> gf=giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         if(gf.isPresent()){
-            return 15-gf.get().getQuantità();
+            return (15-gf.get().getQuantità())>0;
         }
         throw new FerieNotExistsException();
     }
