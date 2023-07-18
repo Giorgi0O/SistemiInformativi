@@ -1,6 +1,5 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity.R_TD;
 import com.example.demo.Entity.TurnoLavorativo;
 import com.example.demo.Exception.TurnoLavorativoNotExistsException;
 import com.example.demo.Repository.R_TDRepository;
