@@ -96,6 +96,11 @@ public class DipendenteController {
         return contrattoLavorativoService.contrattoFindByDipendente(id);
     }
 
+    @GetMapping("/disponibilità/{id}")
+    public int disponibilita(@PathVariable Long id) throws DipendenteNotExistsException {
+        return dipendenteService.disponibilita(id);
+    }
+
 
 
 

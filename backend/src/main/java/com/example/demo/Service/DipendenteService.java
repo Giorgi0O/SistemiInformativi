@@ -23,6 +23,8 @@ public class DipendenteService {
     private R_FDRepository r_FDRepository;
     @Autowired
     private R_TDRepository r_tdRepository;
+    @Autowired
+    private GiornataFerialeRepository giornataFerialeRepository;
 
 
     public Dipendente dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
@@ -86,10 +88,21 @@ public class DipendenteService {
     public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(dipendente.isPresent()){
+            for(R_FD rfd:dipendente.get().getRfd()){
+                GiornataFeriale gf=rfd.getGiornataFeriale();
+                if(gf.getQuantità()==1){
+                    giornataFerialeRepository.delete(gf);
+                }
+                else{
+                    gf.setQuantità(gf.getQuantità()-1);
+                }
+            }
             r_FDRepository.deleteAll(dipendente.get().getRfd());
             r_tdRepository.deleteAll(dipendente.get().getRtd());
             dipendenteRepository.delete(dipendente.get());
-        }throw new DipendenteNotExistsException();
+        }else{
+            throw new DipendenteNotExistsException();
+        }
     }
 
     @Transactional(readOnly = true)
@@ -153,6 +166,15 @@ public class DipendenteService {
     public List<Dipendente> listaDipendenteRead(){
         return dipendenteRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public int disponibilita(long id) throws DipendenteNotExistsException {
+        Optional<Dipendente> d=dipendenteRepository.findById(id);
+        if(d.isPresent()){
+            return 20-d.get().getRfd().size();
+        }
+        throw new DipendenteNotExistsException();
+    }
+
 
 
 }
