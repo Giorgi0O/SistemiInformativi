@@ -18,9 +18,9 @@ export class RtdService {
 
   constructor(private http: HttpClient) {}
 
-  public createRTD( id_D:number, id_t:number, dto:DtoRTD ):Observable<R_TD>{
+  public createRTD( id_D:number, id_t:number, dto:DtoRTD ):Observable<void>{
     const url = this.apiServerUrl+'/postRTD/'+id_D.toString()+'/'+id_t.toString();
-    return this.http.post<R_TD>( url, dto, this.httpOption );
+    return this.http.post<void>( url, dto, this.httpOption );
   }
 
   public updateRTD( old:number , nuovo:R_TD ):Observable<R_TD>{
