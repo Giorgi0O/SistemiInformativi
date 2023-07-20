@@ -32,7 +32,7 @@ export class GiornataFerieService {
     const url = this.apiServerUrl+'/deleteFerie';
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      body: rfds 
+      body: rfds
     };
     return this.http.delete<GiornataFeriale>( url, httpOptions );
   }//delete
@@ -65,6 +65,16 @@ export class GiornataFerieService {
   public getFerieFiltri(data:String,ruolo:String):Observable<Dipendente[]>{
     const url = this.apiServerUrl+'/ferieFiltri/'+data+'/'+ruolo;
     return this.http.get<Dipendente[]>(url);
+  }
+
+  public richiediFerie(data:String,dipendente:Dipendente):Observable<void>{
+    const url = this.backendUrl+'/richiediFerie/'+data;
+    return this.http.post<void>(url,dipendente,this.httpOption);
+  }
+
+  public disponibilitaData(data:String):Observable<boolean>{
+    const url = this.backendUrl+'/disponibilitàData/'+data;
+    return this.http.get<boolean>(url);
   }
 
 }

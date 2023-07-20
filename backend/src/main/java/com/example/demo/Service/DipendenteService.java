@@ -62,11 +62,22 @@ public class DipendenteService {
     public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(dipendente.isPresent()){
+            for(R_FD rfd:dipendente.get().getRfd()){
+                GiornataFeriale gf=rfd.getGiornataFeriale();
+                if(gf.getQuantità()==1){
+                    giornataFerialeRepository.delete(gf);
+                }
+                else{
+                    gf.setQuantità(gf.getQuantità()-1);
+                }
+            }
             r_FDRepository.deleteAll(dipendente.get().getRfd());
             r_tdRepository.deleteAll(dipendente.get().getRtd());
             GestKeycloak.deleteUser(dipendente.get().getEmail() );
             dipendenteRepository.delete(dipendente.get());
-        }throw new DipendenteNotExistsException();
+        }else{
+            throw new DipendenteNotExistsException();
+        }
     }
 
     @Transactional(readOnly = true)
@@ -90,6 +101,15 @@ public class DipendenteService {
         }
         return c;
     }
+    @Transactional(readOnly = true)
+    public Dipendente dipendenteFindByEmail(String email) throws DipendenteNotExistsException {
+        Optional<Dipendente> dipendente=dipendenteRepository.findDipendenteByEmail(email);
+        if(dipendente.isPresent()){
+            return dipendente.get();
+        }
+        throw new DipendenteNotExistsException();
+    }
+
     @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
         if(ruolo.equals("nessuno")){
@@ -130,6 +150,15 @@ public class DipendenteService {
     public List<Dipendente> listaDipendenteRead(){
         return dipendenteRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public int disponibilita(long id) throws DipendenteNotExistsException {
+        Optional<Dipendente> d=dipendenteRepository.findById(id);
+        if(d.isPresent()){
+            return 20-d.get().getRfd().size();
+        }
+        throw new DipendenteNotExistsException();
+    }
+
 
 
 }

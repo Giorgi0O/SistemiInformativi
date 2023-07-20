@@ -4,6 +4,7 @@ import com.example.demo.Entity.Ruolo;
 import com.example.demo.Exception.RuoloNotExistsException;
 import com.example.demo.Service.RuoloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,21 +16,25 @@ public class RuoloController {
     private RuoloService ruoloService;
 
     @GetMapping("/ruoli")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Ruolo> getAllRuoli(){
         return ruoloService.listaRuoloRead();
     }
 
     @PostMapping("/postRuolo")
+    @PreAuthorize("hasRole('ADMIN')")
     public Ruolo createRuolo(@RequestBody Ruolo r){
         return ruoloService.ruoloCreate(r);
     }
 
     @PutMapping("/modificaRuolo/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Ruolo updateRuolo(@PathVariable long id,@RequestBody Ruolo nuovo) throws RuoloNotExistsException {
         return ruoloService.ruoloUpdate(id,nuovo);
     }
 
     @DeleteMapping("/deleteRuolo/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Ruolo deleteRuolo(@PathVariable long id) throws RuoloNotExistsException {
         return ruoloService.ruoloDelete(id);
     }
