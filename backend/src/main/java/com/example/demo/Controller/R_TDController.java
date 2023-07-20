@@ -23,30 +23,30 @@ public class R_TDController {
     private R_TDService rtdService;
 
     @PostMapping("/postRTD/{id}/{id_t}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException {
         rtdService.rtdCreate(id,id_t,dati);
     }
 
     @PostMapping("/modificaRTD/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public R_TD updateRTD(@PathVariable Long id,@RequestBody R_TD nuovo) throws TurnoDipendenteNotExistsException {
         return rtdService.rtdUpdate(id,nuovo);
     }
 
     @DeleteMapping("/deleteRTD/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public R_TD deleteRTD(@PathVariable Long id) throws TurnoDipendenteNotExistsException {
         return rtdService.rtdDelete(id);
     }
     @GetMapping("/RTD")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public List<R_TD> getAllRTD(){
         return rtdService.listaRtdRead();
     }
 
     @GetMapping("/filtriRTD/{data}/{idDipendente}")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('Dipendente')")
+    @PreAuthorize("hasRole('direttoreCS') || hasRole('dipendenteCS')")
     public List<R_TD> getAllRTD(@PathVariable String data, @PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException, ParseException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sd.parse(data);

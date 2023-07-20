@@ -16,25 +16,25 @@ public class RuoloController {
     private RuoloService ruoloService;
 
     @GetMapping("/ruoli")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public List<Ruolo> getAllRuoli(){
         return ruoloService.listaRuoloRead();
     }
 
     @PostMapping("/postRuolo")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public Ruolo createRuolo(@RequestBody Ruolo r){
         return ruoloService.ruoloCreate(r);
     }
 
     @PutMapping("/modificaRuolo/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public Ruolo updateRuolo(@PathVariable long id,@RequestBody Ruolo nuovo) throws RuoloNotExistsException {
         return ruoloService.ruoloUpdate(id,nuovo);
     }
 
     @DeleteMapping("/deleteRuolo/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('direttoreCS')")
     public Ruolo deleteRuolo(@PathVariable long id) throws RuoloNotExistsException {
         return ruoloService.ruoloDelete(id);
     }
