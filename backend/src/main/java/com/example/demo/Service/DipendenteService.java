@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,40 +26,15 @@ public class DipendenteService {
     private R_TDRepository r_tdRepository;
 
 
+
     public Dipendente dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
         if(dipendenteRepository.existsById(d.getId())){
             throw new DipendenteAlreadyExistsException();
         }
-        /*HttpClient httpClient = HttpClientBuilder.create().build();
-        String url = KEYCLOAK_BASE_URL + "/realms/" + REALM_NAME + "/users";
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("email", d.getEmail()));
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Authorization", "Bearer " + getClientToken());
-        httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-        HttpResponse response = httpClient.execute(httpPost);
-        int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode == 201) {
-            System.out.println("Dipendente creato in keyvloack");
-        } else {
-            System.out.println("Dipendente non creato in keyvloack: " + statusCode);
-        }*/
+        GestKeycloak.aggiungiKeycloak( d.getEmail()  );
         return dipendenteRepository.save(d);
     }
 
-  /*  private static String getClientToken() throws IOException {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        String url = KEYCLOAK_BASE_URL + "/realms/" + REALM_NAME + "/protocol/openid-connect/token";
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("grant_type", "client_credentials"));
-        parameters.add(new BasicNameValuePair("client_id", CLIENT_ID));
-        parameters.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-        HttpResponse response = httpClient.execute(httpPost);
-        return "your-access-token";
-        }
-   */
 
     @Transactional
     public Dipendente dipendenteUpdate(Long id,Dipendente nuovo) throws DipendenteNotExistsException {
@@ -88,6 +64,7 @@ public class DipendenteService {
         if(dipendente.isPresent()){
             r_FDRepository.deleteAll(dipendente.get().getRfd());
             r_tdRepository.deleteAll(dipendente.get().getRtd());
+            GestKeycloak.deleteUser(dipendente.get().getEmail() );
             dipendenteRepository.delete(dipendente.get());
         }throw new DipendenteNotExistsException();
     }

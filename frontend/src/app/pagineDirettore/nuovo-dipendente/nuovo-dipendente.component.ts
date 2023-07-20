@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/Authentication/auth.service';
 import { ContrattoLavorativo } from 'src/app/model/ContrattoLavorativo';
 import { Dipendente } from 'src/app/model/Dipendente';
 import { Ruolo } from 'src/app/model/Ruolo';
@@ -20,7 +21,7 @@ export class NuovoDipendenteComponent implements OnInit  {
 
   buttonCreaActive:boolean = false;
 
-  constructor(private fun:funzComuniService, private rol:RuoloService,private ser:DipendentiService ){}
+  constructor( private aut:AuthService, private fun:funzComuniService, private rol:RuoloService,private ser:DipendentiService ){}
 
   ngOnInit(){
     this.ruoli = this.fun.getRuoli();

@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,8 +11,6 @@ import { ModificaTurniComponent } from './pagineDirettore/modifica-turni/modific
 import { ListaDipendentiComponent } from './pagineDirettore/lista-dipendenti/lista-dipendenti.component';
 import { NuovoDipendenteComponent } from './pagineDirettore/nuovo-dipendente/nuovo-dipendente.component';
 import { PianoFerieComponent } from './pagineDirettore/piano-ferie/piano-ferie.component';
-import { CreaFerieComponent } from './pagineDirettore/crea-ferie/crea-ferie.component';
-import { ModificaFerieComponent } from './pagineDirettore/modifica-ferie/modifica-ferie.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ModificaDipendenteComponent } from './pagineDirettore/modifica-dipendente/modifica-dipendente.component';
@@ -20,13 +18,11 @@ import { PagineDirettoreComponent } from './pagineDirettore/pagine-direttore/pag
 import { LoginComponent } from './login/login.component';
 import { AppPagineDirettore } from './pagineDirettore/pagine-direttore/pagine-direttore.module';
 import { HomeComponent } from './pagineDipendente/home/home.component';
-import { DipendentiService } from './service/dipendenti.service';
 import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
-import { RuoloService } from './service/ruolo.service';
+import { RichiediFerieComponent } from './pagineDipendente/richiedi-ferie/richiedi-ferie.component';
+import { authInterceptorProviders } from './Authentication/auth.interceptor';
 import { DatePipe } from '@angular/common';
-import { RtdService } from './service/rtd.service';
-import { GiornataFerieService } from './service/giornata-ferie.service';
-import { TurnoLavorativoService } from './service/turno-lavorativo.service';
+import { authGuard, authGuardDipendente } from './Authentication/auth.guard';
 
 @NgModule({
   declarations: [
@@ -38,13 +34,12 @@ import { TurnoLavorativoService } from './service/turno-lavorativo.service';
     ListaDipendentiComponent,
     NuovoDipendenteComponent,
     PianoFerieComponent,
-    CreaFerieComponent,
-    ModificaFerieComponent,
     ModificaDipendenteComponent,
     PagineDirettoreComponent,
     LoginComponent,
     HomeComponent,
     RuoliComponent,
+    RichiediFerieComponent,
   ],
   imports: [
     RouterModule.forRoot([
@@ -59,10 +54,17 @@ import { TurnoLavorativoService } from './service/turno-lavorativo.service';
       },
       {
         path:"dipendente",
-        component: HomeComponent
+        canActivate: [authGuard],
+        component: HomeComponent,
+      },
+      {
+        path:"dipendente/ferie",
+        canActivate: [authGuardDipendente],
+        component: RichiediFerieComponent,
       },
       {
         path:"direttore",
+        canActivate: [authGuard],
         component: PagineDirettoreComponent
       },
     ]),
@@ -73,13 +75,8 @@ import { TurnoLavorativoService } from './service/turno-lavorativo.service';
     AppPagineDirettore
   ],
   providers: [
-    DipendentiService, 
-    RuoloService, 
     DatePipe,
-    RtdService,
-    GiornataFerieService,
-    RtdService,
-    TurnoLavorativoService
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

@@ -16,6 +16,9 @@ export class funzComuniService {
     turni:TurnoLavorativo[] = [];
     ruoli:Ruolo[] = [];
 
+    TOKEN_KEY:string = 'auth-token';
+    USER_KEY:string = 'auth-user';
+
     constructor( private ser:DipendentiService,
       private tur:TurnoLavorativoService,
       private rol:RuoloService ){}
@@ -33,9 +36,9 @@ export class funzComuniService {
     }
 
     public getTurni():TurnoLavorativo[]{
-      if( this.turni.length != 0 ){
+      if( this.turni.length == 0 ){
         this.tur.listaTurniRead().subscribe({
-          next:response =>{ response.map(t => (this.turni.push(t))) },
+          next:response =>{  console.log(response);response.map(t => (this.turni.push(t))) },
           error:error =>{ alert(error); }
         });
       }
@@ -53,5 +56,50 @@ export class funzComuniService {
       }
       return this.ruoli;
     }
+
+    signOut(): void {
+      window.sessionStorage.clear();
+    }
+
+    public isLogged( role:String ){
+      if( role === "direttoreCS"){
+        return this.getToken() !== null && this.getRole()[0] === role ;
+      }
+      return this.getToken() !== null && this.getRole()[1] === role ;
+    }
+
+    public getRole(){
+      const token = this.getToken();
+      if( token !== null ){
+        const dplay = JSON.parse( atob( token.split('.')[1] ) );
+        return dplay.realm_access.roles;
+      }
+      return "";
+    }
+
+    public saveToken( token:string ){
+      window.sessionStorage.removeItem(this.TOKEN_KEY);
+      window.sessionStorage.setItem(this.TOKEN_KEY, token);
+    }
+    
+
+    public getToken(): any {
+      return window.sessionStorage.getItem( this.TOKEN_KEY );
+    }
+
+    public saveUser(user: any): void {
+      window.sessionStorage.removeItem( this.USER_KEY );
+      window.sessionStorage.setItem( this.USER_KEY, JSON.stringify(user) );
+    }
+
+    public getUser(): any {
+      const user = window.sessionStorage.getItem(this.USER_KEY);
+      if (user) {
+        return JSON.parse(user);
+      }
+      return {};
+    }
+
+    
 
 }

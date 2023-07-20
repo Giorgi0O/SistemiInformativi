@@ -37,3 +37,17 @@
     width: 150px;
     height: 20px;
 }
+.invalid{
+    display: none;
+}
+.fail{
+    animation: loginFail 0.2s 1;
+}
+
+@keyframes loginFail {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(10px); }
+}

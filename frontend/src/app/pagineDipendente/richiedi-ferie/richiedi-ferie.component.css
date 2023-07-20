@@ -1,0 +1,65 @@
+body{
+    background-color: orange;
+}
+form{
+    all:unset;
+}
+.container{
+    margin-top: 0;
+    height: 100vh; max-height: 200vh;
+    padding-top: 50px;
+}
+.header{
+    margin: 0 auto 0 auto;
+    background-color: white ;
+    display:flex;
+    flex-direction: row; align-items: center; justify-content: space-between;
+}
+.header span{
+    margin: unset;
+}
+.header a{
+    text-decoration: none; color: black;
+    font-size: 32px; font-weight: bold;
+    padding: 0 2px 0 2px;
+    margin-left: 10px;
+}
+.button{
+    margin: unset;
+    margin: 0 10px 0 0 ;
+}
+.contElem{
+    background-color: white ;
+    display: flex; flex-direction: row; 
+    height: 60%; width: 80%;
+    margin: 20px auto 0 auto; border: 2px solid #000000; border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.element{
+    flex: 1;
+    display: flex; flex-direction: column;
+}
+.uno{
+    margin: auto 0 auto 0;
+}
+.due{
+    margin: auto 0 auto 0;
+}
+.element p{
+    margin: 15px 0 15px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.element span{
+    text-align: center;
+    margin-bottom:15px;
+}
+.calendario{
+    margin: 0 auto 0 auto;
+}
+.disp{
+    width: auto;
+    float: none;
+    margin: 0 auto 0 auto;
+}

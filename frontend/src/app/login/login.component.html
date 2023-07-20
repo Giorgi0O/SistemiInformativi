@@ -1,11 +1,12 @@
 <!-- PAGINA LOGIN -->
 <div class="login">
     <img src="../assets/img/logo.png" alt="">
-    <form >
-        <label for=""> Email: </label>
-        <input type="email" class="test">
-        <label for=""> Password: </label>
-        <input type="password" class="test">
-        <a routerLink="/direttore/turni" class="button"> login </a>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" [class.fail]="loginFail" >
+        <label [class.fail]="loginFail"> Email: </label>
+        <input type="email" class="test" formControlName="username" >
+        <label [class.fail]="loginFail"> Password: </label>
+        <input type="password" class="test" formControlName="password" >
+        <input type="submit"  [disabled]="loginActive || !loginForm.valid" [class.invalid]="loginActive || !loginForm.valid"
+        class="button" value="login" >
     </form>
 </div>

@@ -51,7 +51,7 @@ export class TurnisettimanaliComponent implements OnInit {
     const formattedDate:String|null = this.datePipe.transform(this.date , "yyyy-MM-dd");
     this.rtd.filtriRTD( formattedDate , -1).subscribe({
       next:response =>{ this.turniQuotidiani = response;},
-      error:error =>{ alert(error); }
+      error:error =>{ alert("ops, problemi di rete"); }
     });
   }
   public filtriTurni():void{
