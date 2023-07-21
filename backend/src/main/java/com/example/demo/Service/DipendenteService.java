@@ -19,6 +19,8 @@ public class DipendenteService {
     @Autowired
     private DipendenteRepository dipendenteRepository;
     @Autowired
+    private GiornataFerialeRepository giornataFerieREpository;
+    @Autowired
     private RuoloRepository ruoloRepository;
     @Autowired
     private R_FDRepository r_FDRepository;
@@ -67,7 +69,7 @@ public class DipendenteService {
             for(R_FD rfd:dipendente.get().getRfd()){
                 GiornataFeriale gf=rfd.getGiornataFeriale();
                 if(gf.getQuantità()==1){
-                    giornataFerialeRepository.delete(gf);
+                    giornataFerieREpository.delete(gf);
                 }
                 else{
                     gf.setQuantità(gf.getQuantità()-1);
