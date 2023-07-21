@@ -61,3 +61,10 @@
 <div class="logout">
     <a (click)="logout()" class="button"> <img src="../../../assets/img/icon/send-file.png" alt=""> </a>
 </div>
+<div [class.not_show]="!logoutButton" [class.show]="logoutButton">
+    <p>Sei sicuro di voler uscire ?</p>
+    <div class="container-button" >
+        <a (click)="denied()" class="button no"> annulla </a>
+        <a (click)="confirmLogout()" class="button si"> Esci  </a>
+    </div>
+</div>

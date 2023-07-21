@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { funzComuniService } from '../utils/funzComuni.service';
 import { AuthService } from '../Authentication/auth.service';
 import { DipendentiService } from '../service/dipendenti.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.login();
   }
 
-
+/*
   login(){
     this.aut.login( this.loginForm.value.username , this.loginForm.value.password ).subscribe({
       next:response =>{
@@ -51,6 +52,27 @@ export class LoginComponent implements OnInit {
       }
     });
 
+  }
+*/
+  login(){
+    this.aut.login( this.loginForm.value.username , this.loginForm.value.password ).pipe(
+      tap(response =>{
+        const token = response.access_token;
+        //salvataggio token
+        this.fun.saveToken(token);
+        this.fun.saveUser(response);
+        const roles = this.fun.getRole();
+        if( roles[0] === "direttoreCS" ){
+          this.ruoter.navigate(['/direttore/turni']);
+        }else if( roles[1] === "dipendenteCS"){
+          this.ruoter.navigate(['/dipendente']);
+        }
+      })
+    ).subscribe({
+      next:() =>{},
+      error : error => (console.log(error))
+    })
+  
   }
 
   fail(){

@@ -15,8 +15,26 @@ export class AuthService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
     };
-    const b = "client_id=BoomClient&client_secret=vh4nSlFGsfzxHFvvmCNzHM4U0qVGbVRD&username="+username+"&password="+password+"&grant_type=password";
-    return this.http.post( url , b, httpOptions );
+    const requestBody = {
+      client_id: 'BoomClient',
+      client_secret: 'vh4nSlFGsfzxHFvvmCNzHM4U0qVGbVRD',
+      username: username,
+      password: password,
+      grant_type: 'password'
+    };
+    const body =  this.toUrlEncodedString(requestBody);
+    //const b = "client_id=BoomClient&client_secret=vh4nSlFGsfzxHFvvmCNzHM4U0qVGbVRD&username="+username+"&password="+password+"&grant_type=password";
+    return this.http.post( url , body , httpOptions );
+  }
+
+  toUrlEncodedString(obj: any): string {
+    const params = new URLSearchParams();
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        params.set(key, obj[key]);
+      }
+    }
+    return params.toString();
   }
 
 }
