@@ -68,11 +68,19 @@ public class GiornataFerialeService {
     }
 
     @Transactional
-    public void deleteRfd(List<R_FD> ferie) throws FerieNotExistsException {
-        for(R_FD r:ferie) {
-            if(r_FDRepository.existsById(r.getId())) {
-                r_FDRepository.delete(r);
+    public void deleteRfd(long id) throws FerieNotExistsException {
+        Optional<R_FD> r=r_FDRepository.findById(id);
+        if(r.isPresent()) {
+            if(r.get().getGiornataFeriale().getQuantità()==1){
+                    giornataFerialeRepository.delete(r.get().getGiornataFeriale());
             }
+            else{
+                r.get().getGiornataFeriale().setQuantità(r.get().getGiornataFeriale().getQuantità()-1);
+            }
+            r_FDRepository.delete(r.get());
+        }
+        else {
+            throw new FerieNotExistsException();
         }
     }
 
