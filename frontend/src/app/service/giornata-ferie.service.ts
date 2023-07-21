@@ -28,13 +28,9 @@ export class GiornataFerieService {
     return this.http.post<GiornataFeriale>( url, nuovo, this.httpOption );
   }
 
-  public deleteGiornataFerie( rfds:number[] ):Observable<GiornataFeriale>{
-    const url = this.apiServerUrl+'/deleteFerie';
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      body: rfds
-    };
-    return this.http.delete<GiornataFeriale>( url, httpOptions );
+  public deleteGiornataFerie( id:number ):Observable<GiornataFeriale>{
+    const url = this.apiServerUrl+'/deleteFerie/'+id.toString();
+    return this.http.delete<GiornataFeriale>( url );
   }//delete
 
   public listaFerieRead():Observable<GiornataFeriale[]>{
@@ -57,9 +53,9 @@ export class GiornataFerieService {
     return this.http.get<Dipendente[]>(url);
   }// dipendenti in ferie per quella data
 
-  public getFerieDipendente(id:number):Observable<GiornataFeriale[]>{
+  public getFerieDipendente(id:number):Observable<rfd[]>{
     const url = this.apiServerUrl+'/FerieDipendente/'+id.toString();
-    return this.http.get<GiornataFeriale[]>(url);
+    return this.http.get<rfd[]>(url);
   }
 
   public getFerieFiltri(data:String,ruolo:String):Observable<Dipendente[]>{
@@ -73,7 +69,7 @@ export class GiornataFerieService {
   }
 
   public disponibilitaData(data:String):Observable<boolean>{
-    const url = this.backendUrl+'/disponibilitàData/'+data;
+    const url = this.backendUrl+'/disponibilitaData/'+data;
     return this.http.get<boolean>(url);
   }
 

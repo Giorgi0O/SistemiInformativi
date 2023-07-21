@@ -32,29 +32,8 @@ export class LoginComponent implements OnInit {
     this.login();
   }
 
-/*
   login(){
-    this.aut.login( this.loginForm.value.username , this.loginForm.value.password ).subscribe({
-      next:response =>{
-        const token = response.access_token;
-        //salvataggio token
-        this.fun.saveToken(token);
-        this.fun.saveUser(response);
-        const roles = this.fun.getRole();
-        if( roles[0] === "direttoreCS" ){
-          this.ruoter.navigate(['/direttore/turni']);
-        }else if( roles[1] === "dipendenteCS"){
-          this.ruoter.navigate(['/dipendente']);
-        }
-      },
-      error: error =>{
-        this.fail(); 
-      }
-    });
-
-  }
-*/
-  login(){
+    this.loginFail = false;
     this.aut.login( this.loginForm.value.username , this.loginForm.value.password ).pipe(
       tap(response =>{
         const token = response.access_token;
@@ -70,10 +49,10 @@ export class LoginComponent implements OnInit {
       })
     ).subscribe({
       next:() =>{},
-      error : error => (console.log(error))
+      error : error => (this.fail())
     })
-  
   }
+
 
   fail(){
     this.loginFail = true;

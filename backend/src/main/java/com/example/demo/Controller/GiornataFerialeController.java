@@ -102,7 +102,7 @@ public class GiornataFerialeController {
         giornataFerialeService.richiediFerie(data,dipendente);
     }
 
-    @GetMapping("/disponibilitàData/{d}")
+    @GetMapping("/disponibilitaData/{d}")
     @Secured("hasRole('dipendenteCS')")
     public boolean disponibilitaData(@PathVariable String d) throws ParseException, FerieNotExistsException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");

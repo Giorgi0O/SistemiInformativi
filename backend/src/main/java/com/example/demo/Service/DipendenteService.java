@@ -19,15 +19,14 @@ public class DipendenteService {
     @Autowired
     private DipendenteRepository dipendenteRepository;
     @Autowired
-    private GiornataFerialeRepository giornataFerieREpository;
+    private GiornataFerialeRepository giornataFerieRepository;
     @Autowired
     private RuoloRepository ruoloRepository;
     @Autowired
     private R_FDRepository r_FDRepository;
     @Autowired
     private R_TDRepository r_tdRepository;
-    @Autowired
-    private GiornataFerialeRepository giornataFerialeRepository;
+
 
 
 
@@ -35,8 +34,9 @@ public class DipendenteService {
         if(dipendenteRepository.existsById(d.getId())){
             throw new DipendenteAlreadyExistsException();
         }
+        Dipendente salvato = dipendenteRepository.save(d);
         GestKeycloak.aggiungiKeycloak( d.getEmail()  );
-        return dipendenteRepository.save(d);
+        return salvato;
     }
 
 
@@ -69,7 +69,7 @@ public class DipendenteService {
             for(R_FD rfd:dipendente.get().getRfd()){
                 GiornataFeriale gf=rfd.getGiornataFeriale();
                 if(gf.getQuantità()==1){
-                    giornataFerieREpository.delete(gf);
+                    giornataFerieRepository.delete(gf);
                 }
                 else{
                     gf.setQuantità(gf.getQuantità()-1);

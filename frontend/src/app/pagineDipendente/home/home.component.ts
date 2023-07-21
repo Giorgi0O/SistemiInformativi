@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {DipendentiService} from "../../service/dipendenti.service";
 import {Observable} from "rxjs";
-import {error} from "@angular/compiler-cli/src/transformers/util";
-import {GiornataFerieService} from "../../service/giornata-ferie.service";
-import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
+import { funzComuniService } from 'src/app/utils/funzComuni.service';
+import { Dipendente } from 'src/app/model/Dipendente';
+
 
 @Component({
   selector: 'app-home',
@@ -11,20 +11,27 @@ import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  dipendente!:Dipendente;
   dis: number = 0;
 
-  constructor(private ser: DipendentiService) {}
+  constructor(private ser: DipendentiService, private fun:funzComuniService ) {}
 
   ngOnInit() {
-    this.trovaDisponibilita();
+    this.trovaDipendente();
   }
 
-  public disponibilita(email: string): Observable<number> {
-    return this.ser.disponibilita(email);
+
+
+  trovaDipendente(){
+    const user = this.fun.getUsername();
+    this.ser.getDipendenteEmail(user).subscribe({
+      next: response =>{ this.dipendente = response; this.trovaDisponibilita(response.email) }
+    })
   }
 
-  public trovaDisponibilita(){
-    this.disponibilita("email").subscribe(
+  public trovaDisponibilita(email:String){
+    this.ser.disponibilita( email ).subscribe(
       {
         next: response => {
           this.dis = response;

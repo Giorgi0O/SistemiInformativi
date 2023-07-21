@@ -102,10 +102,10 @@ public class DipendenteController {
         return contrattoLavorativoService.contrattoFindByDipendente(id);
     }
 
-    @GetMapping("/disponibilità/{id}")
+    @GetMapping("/disponibilita/{email}")
     @Secured("hasRole('dipendenteCS')")
-    public int disponibilita(@PathVariable Long id) throws DipendenteNotExistsException {
-        return dipendenteService.disponibilita(id);
+    public int disponibilita(@PathVariable String email) throws DipendenteNotExistsException {
+        return dipendenteService.disponibilita(email);
     }
 
 

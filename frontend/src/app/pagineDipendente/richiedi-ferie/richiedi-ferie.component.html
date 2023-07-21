@@ -8,7 +8,7 @@
 <body>
 
     <div class="container">
-        <form >
+        <form [formGroup]="formFerie" (ngSubmit)="prenotaFerie()">
             <div class="header">
                 <a href="/dipendente"> &#8592; </a>
                 <span>Richiedi Ferie</span>
@@ -17,18 +17,26 @@
             <div class="contElem">
                 <div class="element uno">
                     <p> Seleziona la data d'inizio </p>
-                    <input type="date" class="calendario">
+                    <input type="date" class="calendario" formControlName="datainizio">
                     <p> Seleziona la data di fine </p>
-                    <input type="date" class="calendario">
+                    <input type="date" class="calendario" formControlName="datafine">
                 </div>
-                <div class="element due">
-                    <p> Disponibilità </p>
-                    <span> Inserisci la data e controlla la Disponibilità </span>
-                    <input type="button" class="button disp" value="Controlla Disponibilità">
+                <div class="element uno">
+                    <p> Ferie prenotate </p>
+                    <div class="ferieDisp" >
+                        <a *ngFor="let gio of disRfd" (click)="richiestaDelete(gio)" > {{gio.giornataFeriale.dataGiornataFeriale }} </a>
+                    </div>
                 </div>
             </div>
-
         </form>
+    </div>
+
+    <div [class.not_show]="!elimina" [class.show]="elimina">
+        <p> Sei sicuro di voler eliminare la gionataFerie ? </p>
+        <div class="bottoni">
+            <button class="button no" (click)="deleteRfd()"> annulla </button>
+            <button class="button si" (click)="annulla()" > elimina </button>
+        </div>
     </div>
 
 </body>

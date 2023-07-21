@@ -38,7 +38,7 @@ export class funzComuniService {
     public getTurni():TurnoLavorativo[]{
       if( this.turni.length == 0 ){
         this.tur.listaTurniRead().subscribe({
-          next:response =>{  console.log(response);response.map(t => (this.turni.push(t))) },
+          next:response =>{  response.map(t => (this.turni.push(t))) },
           error:error =>{ console.log(error); }
         });
       }
@@ -75,6 +75,16 @@ export class funzComuniService {
         return dplay.realm_access.roles;
       }
       return "";
+    }
+
+    public getUsername(){
+      const token = this.getToken();
+      if( token !== null ){
+        const dplay = JSON.parse( atob( token.split('.')[1] ) );
+        return dplay.preferred_username;
+      }
+      return "";
+
     }
 
     public saveToken( token:string ){
