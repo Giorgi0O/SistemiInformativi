@@ -70,8 +70,8 @@ export class DipendentiService {
     return this.http.get<ContrattoLavorativo>( url );
   }//Get contratto dipendente
 
-  public disponibilita(id:number):Observable<number>{
-    const url=this.backendUrl+'/disponibilita/'+id.toString;
+  public disponibilita(email: String):Observable<number>{
+    const url=this.backendUrl+'/disponibilita/'+email;
     return this.http.get<number>(url);
   }
 

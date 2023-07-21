@@ -26,6 +26,8 @@ public class DipendenteService {
     private R_FDRepository r_FDRepository;
     @Autowired
     private R_TDRepository r_tdRepository;
+    @Autowired
+    private GiornataFerialeRepository giornataFerialeRepository;
 
 
 
@@ -153,8 +155,8 @@ public class DipendenteService {
         return dipendenteRepository.findAll();
     }
     @Transactional(readOnly = true)
-    public int disponibilita(long id) throws DipendenteNotExistsException {
-        Optional<Dipendente> d=dipendenteRepository.findById(id);
+    public int disponibilita(String email) throws DipendenteNotExistsException {
+        Optional<Dipendente> d=dipendenteRepository.findDipendenteByEmail(email);
         if(d.isPresent()){
             return 20-d.get().getRfd().size();
         }
