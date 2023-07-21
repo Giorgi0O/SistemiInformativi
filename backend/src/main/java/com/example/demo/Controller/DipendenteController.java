@@ -8,7 +8,7 @@ import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Service.ContrattoLavorativoService;
 import com.example.demo.Service.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +23,13 @@ public class DipendenteController {
     private ContrattoLavorativoService contrattoLavorativoService;
 
     @GetMapping("/dipendenti")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getAllDipendenti(){
         return dipendenteService.listaDipendenteRead();
     }
 
     @PostMapping("/postDipendente")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public Dipendente dipendenteCreate(@RequestBody Dipendente d) throws DipendenteAlreadyExistsException {
         System.out.println(d);
         contrattoLavorativoService.contrattoCreate(d.getContrattoLavorativo());
@@ -37,7 +37,7 @@ public class DipendenteController {
     }
 
     @PutMapping("/modificaDipendente/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public Dipendente dipendenteUpdate(@PathVariable Long id,@RequestBody Dipendente nuovo) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente vecchio=dipendenteService.dipendenteFindById(id);
         if(!vecchio.getContrattoLavorativo().getDescrizione().equals(nuovo.getContrattoLavorativo().getDescrizione()) || !vecchio.getContrattoLavorativo().getTipologia().equals(nuovo.getContrattoLavorativo().getTipologia()) ){
@@ -47,7 +47,7 @@ public class DipendenteController {
     }
 
     @DeleteMapping("/deleteDipendente/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public void dipendenteDelete(@PathVariable Long id) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente d=dipendenteService.dipendenteFindById(id);
         dipendenteService.dipendenteDelete(id);
@@ -55,55 +55,57 @@ public class DipendenteController {
     }
 
     @GetMapping("/dipendenti/{sede}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getDipendentiBySede(@PathVariable String sede){
         return dipendenteService.dipendenteFindBySede(sede);
     }
 
     @GetMapping("/dipendente/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public Dipendente getDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
         return dipendenteService.dipendenteFindById(id);
     }
 
     @GetMapping("/dipendentiFiltri/{ruolo}/{tipologiaContratto}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getDipendenti(@PathVariable String ruolo,@PathVariable String tipologiaContratto) throws DipendenteNotExistsException {
         return dipendenteService.dipendenteFiltri(ruolo,tipologiaContratto);
     }
 
     @GetMapping("/dipendentiNome/{nome}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getDipendentiNome(@PathVariable String nome){
         return dipendenteService.dipendenteFindByNome(nome);
     }
 
     @GetMapping("/dipendenteEmail/{email}")
+    @Secured("hasRole('dipendenteCS')")
     public Dipendente getDipendenteEmail(@PathVariable String email) throws DipendenteNotExistsException {
         return dipendenteService.dipendenteFindByEmail(email);
     }
 
     @GetMapping("/contratti")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public List<ContrattoLavorativo> getAllContratti(){
         return contrattoLavorativoService.listaContrattiRead();
     }
 
     @GetMapping("/contratto/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public ContrattoLavorativo getContratto(@PathVariable Long id) throws ContrattoNotExistsException {
         return contrattoLavorativoService.contrattoFindById(id);
     }
 
     @GetMapping("/contrattoDipendente/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("hasRole('direttoreCS')")
     public ContrattoLavorativo getContrattoDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
         return contrattoLavorativoService.contrattoFindByDipendente(id);
     }
 
-    @GetMapping("/disponibilità/{email}")
-    public int disponibilita(@PathVariable String email) throws DipendenteNotExistsException {
-        return dipendenteService.disponibilita(email);
+    @GetMapping("/disponibilità/{id}")
+    @Secured("hasRole('dipendenteCS')")
+    public int disponibilita(@PathVariable Long id) throws DipendenteNotExistsException {
+        return dipendenteService.disponibilita(id);
     }
 
 

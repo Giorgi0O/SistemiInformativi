@@ -10,13 +10,21 @@ import { funzComuniService } from 'src/app/utils/funzComuni.service';
 })
 export class PagineDirettoreComponent {
 
-
+  logoutButton:boolean = false;
   constructor( private rut:Router ,private fun:funzComuniService , private aut:AuthService ){}
 
 
   logout(){
+    this.logoutButton = true; 
+  }
+  denied(){
+    this.logoutButton = false; 
+  }
+
+  confirmLogout(){
     this.fun.signOut();
     this.rut.navigate(["/"]);
+    this.logoutButton = false; 
     console.log(window.sessionStorage);
   }
 

@@ -45,10 +45,16 @@ public class GiornataFerialeController {
         GiornataFeriale vecchia=giornataFerialeService.giornataFerieFindById(id);
         return giornataFerialeService.giornataFerieUpdate(vecchia, nuova);
     }
-    @DeleteMapping("/deleteFerie/{id}")
+    @DeleteMapping("/deleteFerie")
     @PreAuthorize("hasRole('direttoreCS')")
-    public void deleteFerie( @PathVariable Long id ) throws FerieNotExistsException {
-        giornataFerialeService.deleteRfd(id);
+    public void deleteFerie( @RequestBody List<Integer> ferie ) throws FerieNotExistsException {
+        ArrayList<R_FD> rfd = new ArrayList<>();
+        for( int i : ferie ){
+            R_FD r = new R_FD();
+            r.setId(i);
+            rfd.add(r);
+        }
+        giornataFerialeService.deleteRfd(rfd);
     }
 
     @GetMapping("/Ferie")

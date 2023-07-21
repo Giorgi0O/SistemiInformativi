@@ -35,7 +35,7 @@ export class RtdService {
 
   public listaRTDRead():Observable<R_TD[]>{
     const url = this.apiServerUrl+'/RTD'
-    return this.http.get<R_TD[]>(url);
+    return this.http.get<R_TD[]>(url, { withCredentials: true } );
   }
 
   public filtriRTD(data:String|null,idDipendente:number):Observable<R_TD[]>{

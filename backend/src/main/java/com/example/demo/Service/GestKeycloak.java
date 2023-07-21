@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.example.demo.Exception.DipendenteNotExistsException;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -95,12 +96,11 @@ public class GestKeycloak{
         }
         try{
             URL url = new URL( "http://localhost:8080/admin/realms/BoomBurgher/users/"+userid );
-
             HttpURLConnection httpGet = (HttpURLConnection) url.openConnection();
             httpGet.setRequestMethod("DELETE");
             httpGet.setRequestProperty("Authorization", "Bearer "+tokenAdmin);
-
             int responseCode = httpGet.getResponseCode();
+            System.out.println(responseCode);
             if ( responseCode == 204 || responseCode == 201){
                 System.out.println("eliminato");
             }
@@ -108,29 +108,23 @@ public class GestKeycloak{
         }catch(IOException e){
             System.out.println(e.getMessage());
         }
-
     }
 
     private static String trovaUser( String username ){
         String token = tokenAdmin();
         try{
             URL url = new URL( "http://localhost:8080/admin/realms/BoomBurgher/users?username="+username );
-
             HttpURLConnection httpGet = (HttpURLConnection) url.openConnection();
             httpGet.setRequestMethod("GET");
             httpGet.setRequestProperty("Authorization", "Bearer "+token);
-
             int responseCode = httpGet.getResponseCode();
             if ( responseCode == 200 || responseCode == 201){
-                String output = "";
                 BufferedReader bf = new BufferedReader(new InputStreamReader( httpGet.getInputStream()));
-                String line = bf.readLine();
-                while( line != null ){
-                    output += line;
-                    line = bf.readLine();
-                }
-                JsonElement je = JsonParser.parseString(output); 
-                return je.getAsJsonObject().get("id").getAsString(); 
+                String output = bf.readLine();
+                System.out.println(output);
+                JsonArray jsonArray = JsonParser.parseString(output).getAsJsonArray();
+                JsonElement jsonElement = jsonArray.get(0);
+                return jsonElement.getAsJsonObject().get("id").getAsString();
             }
             httpGet.disconnect();
         }catch(IOException e){

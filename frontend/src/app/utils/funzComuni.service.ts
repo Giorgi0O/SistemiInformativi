@@ -39,7 +39,7 @@ export class funzComuniService {
       if( this.turni.length == 0 ){
         this.tur.listaTurniRead().subscribe({
           next:response =>{  console.log(response);response.map(t => (this.turni.push(t))) },
-          error:error =>{ alert(error); }
+          error:error =>{ console.log(error); }
         });
       }
       return this.turni;
@@ -50,7 +50,7 @@ export class funzComuniService {
         this.rol.listaRuoloRead().subscribe(
           {
             next:response=>( response.map(t => (this.ruoli.push(t)))  ),
-            error:error=> ( alert(error.message) )
+            error:error=> ( console.log(error.message) )
           }
         );
       }
