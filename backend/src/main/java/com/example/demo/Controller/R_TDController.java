@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.R_TD;
 import com.example.demo.Exception.DipendenteNotExistsException;
+import com.example.demo.Exception.FerieAlreadyExistsException;
 import com.example.demo.Exception.TurnoDipendenteNotExistsException;
 import com.example.demo.Exception.TurnoLavorativoNotExistsException;
 import com.example.demo.Service.DtoRTD;
@@ -24,7 +25,7 @@ public class R_TDController {
 
     @PostMapping("/postRTD/{id}/{id_t}")
     @Secured("hasRole('direttoreCS')")
-    public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException {
+    public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException, FerieAlreadyExistsException {
         rtdService.rtdCreate(id,id_t,dati);
     }
 

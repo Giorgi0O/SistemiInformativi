@@ -1,9 +1,11 @@
 package com.example.demo.Service;
 
 import com.example.demo.Entity.Dipendente;
+import com.example.demo.Entity.R_FD;
 import com.example.demo.Entity.R_TD;
 import com.example.demo.Entity.TurnoLavorativo;
 import com.example.demo.Exception.DipendenteNotExistsException;
+import com.example.demo.Exception.FerieAlreadyExistsException;
 import com.example.demo.Exception.TurnoDipendenteNotExistsException;
 import com.example.demo.Exception.TurnoLavorativoNotExistsException;
 import com.example.demo.Repository.DipendenteRepository;
@@ -29,7 +31,7 @@ public class R_TDService {
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
-    public void rtdCreate(Long id,Long id_t,DtoRTD dto) throws TurnoLavorativoNotExistsException, DipendenteNotExistsException {
+    public void rtdCreate(Long id,Long id_t,DtoRTD dto) throws TurnoLavorativoNotExistsException, DipendenteNotExistsException, FerieAlreadyExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(!dipendente.isPresent()){
             throw new DipendenteNotExistsException();
@@ -38,12 +40,16 @@ public class R_TDService {
         if(!turno.isPresent()){
             throw new TurnoLavorativoNotExistsException();
         }
+        for(R_FD rfd:dipendente.get().getRfd()){
+            if(rfd.getGiornataFeriale().getDataGiornataFeriale().equals(dto.getData())){
+                throw new FerieAlreadyExistsException();
+            }
+        }
         R_TD ne = new R_TD();
         ne.setDipendente(dipendente.get());
         ne.setTurnoLavorativo(turno.get());
         ne.setStraordinario(dto.isStraordinario());
         ne.setTurnoLavorativoDate(dto.getData());
-        //dipendente.get().getRtd().add(ne);
         rtdRepository.save(ne);
     }
 

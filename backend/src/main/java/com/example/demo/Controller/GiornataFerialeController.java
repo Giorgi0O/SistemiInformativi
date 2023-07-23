@@ -7,6 +7,7 @@ import com.example.demo.Entity.R_FD;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Exception.QuantityLimitExceeded;
+import com.example.demo.Exception.TurnoAlreadyExistsException;
 import com.example.demo.Repository.GiornataFerialeRepository;
 import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.GiornataFerialeService;
@@ -88,7 +89,7 @@ public class GiornataFerialeController {
 
     @PostMapping("/richiediFerie/{d}")
     @Secured("hasRole('dipendenteCS')")
-    public void richiediFerie(@PathVariable String d,@RequestBody Dipendente dipendente) throws ParseException,QuantityLimitExceeded, DipendenteNotExistsException {
+    public void richiediFerie(@PathVariable String d,@RequestBody Dipendente dipendente) throws ParseException, QuantityLimitExceeded, DipendenteNotExistsException, TurnoAlreadyExistsException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         Date data = sd.parse(d);
         giornataFerialeService.richiediFerie(data,dipendente);

@@ -1,12 +1,10 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity.Dipendente;
-import com.example.demo.Entity.GiornataFeriale;
-import com.example.demo.Entity.R_FD;
-import com.example.demo.Entity.Ruolo;
+import com.example.demo.Entity.*;
 import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Exception.FerieNotExistsException;
 import com.example.demo.Exception.QuantityLimitExceeded;
+import com.example.demo.Exception.TurnoAlreadyExistsException;
 import com.example.demo.Repository.DipendenteRepository;
 import com.example.demo.Repository.GiornataFerialeRepository;
 import com.example.demo.Repository.R_FDRepository;
@@ -139,11 +137,16 @@ public class GiornataFerialeService {
     }
 
     @Transactional
-    public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded, DipendenteNotExistsException {
+    public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded, DipendenteNotExistsException, TurnoAlreadyExistsException {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         Optional<Dipendente> dip = dipendenteRepository.findById(dipendente.getId());
         if( !dip.isPresent() ) throw new DipendenteNotExistsException();
         if (!ferie.isPresent()) {
+            for(R_TD rtd:dipendente.getRtd()){
+                if(rtd.getTurnoLavorativoDate().equals(data)){
+                    throw new TurnoAlreadyExistsException();
+                }
+            }
             GiornataFeriale g = new GiornataFeriale();
             g.setVersione(1);
             g.setDataGiornataFeriale(data);
@@ -154,6 +157,11 @@ public class GiornataFerialeService {
             rfd.setDipendente(dip.get());
             r_FDRepository.save(rfd);
         }else{
+            for(R_TD rtd:dipendente.getRtd()){
+                if(rtd.getTurnoLavorativoDate().equals(data)){
+                    throw new TurnoAlreadyExistsException();
+                }
+            }
             if (ferie.get().getQuantità() >= 15 ||  dip.get().getRfd().size() >= 20 ) {
                 throw new QuantityLimitExceeded();
             }
