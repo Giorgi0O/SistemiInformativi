@@ -2,58 +2,20 @@
     <div class="paginaDipendente">
         <img src="../../../assets/img/logo.png" alt="">
         <div class="header">
-            <span>Bentornato  dipendente1 </span>
+            <span>Bentornato {{trovaNome()}}</span>
         </div>
         <div class="box_dipendente" >
             <div class="turni_dipendente">
                 <table>
                     <tr>
-                        <td> </td>
-                        <td >10:30 <br> 14:30</td>
-                        <td >14:30 <br> 18:30</td>
-                        <td >18:30 <br> 22:30</td>
+                        <td></td>
+                        <td *ngFor="let turno of turni"> {{turno.oraInizio}} <br> {{turno.oraFine}}  </td>
                     </tr>
-                    <tr>
-                        <td>Domenica</td>
-                        <td class="work"> </td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                    </tr>
-                    <tr>
-                        <td>Lunedì</td>
-                        <td class=""> </td>
-                        <td class="work"> </td>
-                        <td class=""> </td>
-                    </tr>
-                    <tr>
-                        <td>Martedì</td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                        <td class="work"> </td>
-                    </tr>
-                    <tr>
-                        <td>Mercoledì</td>
-                        <td class="work"> </td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                    </tr>
-                    <tr>
-                        <td>Giovedì</td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                        <td class="work"> </td>
-                    </tr>
-                    <tr>
-                        <td>Venerdì</td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                    </tr>
-                    <tr>
-                        <td>Sabato</td>
-                        <td class=""> </td>
-                        <td class=""> </td>
-                        <td class="work"> </td>
+                    <tr *ngFor="let d of dateSettimana ; let i = index">
+                        <td class="colonna"> {{ daysOfWeek[(date.getDay()+i)%7] }} </td >
+                        <td [class.work]="thisTurno(d,1)" [class.not_work]="thisTurno(d,1)" > </td>
+                        <td [class.work]="thisTurno(d,2)" [class.not_work]="thisTurno(d,2)"> </td>
+                        <td [class.work]="thisTurno(d,3)" [class.not_work]="thisTurno(d,3)"> </td>
                     </tr>
                 </table>
             </div>
@@ -66,7 +28,14 @@
             </div>
         </div>
         <div class="logout">
-            <a routerLink="/" class="button"> <img class="icon" src="../../../assets/img/icon/send-file.png" alt=""> </a>
+            <a (click)="requestlogout()" class="button"> <img class="icon" src="../../../assets/img/icon/send-file.png" alt=""> </a>
+        </div>
+    </div>
+    <div [class.not_show]="!reqlogout" [class.show]="reqlogout">
+        <p>Sei sicuro di voler uscire ?</p>
+        <div class="container-button" >
+            <a (click)="denied()" class="button no"> annulla </a>
+            <a (click)="confirmLogout()" class="button si"> Esci  </a>
         </div>
     </div>
 </body>

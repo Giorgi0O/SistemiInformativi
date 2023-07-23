@@ -11,72 +11,71 @@ import { ContrattoLavorativo } from '../model/ContrattoLavorativo';
 export class DipendentiService {
 
   private apiBaseUrl = environment.apiBaseUrl;
-  private backendUrl = 'http://localhost:8180';
   private httpOption = { headers: new HttpHeaders({'Content-Type': 'application/json'})  }
 
   constructor( private http:HttpClient ) { }
 
   public getDipendenti():Observable<Dipendente[]>{
-    return this.http.get<Dipendente[]>( this.backendUrl+'/dipendenti' );
+    return this.http.get<Dipendente[]>( this.apiBaseUrl+'/dipendenti' );
   }//all dipedenti
 
   public getDipendentiSede( sede:String ):Observable<Dipendente[]>{
-    return this.http.get<Dipendente[]>( this.backendUrl+'/dipendenti/'+sede );
+    return this.http.get<Dipendente[]>( this.apiBaseUrl+'/dipendenti/'+sede );
   }//sede
 
   public createDipendente( dipendente:Dipendente ):Observable<Dipendente>{
-    const url = this.backendUrl+'/postDipendente';
+    const url = this.apiBaseUrl+'/postDipendente';
     return this.http.post<Dipendente>( url, dipendente, this.httpOption );
   }//create dipendente
 
   public updateDipendente( old:number , nuovo:Dipendente ):Observable<Dipendente>{
-    const url = this.backendUrl+'/modificaDipendente/'+old.toString();
+    const url = this.apiBaseUrl+'/modificaDipendente/'+old.toString();
     return this.http.put<Dipendente>( url, nuovo, this.httpOption );
   }//post dipendente
 
   public deleteDipendente( id:number ):Observable<Dipendente>{
-    const url = this.backendUrl+'/deleteDipendente/'+id.toString();
+    const url = this.apiBaseUrl+'/deleteDipendente/'+id.toString();
     return this.http.delete<Dipendente>( url, this.httpOption );
   }//delete dipendente
 
   public getDipendente( id:number ):Observable<Dipendente>{
-    const url = this.backendUrl+'/dipendente/'+id.toString();
+    const url = this.apiBaseUrl+'/dipendente/'+id.toString();
     return this.http.get<Dipendente>( url )
   }//dipendente by id
 
   public getDipendentiFiltri( nomeRuolo:String , tipContratto :String ): Observable<Dipendente[]> {
-    const url = this.backendUrl+'/dipendentiFiltri/'+nomeRuolo+'/'+tipContratto ;
+    const url = this.apiBaseUrl+'/dipendentiFiltri/'+nomeRuolo+'/'+tipContratto ;
     return this.http.get<Dipendente[]>( url );
   }//filtri
 
   public getDipendentiNome( nome:String ): Observable<Dipendente[]> {
-    const url = this.backendUrl+'/dipendentiNome/'+nome ;
+    const url = this.apiBaseUrl+'/dipendentiNome/'+nome ;
     return this.http.get<Dipendente[]>( url );
   }//Get dipendenti by nome
 
   //CONTRATTO
   public getAllContratti(): Observable<ContrattoLavorativo[]> {
-    const url = this.backendUrl+'/contratti' ;
+    const url = this.apiBaseUrl+'/contratti' ;
     return this.http.get<ContrattoLavorativo[]>( url );
   }//Get all contratto
 
   public getContrattoId( id:number ): Observable<ContrattoLavorativo> {
-    const url = this.backendUrl+'/contratto/'+id.toString ;
+    const url = this.apiBaseUrl+'/contratto/'+id.toString ;
     return this.http.get<ContrattoLavorativo>( url );
   }//Get contratto id
 
   public getContrattoDipendente( id:number ): Observable<ContrattoLavorativo> {
-    const url = this.backendUrl+'/contrattoDipendente/'+id.toString ;
+    const url = this.apiBaseUrl+'/contrattoDipendente/'+id.toString ;
     return this.http.get<ContrattoLavorativo>( url );
   }//Get contratto dipendente
 
   public disponibilita( email: String ):Observable<number>{
-    const url=this.backendUrl+'/disponibilita/'+email;
+    const url=this.apiBaseUrl+'/disponibilita/'+email;
     return this.http.get<number>(url);
   }
 
   public getDipendenteEmail(email:String):Observable<Dipendente>{
-    const url=this.backendUrl+'/dipendenteEmail/'+email;
+    const url=this.apiBaseUrl+'/dipendenteEmail/'+email;
     return this.http.get<Dipendente>(url);
   }
 

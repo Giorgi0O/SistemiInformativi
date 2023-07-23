@@ -2,7 +2,7 @@ spring:
   application:
     name: sisInf
   datasource:
-    password: Alex2001
+    password: ${DB_PASSWORD}
     username: postgres
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/mydb?currentSchema=sisinf

@@ -13,7 +13,6 @@ import { rfd } from '../model/rfd';
 export class GiornataFerieService {
 
   private apiServerUrl = environment.apiBaseUrl;
-  private backendUrl = 'http://localhost:8180';
   private httpOption = { headers: new HttpHeaders({'Content-Type': 'application/json'})  }
 
   constructor( private http:HttpClient) { }
@@ -28,9 +27,9 @@ export class GiornataFerieService {
     return this.http.post<GiornataFeriale>( url, nuovo, this.httpOption );
   }
 
-  public deleteGiornataFerie( id:number ):Observable<GiornataFeriale>{
+  public deleteGiornataFerie( id:number ):Observable<void>{
     const url = this.apiServerUrl+'/deleteFerie/'+id.toString();
-    return this.http.delete<GiornataFeriale>( url );
+    return this.http.delete<void>( url );
   }//delete
 
   public listaFerieRead():Observable<GiornataFeriale[]>{
@@ -64,12 +63,12 @@ export class GiornataFerieService {
   }
 
   public richiediFerie(data:String,dipendente:Dipendente):Observable<void>{
-    const url = this.backendUrl+'/richiediFerie/'+data;
+    const url = this.apiServerUrl+'/richiediFerie/'+data;
     return this.http.post<void>(url,dipendente,this.httpOption);
   }
 
   public disponibilitaData(data:String):Observable<boolean>{
-    const url = this.backendUrl+'/disponibilitaData/'+data;
+    const url = this.apiServerUrl+'/disponibilitaData/'+data;
     return this.http.get<boolean>(url);
   }
 

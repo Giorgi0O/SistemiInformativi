@@ -11,39 +11,38 @@ import {Dipendente} from "../model/Dipendente";
 })
 export class TurnoLavorativoService {
 
-  private apiServerUrl = environment.apiBaseUrl;
-  private backendUrl = 'http://localhost:8180';
+  private apiBaseUrl = environment.apiBaseUrl;
   private httpOption = {headers: new HttpHeaders({'Content-Type': 'application/json'})}
 
   constructor(private http: HttpClient) { }
 
   public createTurno( turno:TurnoLavorativo ):Observable<TurnoLavorativo>{
-    const url = this.backendUrl+'/postTurno';
+    const url = this.apiBaseUrl+'/postTurno';
     return this.http.post<TurnoLavorativo>( url, turno, this.httpOption );
   }
 
   public updateTurno( old:number , nuovo:TurnoLavorativo ):Observable<TurnoLavorativo>{
-    const url = this.backendUrl+'/modificaTurno/'+old.toString();
+    const url = this.apiBaseUrl+'/modificaTurno/'+old.toString();
     return this.http.post<TurnoLavorativo>( url, nuovo, this.httpOption );
   }
 
   public deleteTurno( id:number ):Observable<TurnoLavorativo>{
-    const url = this.backendUrl+'/deleteTurno/'+id.toString();
+    const url = this.apiBaseUrl+'/deleteTurno/'+id.toString();
     return this.http.delete<TurnoLavorativo>( url, this.httpOption );
   }
 
   public listaTurniRead():Observable<TurnoLavorativo[]>{
-    const url = this.backendUrl+'/turni';
+    const url = this.apiBaseUrl+'/turni';
     return this.http.get<TurnoLavorativo[]>(url);
   }
 
   public getTurno(id:number):Observable<TurnoLavorativo>{
-    const url = this.backendUrl+'/turno/'+id.toString();
+    const url = this.apiBaseUrl+'/turno/'+id.toString();
     return this.http.get<TurnoLavorativo>(url);
   }
 
   public getOrariTurni():Observable<String[]>{
-    const url = this.backendUrl+'/orariTurni';
+    const url = this.apiBaseUrl+'/orariTurni';
     return this.http.get<String[]>(url);
   }
 

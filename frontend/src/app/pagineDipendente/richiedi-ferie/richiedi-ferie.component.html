@@ -10,7 +10,7 @@
     <div class="container">
         <form [formGroup]="formFerie" (ngSubmit)="prenotaFerie()">
             <div class="header">
-                <a href="/dipendente"> &#8592; </a>
+                <a href="/dipendente"> &larr; </a>
                 <span>Richiedi Ferie</span>
                 <input type="submit" class="button">
             </div>
@@ -34,8 +34,8 @@
     <div [class.not_show]="!elimina" [class.show]="elimina">
         <p> Sei sicuro di voler eliminare la gionataFerie ? </p>
         <div class="bottoni">
-            <button class="button no" (click)="deleteRfd()"> annulla </button>
-            <button class="button si" (click)="annulla()" > elimina </button>
+            <button class="button no" (click)="annulla()"> annulla </button>
+            <button class="button si" (click)="deleteRfd()" > elimina </button>
         </div>
     </div>
 

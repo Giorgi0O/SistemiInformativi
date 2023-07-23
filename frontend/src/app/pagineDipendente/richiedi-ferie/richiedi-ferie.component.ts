@@ -38,8 +38,6 @@ export class RichiediFerieComponent implements OnInit{
     })
   }
 
-  
-
   trovaDipendente(){
     const user = this.fun.getUsername();
     this.ser.getDipendenteEmail(user).subscribe({
@@ -57,12 +55,13 @@ export class RichiediFerieComponent implements OnInit{
   }
 
   public deleteRfd(){
+    console.log(this.daEliminare.id)
     this.elimina = false;
     this.gf.deleteGiornataFerie(this.daEliminare.id).subscribe({
+      next:response=>{ alert("Giornata Eliminata"); window.location.reload(); },
       error:error=>(console.log(error))
     })
   }
-
 
   public recuperaFerie(id:number){
     this.gf.getFerieDipendente(id).subscribe({
@@ -81,7 +80,10 @@ export class RichiediFerieComponent implements OnInit{
       let dd:any = this.datePipe.transform(currentDate , "yyyy-MM-dd");
       this.gf.richiediFerie(dd,this.dipendente).subscribe({
         next:response =>{
-          alert("ferie Aggiunta in data"+dd);
+          alert("ferie Aggiunta in data "+dd);
+        },
+        error:error =>{
+          alert("OPS, ferie NON aggiunta in data"+dd);
         }
       })
     }

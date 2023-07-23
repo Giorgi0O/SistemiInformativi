@@ -11,12 +11,11 @@ import com.example.demo.Repository.GiornataFerialeRepository;
 import com.example.demo.Service.DipendenteService;
 import com.example.demo.Service.GiornataFerialeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,54 +32,53 @@ public class GiornataFerialeController {
 
 
     @PostMapping("/aggiungiNuovaFerie/{id}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public void aggiungiFerie(@PathVariable Long id, @RequestBody GiornataFeriale gf) throws DipendenteNotExistsException {
         giornataFerialeService.dipendenteAddFerie(id, gf);
     }
 
-
     @PostMapping ("/modificaFerie/{id}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public GiornataFeriale updateFerie(@PathVariable Long id,@RequestBody GiornataFeriale nuova) throws FerieNotExistsException {
         GiornataFeriale vecchia=giornataFerialeService.giornataFerieFindById(id);
         return giornataFerialeService.giornataFerieUpdate(vecchia, nuova);
     }
     @DeleteMapping("/deleteFerie/{id}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public void deleteFerie( @PathVariable Long id ) throws FerieNotExistsException {
         giornataFerialeService.deleteRfd(id);
     }
 
     @GetMapping("/Ferie")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public List<GiornataFeriale> getAllFerie(){
         return giornataFerialeService.listaFerieRead();
     }
 
     @GetMapping("/Ferie/{id}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public GiornataFeriale getFerie(@PathVariable long id) throws FerieNotExistsException {
         return giornataFerialeService.giornataFerieFindById(id);
     }
 
     @GetMapping("/rfd")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public List<R_FD> getAllRFD() throws FerieNotExistsException {
         return giornataFerialeService.rfdFindAll();
     }
     @GetMapping("/Dipendenti/{id}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getAllDipendentiByData(@PathVariable long id) throws FerieNotExistsException {
         return giornataFerialeService.giornataFerieFindByData(id);
     }
     @GetMapping("/FerieDipendente/{id}")
-    @PreAuthorize("hasRole('direttoreCS') || hasRole('dipendenteCS')")
+    @Secured("hasRole('direttoreCS') || hasRole('dipendenteCS')")
     public List<R_FD> getAllFerieByDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
         Dipendente dipendente=dipendenteService.dipendenteFindById(id);
         return giornataFerialeService.giornataFerieFinByDipendente(dipendente);
     }
     @GetMapping("/ferieFiltri/{d}/{ruolo}")
-    @PreAuthorize("hasRole('direttoreCS')")
+    @Secured("hasRole('direttoreCS')")
     public List<Dipendente> getAllFerieFiltri(@PathVariable String d,@PathVariable String ruolo) throws FerieNotExistsException, ParseException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sd.parse(d);
@@ -89,8 +87,8 @@ public class GiornataFerialeController {
     }
 
     @PostMapping("/richiediFerie/{d}")
-    @PreAuthorize("hasRole('dipendenteCS')")
-    public void richiediFerie(@PathVariable String d,@RequestBody Dipendente dipendente) throws ParseException,QuantityLimitExceeded {
+    @Secured("hasRole('dipendenteCS')")
+    public void richiediFerie(@PathVariable String d,@RequestBody Dipendente dipendente) throws ParseException,QuantityLimitExceeded, DipendenteNotExistsException {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         Date data = sd.parse(d);
         giornataFerialeService.richiediFerie(data,dipendente);

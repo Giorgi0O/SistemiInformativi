@@ -12,34 +12,33 @@ import { DtoRTD } from '../model/DtoRTd';
 })
 export class RtdService {
 
-  private apiServerUrl = environment.apiBaseUrl;
-  private backendUrl = 'http://localhost:8180';
+  private apiBaseUrl = environment.apiBaseUrl;
   private httpOption = {headers: new HttpHeaders({'Content-Type': 'application/json'})}
 
   constructor(private http: HttpClient) {}
 
   public createRTD( id_D:number, id_t:number, dto:DtoRTD ):Observable<void>{
-    const url = this.apiServerUrl+'/postRTD/'+id_D.toString()+'/'+id_t.toString();
+    const url = this.apiBaseUrl+'/postRTD/'+id_D.toString()+'/'+id_t.toString();
     return this.http.post<void>( url, dto, this.httpOption );
   }
 
   public updateRTD( old:number , nuovo:R_TD ):Observable<R_TD>{
-    const url = this.apiServerUrl+'/modificaRTD/'+old.toString();
+    const url = this.apiBaseUrl+'/modificaRTD/'+old.toString();
     return this.http.post<R_TD>( url, nuovo, this.httpOption );
   }
 
   public deleteRTD( id:number ):Observable<R_TD>{
-    const url = this.apiServerUrl+'/deleteRTD/'+id.toString();
+    const url = this.apiBaseUrl+'/deleteRTD/'+id.toString();
     return this.http.delete<R_TD>( url, this.httpOption );
   }
 
   public listaRTDRead():Observable<R_TD[]>{
-    const url = this.apiServerUrl+'/RTD'
+    const url = this.apiBaseUrl+'/RTD'
     return this.http.get<R_TD[]>(url, { withCredentials: true } );
   }
 
   public filtriRTD(data:String|null,idDipendente:number):Observable<R_TD[]>{
-    const url = this.apiServerUrl+'/filtriRTD/'+data+'/'+idDipendente.toString();
+    const url = this.apiBaseUrl+'/filtriRTD/'+data+'/'+idDipendente.toString();
     return this.http.get<R_TD[]>(url);
   }
 

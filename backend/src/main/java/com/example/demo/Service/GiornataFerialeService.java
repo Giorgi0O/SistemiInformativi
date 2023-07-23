@@ -23,7 +23,6 @@ public class GiornataFerialeService {
 
     @Autowired
     private GiornataFerialeRepository giornataFerialeRepository;
-
     @Autowired
     private DipendenteService dipendenteService;
     @Autowired
@@ -140,8 +139,10 @@ public class GiornataFerialeService {
     }
 
     @Transactional
-    public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded {
+    public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded, DipendenteNotExistsException {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
+        Optional<Dipendente> dip = dipendenteRepository.findById(dipendente.getId());
+        if( !dip.isPresent() ) throw new DipendenteNotExistsException();
         if (!ferie.isPresent()) {
             GiornataFeriale g = new GiornataFeriale();
             g.setVersione(1);
@@ -150,15 +151,15 @@ public class GiornataFerialeService {
             giornataFerialeRepository.save(g);
             R_FD rfd = new R_FD();
             rfd.setGiornataFeriale(g);
-            rfd.setDipendente(dipendente);
+            rfd.setDipendente(dip.get());
             r_FDRepository.save(rfd);
-        } else {
-            if (ferie.get().getQuantità() >= 15) {
+        }else{
+            if (ferie.get().getQuantità() >= 15 ||  dip.get().getRfd().size() >= 20 ) {
                 throw new QuantityLimitExceeded();
             }
             R_FD rfd = new R_FD();
             rfd.setGiornataFeriale(ferie.get());
-            rfd.setDipendente(dipendente);
+            rfd.setDipendente(dip.get());
             ferie.get().setQuantità(ferie.get().getQuantità() + 1);
             r_FDRepository.save(rfd);
             try {
@@ -173,8 +174,7 @@ public class GiornataFerialeService {
             }
         }
     }
-    //gestione transazione
-
+    @Transactional(readOnly = true)
     public boolean disponibilitaData(Date data) throws FerieNotExistsException {
         Optional<GiornataFeriale> gf=giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         if(gf.isPresent()){
