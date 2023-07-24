@@ -91,3 +91,7 @@ form{
     margin-right: auto;
 
 }
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}

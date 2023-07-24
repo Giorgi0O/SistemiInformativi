@@ -22,19 +22,9 @@ export class RtdService {
     return this.http.post<void>( url, dto, this.httpOption );
   }
 
-  public updateRTD( old:number , nuovo:R_TD ):Observable<R_TD>{
-    const url = this.apiBaseUrl+'/modificaRTD/'+old.toString();
-    return this.http.post<R_TD>( url, nuovo, this.httpOption );
-  }
-
   public deleteRTD( id:number ):Observable<R_TD>{
     const url = this.apiBaseUrl+'/deleteRTD/'+id.toString();
     return this.http.delete<R_TD>( url, this.httpOption );
-  }
-
-  public listaRTDRead():Observable<R_TD[]>{
-    const url = this.apiBaseUrl+'/RTD'
-    return this.http.get<R_TD[]>(url, { withCredentials: true } );
   }
 
   public filtriRTD(data:String|null,idDipendente:number):Observable<R_TD[]>{

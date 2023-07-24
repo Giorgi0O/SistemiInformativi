@@ -27,19 +27,13 @@ public class DipendenteService {
     @Autowired
     private R_TDRepository r_tdRepository;
 
-
-
-
+    @Transactional
     public Dipendente dipendenteCreate(Dipendente d) throws DipendenteAlreadyExistsException {
-        if(dipendenteRepository.existsById(d.getId())){
-            throw new DipendenteAlreadyExistsException();
-        }
         Dipendente salvato = dipendenteRepository.save(d);
         GestKeycloak.aggiungiKeycloak( d.getEmail()  );
         return salvato;
     }
-
-
+    
     @Transactional
     public Dipendente dipendenteUpdate(Long id,Dipendente nuovo) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
@@ -57,11 +51,6 @@ public class DipendenteService {
         }
     }
     
-    @Transactional(readOnly = true)
-    public List<Dipendente> dipendenteFindBySede( String sede ){
-        return dipendenteRepository.findDipendenteBySede(sede);
-    }
-
     @Transactional
     public void dipendenteDelete(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
@@ -83,7 +72,7 @@ public class DipendenteService {
             throw new DipendenteNotExistsException();
         }
     }
-
+    
     @Transactional(readOnly = true)
     public Dipendente dipendenteFindById(Long id) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
@@ -94,7 +83,7 @@ public class DipendenteService {
             throw new DipendenteNotExistsException();
         }
     }
-
+   
     @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFindByNome(String nome){
         List<Dipendente> c=new ArrayList<>();
@@ -105,6 +94,7 @@ public class DipendenteService {
         }
         return c;
     }
+    
     @Transactional(readOnly = true)
     public Dipendente dipendenteFindByEmail(String email) throws DipendenteNotExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findDipendenteByEmail(email);
@@ -113,7 +103,7 @@ public class DipendenteService {
         }
         throw new DipendenteNotExistsException();
     }
-
+    
     @Transactional(readOnly = true)
     public List<Dipendente> dipendenteFiltri(String ruolo, String tipologiaContratto) throws DipendenteNotExistsException {
         if(ruolo.equals("nessuno")){
@@ -134,7 +124,6 @@ public class DipendenteService {
         }
         return dipendenti;
     }
-
     private List<Dipendente> dipendenteFindByContratto(String tipologia){
         List<Dipendente> dipendenti = new ArrayList<>();
         for(Dipendente d:dipendenteRepository.findAll()){
@@ -154,10 +143,11 @@ public class DipendenteService {
     public List<Dipendente> listaDipendenteRead(){
         return dipendenteRepository.findAll();
     }
+
     @Transactional(readOnly = true)
     public int disponibilita(String email) throws DipendenteNotExistsException {
         Optional<Dipendente> d=dipendenteRepository.findDipendenteByEmail(email);
-        if(d.isPresent()){
+        if( d.isPresent() ){
             return 20-d.get().getRfd().size();
         }
         throw new DipendenteNotExistsException();

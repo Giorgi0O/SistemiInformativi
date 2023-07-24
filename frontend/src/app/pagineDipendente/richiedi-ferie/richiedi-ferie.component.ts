@@ -18,6 +18,7 @@ export class RichiediFerieComponent implements OnInit{
   disferie:String[] = [];
   disRfd:rfd[] = [];
   elimina: boolean = false;
+  ferieButton: boolean = false;
 
   formFerie!:FormGroup;
   dipendente!:Dipendente;
@@ -74,6 +75,7 @@ export class RichiediFerieComponent implements OnInit{
   }
 
   public prenotaFerie(){
+    this.ferieButton = true;
     const dInizio = this.cambioData(this.formFerie.value.datainizio );
     const dfine = this.cambioData(this.formFerie.value.datafine );
     for(let currentDate= dInizio; currentDate <= dfine; currentDate.setDate(currentDate.getDate() + 1)) {
@@ -81,9 +83,11 @@ export class RichiediFerieComponent implements OnInit{
       this.gf.richiediFerie(dd,this.dipendente).subscribe({
         next:response =>{
           alert("ferie Aggiunta in data "+dd);
+          this.ferieButton = false;
         },
         error:error =>{
           alert("OPS, ferie NON aggiunta in data"+dd);
+          this.ferieButton = false;
         }
       })
     }

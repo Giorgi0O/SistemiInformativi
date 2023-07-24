@@ -103,3 +103,7 @@ form{
     margin-right: 0;
     background-color: red;
 }
+.invalid{
+    background-color: white;
+    box-shadow: none;
+}

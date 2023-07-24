@@ -12,7 +12,8 @@
             <div class="header">
                 <a href="/dipendente"> &larr; </a>
                 <span>Richiedi Ferie</span>
-                <input type="submit" class="button">
+                <input type="submit" [disabled]="ferieButton || !formFerie.valid"
+                [class.invalid]="ferieButton || !formFerie.valid"  class="button">
             </div>
             <div class="contElem">
                 <div class="element uno">

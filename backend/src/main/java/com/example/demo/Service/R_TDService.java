@@ -27,23 +27,19 @@ public class R_TDService {
     private R_TDRepository rtdRepository;
     @Autowired
     private DipendenteRepository dipendenteRepository;
-
     @Autowired
     private TurnoLavorativoRepository turnoLavorativoRepository;
 
+    @Transactional
     public void rtdCreate(Long id,Long id_t,DtoRTD dto) throws TurnoLavorativoNotExistsException, DipendenteNotExistsException, FerieAlreadyExistsException {
         Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
         if(!dipendente.isPresent()){
             throw new DipendenteNotExistsException();
         }
+        verificaRTD( dto, dipendente.get() );
         Optional<TurnoLavorativo> turno=turnoLavorativoRepository.findById(id_t);
         if(!turno.isPresent()){
             throw new TurnoLavorativoNotExistsException();
-        }
-        for(R_FD rfd:dipendente.get().getRfd()){
-            if(rfd.getGiornataFeriale().getDataGiornataFeriale().equals(dto.getData())){
-                throw new FerieAlreadyExistsException();
-            }
         }
         R_TD ne = new R_TD();
         ne.setDipendente(dipendente.get());
@@ -52,18 +48,15 @@ public class R_TDService {
         ne.setTurnoLavorativoDate(dto.getData());
         rtdRepository.save(ne);
     }
-
-    public R_TD rtdUpdate(long id,R_TD nuovo) throws TurnoDipendenteNotExistsException {
-        Optional<R_TD> vecchio=rtdRepository.findById(id);
-        if(!vecchio.isPresent()){
-           throw new TurnoDipendenteNotExistsException();
+    private void verificaRTD( DtoRTD dto , Dipendente d ) throws FerieAlreadyExistsException{
+        for(R_FD rfd:d.getRfd()){
+            if(rfd.getGiornataFeriale().getDataGiornataFeriale().equals(dto.getData())){
+                throw new FerieAlreadyExistsException();
+            }
         }
-        vecchio.get().setTurnoLavorativoDate( nuovo.getTurnoLavorativoDate() );
-        vecchio.get().setDipendente(nuovo.getDipendente());
-        vecchio.get().setTurnoLavorativo(nuovo.getTurnoLavorativo());
-        return rtdRepository.save(vecchio.get());
     }
-
+   
+    @Transactional
     public R_TD rtdDelete(Long id) throws TurnoDipendenteNotExistsException {
         Optional<R_TD> rtd=rtdRepository.findById(id);
         if(!rtd.isPresent()){
@@ -72,13 +65,6 @@ public class R_TDService {
         rtdRepository.delete(rtd.get());
         return rtd.get();
     }
-
-
-    @Transactional(readOnly = true)
-    public List<R_TD> listaRtdRead(){
-        return rtdRepository.findAll();
-    }
-
     @Transactional(readOnly = true)
     public List<R_TD> rtdFiltri(Date data, long d) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException {
             if( d != -1 ) {

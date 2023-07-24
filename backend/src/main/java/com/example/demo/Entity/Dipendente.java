@@ -43,5 +43,6 @@ public class Dipendente{
     @JsonIgnore
     private List<R_FD> rfd;
 
+    //data assunzione
 
 }

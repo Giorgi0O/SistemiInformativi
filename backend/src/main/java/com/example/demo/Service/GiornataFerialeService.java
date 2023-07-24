@@ -22,47 +22,13 @@ public class GiornataFerialeService {
     @Autowired
     private GiornataFerialeRepository giornataFerialeRepository;
     @Autowired
-    private DipendenteService dipendenteService;
-    @Autowired
     private DipendenteRepository dipendenteRepository;
     @Autowired
     private RuoloRepository ruoloRepository;
     @Autowired
     private R_FDRepository r_FDRepository;
 
-    @Transactional
-    public void dipendenteAddFerie(Long id, GiornataFeriale gf) throws DipendenteNotExistsException {
-        Dipendente dip = dipendenteService.dipendenteFindById(id);
-        if( !giornataFerialeRepository.existsByDataGiornataFeriale( gf.getDataGiornataFeriale() ) ){
-            giornataFerialeRepository.save(gf);
-            R_FD rfd = new R_FD();
-            rfd.setDipendente(dip);
-            rfd.setGiornataFeriale(gf);
-            r_FDRepository.save(rfd);
-        }else{
-            GiornataFeriale gfg = giornataFerialeRepository.findByDataGiornataFeriale(gf.getDataGiornataFeriale());
-            R_FD rfd = new R_FD();
-            rfd.setDipendente(dip);
-            rfd.setGiornataFeriale(gfg);
-            r_FDRepository.save(rfd);
-        }
-    }//dipendenteAdd
 
-    @Transactional
-    public GiornataFeriale giornataFerieUpdate(GiornataFeriale vecchia,GiornataFeriale nuova) throws FerieNotExistsException {
-        Optional<GiornataFeriale> ferie=giornataFerialeRepository.findById(vecchia.getId());
-        if(ferie.isPresent()){
-            vecchia.setDataGiornataFeriale(nuova.getDataGiornataFeriale());
-            return giornataFerialeRepository.save(vecchia);
-        }else{
-            throw new FerieNotExistsException();
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public List<GiornataFeriale> listaFerieRead(){
-        return giornataFerialeRepository.findAll();
-    }
 
     @Transactional
     public void deleteRfd(long id) throws FerieNotExistsException {
@@ -80,12 +46,10 @@ public class GiornataFerialeService {
             throw new FerieNotExistsException();
         }
     }
-
     @Transactional(readOnly = true)
     public List<R_FD> rfdFindAll(){
         return r_FDRepository.findAll();
     }
-
     @Transactional(readOnly = true)
     public List<Dipendente> giornataFerieFiltri(long id,String ruolo) throws FerieNotExistsException {
         if( id==-1 && !ruolo.equals("nessuno")){
@@ -128,25 +92,17 @@ public class GiornataFerialeService {
         throw new FerieNotExistsException();
     }
     @Transactional(readOnly = true)
-    public List<Dipendente> giornataFerieFindByData(long id) throws FerieNotExistsException {
-       return listaFerieData(id);
-    }
-    @Transactional(readOnly = true)
     public List<R_FD> giornataFerieFinByDipendente(Dipendente d){
         return d.getRfd();
     }
-
+    
     @Transactional
     public void richiediFerie(Date data, Dipendente dipendente) throws QuantityLimitExceeded, DipendenteNotExistsException, TurnoAlreadyExistsException {
         Optional<GiornataFeriale> ferie = giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
         Optional<Dipendente> dip = dipendenteRepository.findById(dipendente.getId());
         if( !dip.isPresent() ) throw new DipendenteNotExistsException();
+        verificaRfd(data, dip.get(), ferie.get());
         if (!ferie.isPresent()) {
-            for(R_TD rtd:dipendente.getRtd()){
-                if(rtd.getTurnoLavorativoDate().equals(data)){
-                    throw new TurnoAlreadyExistsException();
-                }
-            }
             GiornataFeriale g = new GiornataFeriale();
             g.setVersione(1);
             g.setDataGiornataFeriale(data);
@@ -157,14 +113,6 @@ public class GiornataFerialeService {
             rfd.setDipendente(dip.get());
             r_FDRepository.save(rfd);
         }else{
-            for(R_TD rtd:dipendente.getRtd()){
-                if(rtd.getTurnoLavorativoDate().equals(data)){
-                    throw new TurnoAlreadyExistsException();
-                }
-            }
-            if (ferie.get().getQuantità() >= 15 ||  dip.get().getRfd().size() >= 20 ) {
-                throw new QuantityLimitExceeded();
-            }
             R_FD rfd = new R_FD();
             rfd.setGiornataFeriale(ferie.get());
             rfd.setDipendente(dip.get());
@@ -182,12 +130,15 @@ public class GiornataFerialeService {
             }
         }
     }
-    @Transactional(readOnly = true)
-    public boolean disponibilitaData(Date data) throws FerieNotExistsException {
-        Optional<GiornataFeriale> gf=giornataFerialeRepository.findGiornataFerialeByDataGiornataFeriale(data);
-        if(gf.isPresent()){
-            return (15-gf.get().getQuantità())>0;
+    private void verificaRfd(Date data , Dipendente d, GiornataFeriale ferie) throws TurnoAlreadyExistsException, QuantityLimitExceeded{
+        for(R_TD rtd : d.getRtd()){
+            if(rtd.getTurnoLavorativoDate().equals(data)){
+                throw new TurnoAlreadyExistsException();
+            }
         }
-        throw new FerieNotExistsException();
+        if ( ferie.getQuantità() >= 15 ||  d.getRfd().size() >= 20 ) {
+            throw new QuantityLimitExceeded();
+        }
     }
+    
 }

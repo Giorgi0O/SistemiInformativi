@@ -13,7 +13,8 @@
             <div class="header creazione">
                 <span> Inserisci i dati del turno </span>
 
-                <input class="button elimina" type="button" (click)="deleteRtd()" value="Elimina turno" >
+                <input class="button elimina" type="button"[disabled]="deleteButton||!modifyForm.valid"
+                [class.invalid]="deleteButton||!modifyForm.valid" (click)="deleteRtd()" value="Elimina turno" >
             </div>
 
             <div class="creazione_turno">

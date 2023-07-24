@@ -28,24 +28,11 @@ public class R_TDController {
     public void createRTD(@PathVariable long id, @PathVariable long id_t, @RequestBody DtoRTD dati ) throws DipendenteNotExistsException, TurnoLavorativoNotExistsException, FerieAlreadyExistsException {
         rtdService.rtdCreate(id,id_t,dati);
     }
-
-    @PostMapping("/modificaRTD/{id}")
-    @Secured("hasRole('direttoreCS')")
-    public R_TD updateRTD(@PathVariable Long id,@RequestBody R_TD nuovo) throws TurnoDipendenteNotExistsException {
-        return rtdService.rtdUpdate(id,nuovo);
-    }
-
     @DeleteMapping("/deleteRTD/{id}")
     @Secured("hasRole('direttoreCS')")
     public R_TD deleteRTD(@PathVariable Long id) throws TurnoDipendenteNotExistsException {
         return rtdService.rtdDelete(id);
     }
-    @GetMapping("/RTD")
-    @Secured("hasRole('direttoreCS')")
-    public List<R_TD> getAllRTD(){
-        return rtdService.listaRtdRead();
-    }
-
     @GetMapping("/filtriRTD/{data}/{idDipendente}")
     @Secured("hasRole('direttoreCS') || hasRole('dipendenteCS')")
     public List<R_TD> getAllRTD(@PathVariable String data, @PathVariable Long idDipendente) throws TurnoDipendenteNotExistsException, DipendenteNotExistsException, ParseException {

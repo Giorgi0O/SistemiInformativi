@@ -20,6 +20,7 @@ export class ModificaTurniComponent implements OnInit {
   turni:TurnoLavorativo[] =[];
   modifyForm!:FormGroup;
   valid:boolean= false;
+  deleteButton:boolean = false;
 
   constructor( private fun:funzComuniService, private ser:DipendentiService , private tur:TurnoLavorativoService, private rtd:RtdService){}
 
@@ -55,13 +56,17 @@ export class ModificaTurniComponent implements OnInit {
     })
   }
   public deleteRtd(){
+    this.deleteButton = true;
     for( let r of this.modifyForm.value.rtdVecchio ){
       this.rtd.deleteRTD(r).subscribe({
         next:response =>{ 
           alert("Turno eleminato!");
+          this.deleteButton = false;
           window.location.reload();
         },
-        error:error =>( console.log(error) )
+        error:error =>{
+          console.log(error); 
+          this.deleteButton = false; }
       })
     }
     this.modifyForm.reset();

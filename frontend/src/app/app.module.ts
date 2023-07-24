@@ -18,7 +18,6 @@ import { PagineDirettoreComponent } from './pagineDirettore/pagine-direttore/pag
 import { LoginComponent } from './login/login.component';
 import { AppPagineDirettore } from './pagineDirettore/pagine-direttore/pagine-direttore.module';
 import { HomeComponent } from './pagineDipendente/home/home.component';
-import { RuoliComponent } from './pagineDirettore/ruoli/ruoli.component';
 import { RichiediFerieComponent } from './pagineDipendente/richiedi-ferie/richiedi-ferie.component';
 import { authInterceptorProviders } from './Authentication/auth.interceptor';
 import { DatePipe } from '@angular/common';
@@ -38,7 +37,6 @@ import { authGuard, authGuardDipendente } from './Authentication/auth.guard';
     PagineDirettoreComponent,
     LoginComponent,
     HomeComponent,
-    RuoliComponent,
     RichiediFerieComponent,
   ],
   imports: [

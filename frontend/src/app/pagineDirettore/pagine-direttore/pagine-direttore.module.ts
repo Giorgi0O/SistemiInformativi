@@ -8,7 +8,6 @@ import { ModificaTurniComponent } from '../modifica-turni/modifica-turni.compone
 import { NuovoDipendenteComponent } from '../nuovo-dipendente/nuovo-dipendente.component';
 import { PianoFerieComponent } from '../piano-ferie/piano-ferie.component';
 import { PagineDirettoreComponent } from './pagine-direttore.component';
-import { RuoliComponent } from '../ruoli/ruoli.component';
 import { authGuard, authGuardDirettore } from 'src/app/Authentication/auth.guard';
 
 
@@ -37,11 +36,7 @@ const routes: Routes = [
       },
       {
         path:"nuovodipendente",
-        component: NuovoDipendenteComponent,
-        children:[{
-          path:"nuovodipendente/ruoli",
-          component:RuoliComponent
-        }]
+        component: NuovoDipendenteComponent
       },
       {
         path:"ferie",

@@ -18,7 +18,6 @@ public class GestKeycloak{
     public static void aggiungiKeycloak(String username){
         String token = tokenAdmin();
         String body = createBody(username);
-        System.out.println( body);
         try{
             URL url = new URL( "http://localhost:8080/admin/realms/BoomBurgher/users" );
 
@@ -33,7 +32,6 @@ public class GestKeycloak{
             pw.writeBytes(body);
 
             int responseCode = httpPost.getResponseCode();
-            System.out.println(responseCode);
             if ( responseCode == 200 || responseCode == 201){
                 System.out.println("aggiunto");
             }else {
@@ -100,7 +98,6 @@ public class GestKeycloak{
             httpGet.setRequestMethod("DELETE");
             httpGet.setRequestProperty("Authorization", "Bearer "+tokenAdmin);
             int responseCode = httpGet.getResponseCode();
-            System.out.println(responseCode);
             if ( responseCode == 204 || responseCode == 201){
                 System.out.println("eliminato");
             }
@@ -121,7 +118,6 @@ public class GestKeycloak{
             if ( responseCode == 200 || responseCode == 201){
                 BufferedReader bf = new BufferedReader(new InputStreamReader( httpGet.getInputStream()));
                 String output = bf.readLine();
-                System.out.println(output);
                 JsonArray jsonArray = JsonParser.parseString(output).getAsJsonArray();
                 JsonElement jsonElement = jsonArray.get(0);
                 return jsonElement.getAsJsonObject().get("id").getAsString();

@@ -1,17 +1,12 @@
 package com.example.demo.Service;
 
 import com.example.demo.Entity.ContrattoLavorativo;
-import com.example.demo.Entity.Dipendente;
 import com.example.demo.Exception.ContrattoNotExistsException;
-import com.example.demo.Exception.DipendenteNotExistsException;
 import com.example.demo.Repository.ContrattoLavorativoRepository;
-import com.example.demo.Repository.DipendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContrattoLavorativoService {
@@ -19,13 +14,11 @@ public class ContrattoLavorativoService {
     @Autowired
     private ContrattoLavorativoRepository contrattoLavorativoRepository;
 
-    @Autowired
-    private DipendenteRepository dipendenteRepository;
-
+    @Transactional 
     public void contrattoCreate(ContrattoLavorativo c){
         contrattoLavorativoRepository.save(c);
     }
-
+    @Transactional
     public void contrattoUpdate(ContrattoLavorativo vecchio,ContrattoLavorativo nuovo) throws ContrattoNotExistsException {
         if(!contrattoLavorativoRepository.existsById(vecchio.getId())){
             throw new ContrattoNotExistsException();
@@ -34,7 +27,7 @@ public class ContrattoLavorativoService {
         vecchio.setTipologia(nuovo.getTipologia().toLowerCase());
         contrattoLavorativoRepository.save(vecchio);
     }
-
+    @Transactional
     public ContrattoLavorativo contrattoDelete(ContrattoLavorativo c) throws ContrattoNotExistsException {
         if(contrattoLavorativoRepository.existsById(c.getId())){
             contrattoLavorativoRepository.delete(c);
@@ -42,32 +35,6 @@ public class ContrattoLavorativoService {
         }
         else{
             throw new ContrattoNotExistsException();
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public List<ContrattoLavorativo> listaContrattiRead(){
-        return contrattoLavorativoRepository.findAll();
-    }
-
-    @Transactional(readOnly = true)
-    public ContrattoLavorativo contrattoFindById(long id) throws ContrattoNotExistsException {
-        Optional<ContrattoLavorativo> contratto=contrattoLavorativoRepository.findById(id);
-        if(contratto.isPresent()){
-            return contratto.get();
-        }else{
-            throw new ContrattoNotExistsException();
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public ContrattoLavorativo contrattoFindByDipendente(Long id) throws DipendenteNotExistsException {
-        Optional<Dipendente> dipendente=dipendenteRepository.findById(id);
-        if(dipendente.isPresent()){
-            return dipendente.get().getContrattoLavorativo();
-        }
-        else{
-            throw new DipendenteNotExistsException();
         }
     }
 }

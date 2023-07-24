@@ -15,35 +15,15 @@ public class TurnoLavorativoController {
     @Autowired
     private TurnoLavorativoService turnoLavorativoService;
 
-    @PostMapping("/postTurno")
-    @Secured("hasRole('direttoreCS')")
-    public TurnoLavorativo createTurno(@RequestBody TurnoLavorativo t){
-        return turnoLavorativoService.turnoLavorativoCreate(t);
-    }
-
-    @PutMapping("/modificaTurno/{id}")
-    @Secured("hasRole('direttoreCS')")
-    public TurnoLavorativo updateTurno(@PathVariable Long id,@RequestBody TurnoLavorativo nuovo) throws TurnoLavorativoNotExistsException {
-        TurnoLavorativo vecchio=turnoLavorativoService.turnoLavorativoFindById(id);
-        return turnoLavorativoService.turnoLavorativoUpdate(vecchio, nuovo);
-    }
-
-    @DeleteMapping("/deleteTurno/{id}")
-    @Secured("hasRole('direttoreCS')")
-    public TurnoLavorativo deleteTurno(@PathVariable Long id) throws TurnoLavorativoNotExistsException {
-        TurnoLavorativo t=turnoLavorativoService.turnoLavorativoFindById(id);
-        return turnoLavorativoService.turnoLavorativoDelete(t);
-    }
-
     @GetMapping("/turni")
     @Secured("hasRole('direttoreCS')")
     public List<TurnoLavorativo> getAllTurni(){
         return turnoLavorativoService.listaTurnoLavorativoRead();
     }
-
     @GetMapping("/turno/{id}")
     @Secured("hasRole('direttoreCS')")
     public TurnoLavorativo getTurno(@PathVariable long id) throws TurnoLavorativoNotExistsException {
         return turnoLavorativoService.turnoLavorativoFindById(id);
     }
+    
 }

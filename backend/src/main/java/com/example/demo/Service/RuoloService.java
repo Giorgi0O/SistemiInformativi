@@ -17,10 +17,11 @@ public class RuoloService{
     @Autowired
     private RuoloRepository ruoloRepository;
 
+    @Transactional
     public Ruolo ruoloCreate(Ruolo r){
         return ruoloRepository.save(r);
     }
-
+    @Transactional
     public Ruolo ruoloUpdate(Long id,Ruolo nuovo) throws RuoloNotExistsException {
         Optional<Ruolo> vecchio=ruoloRepository.findById(id);
         if(vecchio.isPresent()){
@@ -30,7 +31,7 @@ public class RuoloService{
             throw new RuoloNotExistsException();
         }
     }
-
+    @Transactional
     public Ruolo ruoloDelete(Long id) throws RuoloNotExistsException {
         Optional<Ruolo> ruolo=ruoloRepository.findById(id);
         if(!ruolo.isPresent()){
@@ -39,7 +40,6 @@ public class RuoloService{
         ruoloRepository.delete(ruolo.get());
         return ruolo.get();
     }
-
     @Transactional(readOnly = true)
     public List<Ruolo> listaRuoloRead(){
         return ruoloRepository.findAll();

@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity.ContrattoLavorativo;
 import com.example.demo.Entity.Dipendente;
 import com.example.demo.Exception.ContrattoNotExistsException;
 import com.example.demo.Exception.DipendenteAlreadyExistsException;
@@ -40,7 +39,7 @@ public class DipendenteController {
     @Secured("hasRole('direttoreCS')")
     public Dipendente dipendenteUpdate(@PathVariable Long id,@RequestBody Dipendente nuovo) throws DipendenteNotExistsException, ContrattoNotExistsException {
         Dipendente vecchio=dipendenteService.dipendenteFindById(id);
-        if(!vecchio.getContrattoLavorativo().getDescrizione().equals(nuovo.getContrattoLavorativo().getDescrizione()) || !vecchio.getContrattoLavorativo().getTipologia().equals(nuovo.getContrattoLavorativo().getTipologia()) ){
+        if( !vecchio.getContrattoLavorativo().equals(nuovo.getContrattoLavorativo()) ){
             contrattoLavorativoService.contrattoUpdate(vecchio.getContrattoLavorativo(),nuovo.getContrattoLavorativo());
         }
         return dipendenteService.dipendenteUpdate(id,nuovo);
@@ -52,12 +51,6 @@ public class DipendenteController {
         Dipendente d=dipendenteService.dipendenteFindById(id);
         dipendenteService.dipendenteDelete(id);
         contrattoLavorativoService.contrattoDelete(d.getContrattoLavorativo());
-    }
-
-    @GetMapping("/dipendenti/{sede}")
-    @Secured("hasRole('direttoreCS')")
-    public List<Dipendente> getDipendentiBySede(@PathVariable String sede){
-        return dipendenteService.dipendenteFindBySede(sede);
     }
 
     @GetMapping("/dipendente/{id}")
@@ -82,24 +75,6 @@ public class DipendenteController {
     @Secured("hasRole('dipendenteCS')")
     public Dipendente getDipendenteEmail(@PathVariable String email) throws DipendenteNotExistsException {
         return dipendenteService.dipendenteFindByEmail(email);
-    }
-
-    @GetMapping("/contratti")
-    @Secured("hasRole('direttoreCS')")
-    public List<ContrattoLavorativo> getAllContratti(){
-        return contrattoLavorativoService.listaContrattiRead();
-    }
-
-    @GetMapping("/contratto/{id}")
-    @Secured("hasRole('direttoreCS')")
-    public ContrattoLavorativo getContratto(@PathVariable Long id) throws ContrattoNotExistsException {
-        return contrattoLavorativoService.contrattoFindById(id);
-    }
-
-    @GetMapping("/contrattoDipendente/{id}")
-    @Secured("hasRole('direttoreCS')")
-    public ContrattoLavorativo getContrattoDipendente(@PathVariable Long id) throws DipendenteNotExistsException {
-        return contrattoLavorativoService.contrattoFindByDipendente(id);
     }
 
     @GetMapping("/disponibilita/{email}")

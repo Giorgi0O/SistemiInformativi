@@ -16,35 +16,9 @@ export class TurnoLavorativoService {
 
   constructor(private http: HttpClient) { }
 
-  public createTurno( turno:TurnoLavorativo ):Observable<TurnoLavorativo>{
-    const url = this.apiBaseUrl+'/postTurno';
-    return this.http.post<TurnoLavorativo>( url, turno, this.httpOption );
-  }
-
-  public updateTurno( old:number , nuovo:TurnoLavorativo ):Observable<TurnoLavorativo>{
-    const url = this.apiBaseUrl+'/modificaTurno/'+old.toString();
-    return this.http.post<TurnoLavorativo>( url, nuovo, this.httpOption );
-  }
-
-  public deleteTurno( id:number ):Observable<TurnoLavorativo>{
-    const url = this.apiBaseUrl+'/deleteTurno/'+id.toString();
-    return this.http.delete<TurnoLavorativo>( url, this.httpOption );
-  }
-
   public listaTurniRead():Observable<TurnoLavorativo[]>{
     const url = this.apiBaseUrl+'/turni';
     return this.http.get<TurnoLavorativo[]>(url);
   }
-
-  public getTurno(id:number):Observable<TurnoLavorativo>{
-    const url = this.apiBaseUrl+'/turno/'+id.toString();
-    return this.http.get<TurnoLavorativo>(url);
-  }
-
-  public getOrariTurni():Observable<String[]>{
-    const url = this.apiBaseUrl+'/orariTurni';
-    return this.http.get<String[]>(url);
-  }
-
 
 }
